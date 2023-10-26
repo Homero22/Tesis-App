@@ -1,7 +1,7 @@
 import  express  from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import indexRoutes from "./infraestructura/routes/index.routes.js";
+import indexRoutes from "./routes/index.routes.js";
 
 
 const app = express();
@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "https://localhost:4200",
     credentials: true
 }));
 
