@@ -1,3 +1,44 @@
-<p>
-  cuenta works!
-</p>
+<div class="noContent" *ngIf="!isData">
+  <i class="material-icons noContent">search_off</i>
+  <p class="p-Content">No se encontraron resultados</p>
+</div>
+
+<div *ngIf="isData">
+  <div class="containerProfile">
+    <div class="cuenta">
+
+      <div class="profile-Photo">
+          <i class="material-icons">account_circle</i>
+      </div>
+
+        <p class="p-Content">{{servicioUsuario.dataMiCuenta.str_usuario_nombres + ' ' + servicioUsuario.dataMiCuenta.str_usuario_apellidos}}</p>
+
+        <div class="twoColumns">
+
+          <div class="dataInfo">
+            <i class="material-icons info">mail</i>
+            <p class="p-Content">{{servicioUsuario.dataMiCuenta.str_usuario_email}}</p>
+          </div>
+
+          <div class="dataInfo">
+            <i class="material-icons info">badge</i>
+            <p class="p-Content">{{servicioUsuario.dataMiCuenta.str_usuario_cedula}}</p>
+          </div>
+
+          <div class="dataInfo">
+            <i class="material-icons info">verified_user</i>
+            <p class="p-Content">{{servicioUsuario.dataMiCuenta.str_usuario_estado}}</p>
+          </div>
+
+          <div class="dataInfo">
+            <i class="material-icons info">smartphone</i>
+            <p class="p-Content">{{servicioUsuario.dataMiCuenta.str_usuario_telefono}}</p>
+          </div>
+
+        </div>
+    </div>
+
+
+    <!-- </div> -->
+  </div>
+</div>

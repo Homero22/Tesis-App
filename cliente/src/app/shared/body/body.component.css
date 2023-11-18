@@ -1,0 +1,14 @@
+/* Estructuracion del Cuerpo */
+.father{
+
+  /* width: 96%; */
+  width: auto;
+  /* height: 100%; */
+  padding: 2rem;
+  min-width: 250px;
+  /* overflow-y: auto; */
+  display: flex;
+  /* border: 1px solid; */
+  /* position: absolute; */
+  /* transition: width 0.3s ease; */
+}

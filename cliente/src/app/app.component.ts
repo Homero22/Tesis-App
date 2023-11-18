@@ -13,7 +13,7 @@ export class AppComponent implements  OnInit, OnDestroy {
   title = 'app';
   Layouts = Layouts;
   layout: Layouts = Layouts.simple
-
+  showLoading: boolean = true
 
   constructor(private router: Router) {
     console.log('AppComponent en constructor()');

@@ -1,15 +1,3 @@
-// export let CONFIG = {
-//   Settings: {
-//     CASLOGIN: 'https://seguridad.espoch.edu.ec/cas/login?',
-//     CASLOGOUT: 'https://seguridad.espoch.edu.ec/cas/logout?',
-//     CASVALIDATE: 'https://seguridad.espoch.edu.ec/cas/p3/serviceValidate?',
-//     REDIRECT_URI: 'https://polizas-espoch.vercel.app/',
-//     LOGOUT_REDIRECT: 'https://polizas-espoch.vercel.app/',
-//     LOGOUT_CORREO: 'https://login.microsoftonline.com/common/oauth2/logout?',
-//     VALIDATEJAVA:
-//       'https://servicioscomprobante.espoch.edu.ec/ServicioWebComprobantes/ServiciosComprobantes/ValidateCas/',
-//   },
-// };
 
 import { environment } from 'src/environments/environment';
 

@@ -10,7 +10,7 @@ async function main(port) {
 
         //Sincronizar la base de datos
         await sequelize.sync({force: false,
-        logging:console.log});
+        logging: false});
 
         //Iniciar el servidor
         app.listen(port, () => {

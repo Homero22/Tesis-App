@@ -15,3 +15,12 @@ export const dbVariables={
 export const configVariables={
     port: process.env.SERVER_PORT,
 }
+export const jwtVariables={
+    jwtSecret:process.env.JWT_SECRET,
+    jwtExpiresIn:process.env.JWT_EXPIRES_IN
+}
+
+//servicios externos
+export const serviciosExternos = {
+    urlServicioCentralizado: "https://centralizada2.espoch.edu.ec/rutadinardap/obtenerpersona/",
+}

@@ -8,6 +8,19 @@ import { Menu } from "../../models/esquemaSeguridad/menus.model.js";
 const getAllUsers = async () => {
     try {
         const usuarios = await Usuario.findAll({});
+        return usuarios;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const obtenerUsuariosConPaginacion = async (pagina, cantidad) => {
+    try {
+        const usuarios = await Usuario.findAll({
+            offset: pagina,
+            limit: cantidad
+        });
+        return usuarios;
     } catch (error) {
         console.log(error);
     }
@@ -36,8 +49,27 @@ const getUsuarioPorCedula = async (cedula) => {
     }
 }
 
+const actualizarTelefonoUsuario = async (id, telefono) => {
+    try {
+        const usuarioActualizado = await Usuario.update({
+            str_usuario_telefono: telefono
+        }, {
+            where: {
+                int_usuario_id: id
+            }
+        });
+        
+        return usuarioActualizado;
+       
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export default {
     getAllUsers,
     createUser,
-    getUsuarioPorCedula
+    getUsuarioPorCedula,
+    obtenerUsuariosConPaginacion,
+    actualizarTelefonoUsuario
 }

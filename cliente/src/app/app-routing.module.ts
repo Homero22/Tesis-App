@@ -8,6 +8,7 @@ import { FailedModule } from './modules/pages/failed/failed.module';
 import { LogoutModule } from './modules/pages/logout/logout.module';
 import { LoginModule } from './modules/login/login.module';
 import { InicioModule } from './modules/inicio/inicio.module';
+import { ConfiguracionModule } from './modules/configuracion/configuracion.module';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
     data:{layout:Layouts.full},
     children:[
       {path:'', loadChildren:()=>InicioModule},
+      {path:'ajustes', loadChildren:()=>ConfiguracionModule}
     ]
   },
   { path: '**', redirectTo:'/404'}

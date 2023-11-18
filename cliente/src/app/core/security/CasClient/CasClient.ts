@@ -29,6 +29,7 @@ export class CasClient {
 
   public Logout() {
     var Autenticacion = sessionStorage.getItem('clientName');
+    console.log('Autenticacion =>', Autenticacion);
     var logout = '';
     this.remove();
     if (Autenticacion == 'Institucional') {
@@ -85,10 +86,8 @@ export class CasClient {
   public validacionUsuarioCas(resolve: any, reject: any, res: string) {
     this.caservice.validaringreso(res).subscribe({
       next: (response: any) => {
-        alert(JSON.stringify(response));
         if (response.status === 'success') {
           let user = response.datosCas.casUser;
-          alert('Bienvenido ' + user);
           let clientName = response.datosCas.clienteName;
           sessionStorage.setItem('clientName', clientName || 'Centralizada');
           sessionStorage.setItem('loginUser', user);

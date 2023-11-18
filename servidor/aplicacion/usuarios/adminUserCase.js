@@ -6,7 +6,7 @@ export const crearUsuarioAdministrador = async () => {
     if(!usuario){
         //crear el usuario administrador
         const adminInfo ={
-            str_usuario_cedula: "0000000000",
+            str_usuario_cedula: "1550168494",
             str_usuario_nombres: "HOMERO ABELARDO",
             str_usuario_apellidos: "OJEDA CULTID",
             str_usuario_email: "homero.ojeda@espoch.edu.ec",

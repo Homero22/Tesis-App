@@ -28,6 +28,10 @@ export const Usuario=  sequelize.define('tb_usuario',
             type: DataTypes.STRING(50),
             allowNull: false
         },
+        str_usuario_telefono: {
+            type: DataTypes.STRING(50),
+            allowNull: true
+        },
         str_usuario_estado: {
             type: DataTypes.STRING(50),
             allowNull: false,
@@ -47,6 +51,6 @@ export const Usuario=  sequelize.define('tb_usuario',
     {
         schema: 'seguridad',
         timestamps: false,
-        freezeTableName: true,
+        freezeTableName: true
     }
 );

@@ -15,6 +15,11 @@ import { DeniedModule } from './modules/pages/denied/denied.module';
 import { FailedModule } from './modules/pages/failed/failed.module';
 import { LogoutModule } from './modules/pages/logout/logout.module';
 import { LoginModule } from './modules/login/login.module';
+import { ConfiguracionModule } from './modules/configuracion/configuracion.module';
+import { UsuariosService } from './core/services/Usuarios/usuarios.service';
+import { LayoutModule } from './layout/layout.module';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -28,13 +33,18 @@ import { LoginModule } from './modules/login/login.module';
     DeniedModule,
     FailedModule,
     LogoutModule,
-    LoginModule
+    LoginModule,
+    ConfiguracionModule,
+    LayoutModule,
+    ReactiveFormsModule
+
 
 
 
   ],
   providers: [
     CasClient,
+    UsuariosService,
     HttpService,
     {
       provide:HTTP_INTERCEPTORS,

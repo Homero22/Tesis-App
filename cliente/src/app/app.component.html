@@ -1,2 +1,5 @@
-<!-- Componente principal de la aplicación -->
-<router-outlet></router-outlet>
+<ng-container [ngSwitch]="layout">
+  <app-simple-layout *ngSwitchCase="Layouts.simple"></app-simple-layout>
+  <app-full-layout *ngSwitchCase="Layouts.full"></app-full-layout>
+  <app-simple-layout *ngSwitchDefault></app-simple-layout>
+</ng-container>

@@ -3,11 +3,17 @@ import { FooterComponent } from "./footer/footer.component";
 import { RouterModule } from "@angular/router";
 import { AsideComponent } from "./aside/aside.component";
 import { CommonModule } from "@angular/common";
+import { HeaderComponent } from "./header/header.component";
+import { MainComponent } from "./main/main.component";
+import { BodyComponent } from "./body/body.component";
 
 @NgModule({
     declarations: [
       FooterComponent,
-      AsideComponent
+      AsideComponent,
+      HeaderComponent,
+      MainComponent,
+      BodyComponent
     ],
     imports: [
       CommonModule,
@@ -15,7 +21,10 @@ import { CommonModule } from "@angular/common";
     ],
     exports: [
       FooterComponent,
-      AsideComponent
+      AsideComponent,
+      HeaderComponent,
+      MainComponent,
+      BodyComponent
     ],
 })
 
