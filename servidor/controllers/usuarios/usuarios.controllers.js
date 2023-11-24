@@ -176,5 +176,4 @@ export default {
   actualizarUsuario,
   obtenerUsuario,
   desactivarUsuario
-
 };
