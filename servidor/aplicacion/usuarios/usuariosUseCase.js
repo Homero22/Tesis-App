@@ -14,6 +14,7 @@ const obtenerDatosMiCuentaService = async (cedula) => {
   }
   //obtener los datos del usuario por cédula
   const datosUsuario = await usuarioRepository.getUsuarioPorCedula(cedula);
+  
 
   if (datosUsuario) {
     return datosUsuario;
