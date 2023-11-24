@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { jwtVariables } from "../../configuracion/variablesGlobales.js";
 import UsuariosService from "../../aplicacion/usuarios/usuariosUseCase.js";
+import { TIME } from "sequelize";
 
 const obtenerDatosMiCuenta = async (req, res) => {
   try {
@@ -88,8 +89,8 @@ const actualizarUsuario = async (req, res) => {
     //se puede actualizar solo el telefono
     const { telefono } = req.body;
     const { id } = req.params;
-    console.log(telefono);
-    console.log(id);
+
+
 
     const usuarioActualizado = await UsuariosService.actualizarUsuarioService(
       id,
@@ -115,10 +116,65 @@ const actualizarUsuario = async (req, res) => {
     });
   }
 };
+const obtenerUsuario = async (req, res) => {
+  try{
+
+    const { id } = req.params;
+    const usuario = await UsuariosService.obtenerUsuarioService(id);
+    if (!usuario) {
+      return res.json({
+        status: false,
+        message: "No se encontró el usuario",
+        body: [],
+      });
+    }
+    res.json({
+      status: true,
+      message: "Usuario",
+      body: usuario,
+    });
+  }catch(error){
+    res.status(500).json({
+      status: false,
+      message: "Error en el servidor" + error,
+      body: [],
+    });
+  }
+}
+
+const desactivarUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const usuarioDesactivado = await UsuariosService.desactivarUsuarioService(
+      id
+    );
+    if (usuarioDesactivado == false) {
+      return res.json({
+        status: false,
+        message: "No se pudo desactivar el usuario",
+        body: [],
+      });
+    }
+    res.json({
+      status: true,
+      message: "Usuario desactivado correctamente",
+      body: usuarioDesactivado,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error en el servidor" + error,
+      body: [],
+    });
+  }
+}
 
 export default {
   obtenerDatosMiCuenta,
   obtenerUsuarios,
   crearUsuario,
   actualizarUsuario,
+  obtenerUsuario,
+  desactivarUsuario
+
 };

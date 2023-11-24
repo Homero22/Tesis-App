@@ -5,27 +5,30 @@ import {  RouterModule } from "@angular/router";
 import { MenuComponent } from "./menu/menu.component";
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { UsuariosComponent } from "./usuarios/usuarios.component";
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditarUsuarioComponent } from "./usuarios/components/editar-usuario/editar-usuario.component";
 
 
 @NgModule({
   declarations: [
     CuentaComponent,
     MenuComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    EditarUsuarioComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild([]),
     UsuariosModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     CuentaComponent,
     MenuComponent,
     UsuariosModule,
     UsuariosComponent,
-
+    EditarUsuarioComponent
   ],
 })
 

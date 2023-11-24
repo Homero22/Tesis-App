@@ -65,11 +65,41 @@ const actualizarTelefonoUsuario = async (id, telefono) => {
         console.log(error);
     }
 }
+const obtenerUsuarioPorId = async (id) => {
+    try {
+        const usuario = await Usuario.findOne({
+            where: {
+                int_usuario_id: id
+            },
+            raw: true
+        });
+        return usuario;
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+const desactivarUsuario = async (id,estado) => {
+    try {
+        const usuarioDesactivado = await Usuario.update({
+            str_usuario_estado: estado
+        }, {
+            where: {
+                int_usuario_id: id
+            }
+        });
+        return usuarioDesactivado;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export default {
     getAllUsers,
     createUser,
     getUsuarioPorCedula,
     obtenerUsuariosConPaginacion,
-    actualizarTelefonoUsuario
+    actualizarTelefonoUsuario,
+    obtenerUsuarioPorId,
+    desactivarUsuario
 }

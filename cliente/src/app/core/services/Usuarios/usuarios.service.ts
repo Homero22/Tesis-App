@@ -5,7 +5,7 @@ import config from "config/config";
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MiCuentaModel, MiCuentaModelBody } from "../../models/usuarios/miCuentaModel";
-import { UsuarioEditadoModel, UsuariosModel, UsuariosModelBody } from "../../models/usuarios/usuariosModel";
+import { UsuarioEditadoModel, UsuarioModel, UsuariosModel, UsuariosModelBody } from "../../models/usuarios/usuariosModel";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +15,7 @@ export class UsuariosService{
     //Rutas para hacer las peticiones al backend
     private urlApi_me: string = config.URL_API_BASE + "usuarios/miCuenta";
     private urlApi_usuarios: string = config.URL_API_BASE + "usuarios";
+    private urlApi_desactivar_usuario: string = config.URL_API_BASE + "usuarios/desactivar";
 
     constructor(private http: HttpClient){}
     getMe(){
@@ -58,6 +59,24 @@ export class UsuariosService{
         {
           telefono:_telefono
         },
+        {
+          withCredentials: true
+        }
+        )
+    }
+
+    //Obtener usuario por id
+    getUsuario(_id:number){
+      return this.http.get<UsuarioModel>(`${this.urlApi_usuarios}/${_id}`,
+        {
+          withCredentials: true
+        }
+      );
+    }
+
+    //Cambiar estado de usuario
+    cambiarEstadoUsuario(_id:number){
+      return this.http.put<UsuarioEditadoModel>(`${this.urlApi_desactivar_usuario}/${_id}`,
         {
           withCredentials: true
         }

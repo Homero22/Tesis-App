@@ -14,6 +14,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -22,6 +23,11 @@ import {
 })
 export class UsuariosComponent implements OnInit {
   myform!: FormGroup;
+  elementForm: {
+    formulario: string;
+    title: string;
+    special: boolean;
+  } = { formulario: '', title: '', special: true };
 
   telefonoFormControl: FormControl;
   @ViewChild('telefonoInput') telefonoInput!: ElementRef | undefined;
@@ -29,7 +35,8 @@ export class UsuariosComponent implements OnInit {
   constructor(
     public UsuariosService: UsuariosService,
     public form: FormBuilder,
-    public renderer: Renderer2
+    public renderer: Renderer2,
+    public srvModal: ModalService
   ) {
     this.myform = this.form.group({
       telefono: [
@@ -59,8 +66,9 @@ export class UsuariosComponent implements OnInit {
   getUsuarios() {
     Swal.fire({
       title: 'Cargando...',
+      timer:1000,
       didOpen: () => {
-        Swal.showLoading(null);
+        Swal.showLoading();
       },
     });
 
@@ -70,14 +78,7 @@ export class UsuariosComponent implements OnInit {
         next: (_usuarios) => {
           if (_usuarios.body) {
             this.isData = true;
-            this.UsuariosService.dataUsuarios = _usuarios.body.map(
-              (usuario) => ({ ...usuario, editando: false })
-            );
-            console.log(
-              'Datos recibidos :->',
-              this.UsuariosService.dataUsuarios
-            );
-            Swal.close();
+            this.UsuariosService.dataUsuarios = _usuarios.body;
           } else {
             Swal.fire({
               icon: 'error',
@@ -96,75 +97,86 @@ export class UsuariosComponent implements OnInit {
       });
   }
 
-  //editar usuario seleccionado
-  guardarEdicion(usuario: any, telefono: string): void {
-    // Inicializa el formulario con el valor actual del teléfono
-    this.myform.controls['telefono'].setValue(usuario.str_usuario_telefono);
-    console.log(
-      'telefono ruben si funciono xdxdxd',
-      this.myform.controls['telefono'].value
-    );
-    this.copiaTelefono = usuario.str_usuario_telefono = telefono;
+  editarUsuario(idUser: number, title: string, form: string) {
+    console.log('paso 1 abrir modal');
+    this.elementForm = {
+      formulario: form,
+      title: title,
+      special: false,
+    };
+    this.srvModal.setFormModal(this.elementForm);
+    this.srvModal.setIdUsuario(idUser);
+    this.srvModal.openModal();
+  }
+
+  txtMensaje: string = '';
+  txtTitulo: string = '';
+  cambiarEstado(id: number, nuevoEstado: string) {
+    if (nuevoEstado === 'ACTIVO') {
+      this.txtMensaje =
+        'Al deshabilitar un Usuario, este no podrá acceder al sistema. Este cambio puede ser revertido en cualquier momento';
+      this.txtTitulo = '¿Está seguro que desea desactivar este Usuario?';
+    } else if (nuevoEstado === 'INACTIVO') {
+      this.txtMensaje =
+        'Con este cambio el usuario podrá acceder al sistema nuevamente';
+      this.txtTitulo = '¿Está seguro que desea activar este Usuario?';
+    }
 
     Swal.fire({
-      title: '¿Estas seguro?',
-      text: 'Que desea editar el usuario seleccionado',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Si, editar!',
-      cancelButtonText: 'No, cancelar!',
-      reverseButtons: true,
+      title: this.txtTitulo,
+      text: this.txtMensaje,
+      showDenyButton: true,
+      confirmButtonText: `Si, cambiar`,
+      denyButtonText: `No, cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log('Usuario a editar', usuario);
-        this.UsuariosService.editarUsuario(
-          usuario.int_usuario_id,
-          usuario.str_usuario_telefono
-        )
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-            next: (_usuarioEditado) => {
-              console.log('Usuario editado', _usuarioEditado);
-              if (_usuarioEditado.status == true) {
-                Swal.fire('Editado!', _usuarioEditado.message, 'success');
-              } else {
-                Swal.fire('Error!', _usuarioEditado.message, 'error');
-              }
-            },
-            error: (error) => {
-              Swal.fire('Error!', 'El usuario no ha sido editado.', 'error');
+          Swal.fire({
+            title: 'Espere',
+            text: 'Cambiando Estado',
+            icon: 'info',
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
             },
           });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        console.log('cancelado');
-        Swal.fire('Cancelado', 'El usuario no ha sido editado.', 'error');
+          setTimeout(() => {
+        this.UsuariosService.cambiarEstadoUsuario(id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (res: any) => {
+              if (res.status) {
+                Swal.fire({
+                  title: 'Usuario Modificado',
+                  text: 'Usuario Modificado Correctamente',
+                  icon: 'success',
+                  confirmButtonText: 'Aceptar',
+                }).then(() => {
+                  this.getUsuarios();
+                });
+              } else {
+                Swal.fire({
+                  title: 'Error',
+                  text: 'Error al modificar el usuario',
+                  icon: 'error',
+                  confirmButtonText: 'Aceptar',
+                });
+              }
+            },
+            error: (err: any) => {
+              console.log('err: ', err);
+              Swal.close();
+              Swal.fire({
+                title: 'Error',
+                text: 'Error al modificar el usuario: ' + err,
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+              });
+            },
+          });
+        }, 800);
+      } else if (result.isDenied) {
+        Swal.fire('Cambios no realizados', '', 'info');
       }
     });
-
-    usuario.editando = false;
-    this.myform.reset();
-  }
-
-  iniciarEdicion(usuario: any): void {
-       // Enfocar manualmente el input al iniciar la edición
-       if (this.telefonoInput) {
-        this.renderer.selectRootElement(this.telefonoInput.nativeElement).focus();
-      }
-    // Establecer el modo de edición para la fila seleccionada
-    usuario.editando = true;
-    // Hacer una copia del teléfono para restaurar si es necesario
-    this.copiaTelefono = usuario.str_usuario_telefono;
-    this.myform.controls['telefono'].setValue(usuario.str_usuario_telefono);
-
-  }
-  cancelarEdicion(usuario: any): void {
-       // Enfocar manualmente el input al iniciar la edición
-       if (this.telefonoInput) {
-        this.renderer.selectRootElement(this.telefonoInput.nativeElement).focus();
-      }
-    // Cancelar la edición y restablecer el formulario al estado original
-    usuario.editando = false;
-    this.myform.reset();
-
   }
 }

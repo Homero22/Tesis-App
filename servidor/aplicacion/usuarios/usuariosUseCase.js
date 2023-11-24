@@ -79,10 +79,37 @@ const actualizarUsuarioService = async (id, telefono) => {
   }
   return false;
 };
+const obtenerUsuarioService = async (id) => {
+  //llamo a repositorio para obtener el usuario dado el id
+  const usuario = await usuarioRepository.obtenerUsuarioPorId(id);
+  if (usuario) {
+    return usuario;
+  }
+  return false;
+};
+const desactivarUsuarioService = async (id) => {
+  //llamo a repositorio para obtener el usuario dado el id
+  const usuario = await usuarioRepository.obtenerUsuarioPorId(id);
+  //obtengo el estado del usuario
+  let estado = usuario.str_usuario_estado;
+  if (estado == "ACTIVO") {
+    estado = "INACTIVO";
+  } else {
+    estado = "ACTIVO";
+  }
+  //llamo a repositorio para desactivar el usuario dado el id
+  const usuarioDesactivado = await usuarioRepository.desactivarUsuario(id, estado);
+  if (usuarioDesactivado) {
+    return usuarioDesactivado;
+  }
+  return false;
+}
 
 export default {
   obtenerDatosMiCuentaService,
   obtenerUsuariosService,
   crearUsuarioService,
   actualizarUsuarioService,
+  obtenerUsuarioService,
+  desactivarUsuarioService,
 };

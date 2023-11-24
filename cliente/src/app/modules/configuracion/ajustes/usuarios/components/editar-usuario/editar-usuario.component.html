@@ -1,0 +1,60 @@
+<div class="body-Form">
+  <form [formGroup]="myForm" class="formFather">
+    <div class="container-DataInfoFind">
+      <div class="container-BodyData">
+        <div class="container-Left">
+          <div class="containerInfo">
+            <label for="nombre">Nombres</label>
+            <div class="container-Input">
+              <input
+                 type="text"
+                formControlName="nombre"
+                
+              />
+            </div>
+          </div>
+          <div class="containerInfo">
+            <label for="correo">Correo</label>
+            <div class="container-Input">
+              <input
+                type="email"
+                formControlName="correo"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="container-Right">
+          <div class="containerInfo">
+            <label for="apellido">Apellidos</label>
+            <div class="container-Input">
+              <input
+                type="text"
+                formControlName="apellido"
+              />
+            </div>
+          </div>
+          <div class="containerInfo">
+            <label for="telefono">Teléfono</label>
+            <div class="container-Input">
+              <input
+              class="inp-info"
+                type="text"
+                formControlName="telefono"
+              />
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <div class="cont">
+      <button type="submit" class="btn-primary-add"
+      [disabled]="myForm.invalid"
+      (click)="modifyUsuario()" >Guardar</button>
+    </div>
+
+
+  </form>
+</div>

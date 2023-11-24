@@ -21,3 +21,11 @@ export interface UsuarioEditadoModel {
   message: string;
   body: [];
 }
+
+//Modelo cuando devuelve un solo usuario
+export interface UsuarioModel {
+  status: boolean;
+  message: string;
+  body: UsuariosModelBody;
+}
+

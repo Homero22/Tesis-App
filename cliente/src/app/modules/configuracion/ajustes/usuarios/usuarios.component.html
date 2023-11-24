@@ -68,15 +68,12 @@
 
           <td>{{ usuario.str_usuario_email }}</td>
 
-          <td *ngIf="!usuario.editando">
+          <td >
             {{ usuario.str_usuario_telefono }}
           </td>
 
-          <td *ngIf="usuario.editando">
-            <form action="" [formGroup]="myform">
-              <input  #telefonoInput formControlName="telefono"  placeholder="Teléfono" (keyup.enter)="guardarEdicion(usuario, myform.get('telefono')?.value)" (keyup.esc)="cancelarEdicion(usuario)" />
-            </form>
-          </td>
+
+
 
 
 
@@ -95,39 +92,13 @@
             </div>
           </td>
           <td>
-            <button
-              class="btn btn-primary"
-              *ngIf="!usuario.editando"
-              (click)="iniciarEdicion(usuario)"
-            >
+            <button class="btn btn-primary"  (click)="editarUsuario(usuario.int_usuario_id, 'Editar Usuario', 'editarUsuario')" >
               <i class="material-icons"> create </i>
             </button>
-
-            <button
-              class="btn btn-secondary"
-              *ngIf="usuario.editando"
-              (click)="cancelarEdicion(usuario)"
-            >
-              <i class="material-icons"> cancel </i>
-            </button>
-            <button
-              class="btn btn-success"
-              *ngIf="usuario.editando"
-              (click)="guardarEdicion(usuario,copiaTelefono)"
-            >
-              <i class="material-icons"> done </i>
-            </button>
-
-            <button
-              class="btn btn-danger"
-              *ngIf="usuario.str_usuario_estado === 'ACTIVO'"
-            >
+            <button *ngIf="usuario.str_usuario_estado =='ACTIVO'" class="btn btn-danger"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
               <i class="material-icons"> delete </i>
             </button>
-            <button
-              class="btn btn-loop"
-              *ngIf="usuario.str_usuario_estado === 'INACTIVO'"
-            >
+            <button *ngIf="usuario.str_usuario_estado =='INACTIVO'" class="btn btn-loop"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
               <i class="material-icons"> loop </i>
             </button>
           </td>

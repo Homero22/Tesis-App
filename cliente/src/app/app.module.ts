@@ -19,6 +19,7 @@ import { ConfiguracionModule } from './modules/configuracion/configuracion.modul
 import { UsuariosService } from './core/services/Usuarios/usuarios.service';
 import { LayoutModule } from './layout/layout.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from './modules/modal/modal.module';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoginModule,
     ConfiguracionModule,
     LayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ModalModule
 
 
 
