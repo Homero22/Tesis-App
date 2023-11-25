@@ -7,13 +7,13 @@ import indexRoutes from "./routes/index.routes.js";
 const app = express();
 
 app.use(express.json());
-whithList = [
+const whiteList = [
     "https://localhost:4200",
     "https://tesis.ojedahomero.lol/"
 ];
 
 app.use(cors({
-    origin: withList,
+    origin: whiteList,
     credentials: true
 }));
 
