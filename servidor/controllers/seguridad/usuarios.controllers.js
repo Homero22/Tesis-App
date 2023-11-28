@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { jwtVariables } from "../../configuracion/variablesGlobales.js";
 import UsuariosService from "../../aplicacion/usuarios/usuariosUseCase.js";
-import { TIME } from "sequelize";
+
 
 const obtenerDatosMiCuenta = async (req, res) => {
   try {
@@ -52,7 +52,7 @@ const obtenerUsuarios = async (req, res) => {
 const crearUsuario = async (req, res) => {
   try {
     const { cedula } = req.body;
-
+    console.log(cedula);
     const usuarioCreado = await UsuariosService.crearUsuarioService(cedula);
 
     if (usuarioCreado == false) {
@@ -70,6 +70,14 @@ const crearUsuario = async (req, res) => {
         body: [],
       });
     }
+    if(usuarioCreado.error){
+      return res.json({
+        status: false,
+        message: usuarioCreado.error,
+        body: [],
+      });
+    }
+    
     res.json({
       status: true,
       message: "Usuario creado correctamente",

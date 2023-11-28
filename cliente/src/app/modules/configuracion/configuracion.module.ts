@@ -49,7 +49,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    ConfiguracionComponent
+    ConfiguracionComponent,
   ],
   imports: [
     CommonModule,
