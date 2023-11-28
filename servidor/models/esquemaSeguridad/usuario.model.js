@@ -4,6 +4,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../../database/postgres.js'; 
 
+
 export const Usuario=  sequelize.define('tb_usuario', 
     {
         int_usuario_id: {
@@ -22,11 +23,13 @@ export const Usuario=  sequelize.define('tb_usuario',
         },
         str_usuario_email: {
             type: DataTypes.STRING(50),
-            allowNull: true
+            allowNull: true,
+            unique: true
         },
         str_usuario_cedula: {
             type: DataTypes.STRING(50),
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         str_usuario_telefono: {
             type: DataTypes.STRING(50),
@@ -54,3 +57,5 @@ export const Usuario=  sequelize.define('tb_usuario',
         freezeTableName: true
     }
 );
+
+

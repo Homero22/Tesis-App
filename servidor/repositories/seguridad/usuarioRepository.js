@@ -1,9 +1,5 @@
 import { Usuario } from "../../models/esquemaSeguridad/usuario.model.js";
-import { UsuarioRol } from "../../models/esquemaSeguridad/usuarioRoles.model.js";
-import { Rol } from "../../models/esquemaSeguridad/rol.model.js";
-import { Permiso } from "../../models/esquemaSeguridad/permisos.model.js";
-import { PermisoRol } from "../../models/esquemaSeguridad/permisoRol.model.js";
-import { Menu } from "../../models/esquemaSeguridad/menus.model.js";
+
 
 const getAllUsers = async () => {
     try {

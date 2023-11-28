@@ -6,6 +6,8 @@ import { CommonModule } from "@angular/common";
 import { HeaderComponent } from "./header/header.component";
 import { MainComponent } from "./main/main.component";
 import { BodyComponent } from "./body/body.component";
+import { ConfiguracionModule } from "../modules/configuracion/configuracion.module";
+import { ComponentsModule } from "../modules/components/components.module";
 
 @NgModule({
     declarations: [
@@ -13,11 +15,13 @@ import { BodyComponent } from "./body/body.component";
       AsideComponent,
       HeaderComponent,
       MainComponent,
-      BodyComponent
+      BodyComponent,
+
     ],
     imports: [
       CommonModule,
       RouterModule.forChild([]),
+      ComponentsModule
     ],
     exports: [
       FooterComponent,
