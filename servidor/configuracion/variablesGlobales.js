@@ -14,6 +14,7 @@ export const dbVariables={
 //variables de entorno para el servidor
 export const configVariables={
     port: process.env.PORT,
+    env: process.env.NODE_ENV,
 }
 export const jwtVariables={
     jwtSecret:process.env.JWT_SECRET,
