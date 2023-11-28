@@ -1,9 +1,9 @@
 //Casos de uso referente a un usuario
-import usuarioRepository from "../../repositories/usuarios/usuarioRepository.js";
+import usuarioRepository from "../../repositories/seguridad/usuarioRepository.js";
 import { serviciosExternos } from "../../configuracion/variablesGlobales.js";
 import fetch from "node-fetch"; //para consumir una API
 import https from "https";
-const agent = new https.Agent({ rejectUnauthorized: false }); //Validar credenciales
+const agent = new https.Agent({ rejectUnauthorized: true }); //Validar credenciales
 
 //Obtener datos de mi Cuenta de usuario
 
@@ -32,6 +32,7 @@ const obtenerUsuariosService = async () => {
 const crearUsuarioService = async (cedula) => {
   //llamo a la funcion para obtener los datos de un servidor externo
   const datosUsuario = await obtenerDatosServidorExterno(cedula);
+  console.log(datosUsuario);
   if (datosUsuario == false) {
     return false;
   }
@@ -60,13 +61,18 @@ const crearUsuarioService = async (cedula) => {
 
 //funcion para obtener los datos de un servidor externo
 const obtenerDatosServidorExterno = async (cedula) => {
-  const url = serviciosExternos.urlServicioCentralizado + cedula;
-  const response = await fetch(url, { agent });
-  const data = await response.json();
-  if (data.success == false) {
+  try {
+    const url = serviciosExternos.urlServicioCentralizado + cedula;
+    const response = await fetch(url, {agent});
+    const data = await response.json();
+    if (data.success == false) {
+      return false;
+    }
+    return data;
+  } catch (error) {
+    console.log(error);
     return false;
   }
-  return data;
 };
 
 const actualizarUsuarioService = async (id, telefono) => {

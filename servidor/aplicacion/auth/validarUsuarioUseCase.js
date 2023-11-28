@@ -1,4 +1,4 @@
-import usuarioRepository from "../../repositories/usuarios/usuarioRepository.js";
+import usuarioRepository from "../../repositories/seguridad/usuarioRepository.js";
 import { jwtVariables } from "../../configuracion/variablesGlobales.js";
 import jwt from "jsonwebtoken";
 

@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../../database/postgres.js'; 
 
+
 export const Rol=  sequelize.define(
     "tb_rol",
     {
@@ -12,7 +13,8 @@ export const Rol=  sequelize.define(
         },
         str_rol_nombre: {
             type: DataTypes.STRING(100),
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         str_rol_descripcion: {
             type: DataTypes.TEXT,
@@ -40,3 +42,4 @@ export const Rol=  sequelize.define(
         freezeTableName: true,
     }
 );
+

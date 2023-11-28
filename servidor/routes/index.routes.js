@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authRoutes from "./auth/auth.routes.js";
-import usuariosRoutes from "./usuarios/usuarios.routes.js"
+import usuariosRoutes from "./seguridad/usuarios.routes.js";
+import rolesRoutes from "./seguridad/roles.routes.js";
 
 const router = Router();
 
@@ -23,6 +24,8 @@ router.get("/info", (req, res) => {
 
 router.use("/auth", authRoutes);
 router.use("/usuarios", usuariosRoutes);
+router.use("/roles", rolesRoutes);
+
 
 
 

@@ -3,6 +3,7 @@ import { sequelize } from '../../database/postgres.js';
 import { Rol } from './rol.model.js';
 import { Usuario } from './usuario.model.js'; 
 
+
 //Define la relación entre Usuario y Rol (Muchos a muchos)
 
 export const UsuarioRol = sequelize.define(
@@ -50,5 +51,10 @@ export const UsuarioRol = sequelize.define(
         schema: "seguridad",
         timestamps: false,
         freezeTableName: true,
+        uniqueKeys: {
+            unique_usuario_rol: {
+                fields: ['int_usuario_id', 'int_rol_id']
+            }
+        }
     }
 );

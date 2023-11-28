@@ -21,7 +21,7 @@ const validarAuth = async (req, res) => {
       const token = respuesta.token;
 
       //Agrego a la cookie
-      res.cookie("token", token, {
+      res.cookie("token", token, { 
         httpOnly: true,
         secure: true,
         sameSite: "none",
