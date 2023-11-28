@@ -32,7 +32,7 @@ const getPermisosPorIdUsuarioRol = async (idUsuarioRol)=>{
     }
 
 }
-const actualizarPermiso = async (id, permiso) => {
+const actualizarPermiso = async (idMenu ,idUsuarioRol, permiso,  ) => {
     try {
         const permisoActualizado = await Permiso.update({
             str_permiso_estado: permiso.str_permiso_estado,
@@ -40,11 +40,11 @@ const actualizarPermiso = async (id, permiso) => {
             bln_permiso_crear: permiso.bln_permiso_crear,
             bln_permiso_editar: permiso.bln_permiso_editar,
             bln_permiso_eliminar: permiso.bln_permiso_eliminar,
-            int_menu_id: permiso.int_menu_id,
             int_usuario_rol_id: permiso.int_usuario_rol_id
         }, {
             where: {
-                int_permiso_id: id
+                int_usuario_rol_id: idUsuarioRol,
+                int_menu_id: idMenu
             }
         });
         
@@ -54,7 +54,6 @@ const actualizarPermiso = async (id, permiso) => {
         console.log(error);
     }
 }
-
 const createPermisos = async (permisos) => {
     try {
         const permisosCreados = await Permiso.bulkCreate(permisos);

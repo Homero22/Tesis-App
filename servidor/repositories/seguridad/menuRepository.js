@@ -76,7 +76,33 @@ const comprobarMenusPorNombres = async (menus) => {
         console.log(error);
     }
 }
+const comprobarMenuPorNombre = async (nombreMenu) => {
+    try {
+        const menuEncontrado = await Menu.findOne({
+            where: {
+                str_menu_nombre: nombreMenu
+            },
+            raw: true
+        });
+        return menuEncontrado;
+    }catch (error) {
+        console.log(error);
+    }
+}
+const getSubmenusPorId = async (id) => {
+    try {
+        const submenus = await Menu.findAll({
+            where: {
+                int_menu_padre_id: id
+            },
+            raw: true
+        });
+        return submenus;
+    } catch (error) {
+        console.log(error);
+    }
 
+}
 
 
 
@@ -86,5 +112,7 @@ const comprobarMenusPorNombres = async (menus) => {
         getMenuPorId,
         actualizarMenu,
         createMenus,
-        comprobarMenusPorNombres
+        comprobarMenusPorNombres,
+        getSubmenusPorId,
+        comprobarMenuPorNombre
 }

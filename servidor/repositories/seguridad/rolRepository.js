@@ -37,7 +37,6 @@ const actualizarRol = async (id, rol) => {
         const rolActualizado = await Rol.update({
             str_rol_nombre: rol.str_rol_nombre,
             str_rol_descripcion: rol.str_rol_descripcion,
-            int_rol_estado: rol.int_rol_estado
         }, {
             where: {
                 int_rol_id: id

@@ -51,7 +51,7 @@ const actualizarUsuarioRol = async (id, usuarioRol) => {
     }
 }
 
-const desactivarUsuarioRol = async (id, estado) => {
+const cambiarEstadoUsuarioRol = async (id, estado) => {
     try {
         const usuarioRolActualizado = await UsuarioRol.update({
             str_usuario_rol_estado: estado
@@ -117,7 +117,7 @@ export default {
     createUsuarioRol,
     getUsuarioRolPorId,
     actualizarUsuarioRol,
-    desactivarUsuarioRol,
+    cambiarEstadoUsuarioRol,
     getUsuarioRolPorIdUsuario,
     getUsuarioRolesPorIdUsuario,
     comprobarUsuarioRol

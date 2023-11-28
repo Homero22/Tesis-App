@@ -30,12 +30,20 @@ const obtenerUsuariosService = async () => {
   return false;
 };
 const crearUsuarioService = async (cedula) => {
+  let respuesta = {};
   //llamo a la funcion para obtener los datos de un servidor externo
   const datosUsuario = await obtenerDatosServidorExterno(cedula);
   console.log(datosUsuario);
   if (datosUsuario == false) {
     return false;
   }
+  if (datosUsuario.err) {
+    respuesta = {
+      error: datosUsuario.err,
+    };
+    return respuesta;
+  }
+  
   //creo el objeto usuario
   const usuario = {
     str_usuario_nombres: datosUsuario.listado[0].per_nombres,
@@ -70,8 +78,10 @@ const obtenerDatosServidorExterno = async (cedula) => {
     }
     return data;
   } catch (error) {
-    console.log(error);
-    return false;
+    const errorMessage = {
+      err: error.message,
+    };
+    return errorMessage;
   }
 };
 

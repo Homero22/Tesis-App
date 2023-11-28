@@ -13,7 +13,6 @@ async function main(port) {
     await sequelize.sync({ force: false, logging: false });
 
     if (configVariables.env == "production") {
-      https.globalAgent.options.rejectUnauthorized = false;
       //Iniciar el servidor
       app.listen(port, () => {
         console.log(

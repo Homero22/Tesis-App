@@ -70,6 +70,14 @@ const crearUsuario = async (req, res) => {
         body: [],
       });
     }
+    if(usuarioCreado.error){
+      return res.json({
+        status: false,
+        message: usuarioCreado.error,
+        body: [],
+      });
+    }
+    
     res.json({
       status: true,
       message: "Usuario creado correctamente",
