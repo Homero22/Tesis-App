@@ -115,7 +115,7 @@ const obtenerTotalUsuarios = async () => {
 }
 const buscarUsuario = async (texto) => {
     try {
-        //debo buscar o por nombre o por apellido o por cedula o por correo o por telefono con ilike
+        //debo buscar o por nombre o por apellido o por cedula o por correo o por telefono o estado con ilike
         const usuarios = await Usuario.findAll({
             where: {
                 [Op.or]: [
@@ -143,6 +143,11 @@ const buscarUsuario = async (texto) => {
                         str_usuario_telefono: {
                             [Op.iLike]: `%${texto}%`
                         }
+                    },
+                    {
+                        str_usuario_estado: {
+                            [Op.iLike]: `%${texto}%`
+                        }
                     }
                 ]
             }
@@ -152,7 +157,51 @@ const buscarUsuario = async (texto) => {
         console.log(error);
     }
 }
+const filtrarUsuarios = async (texto) => {
+    try {
+        //debo buscar o por nombre o por apellido o por cedula o por correo o por telefono o estado con  like
+        const usuarios = await Usuario.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        str_usuario_nombres: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_apellidos: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_cedula: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_email: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_telefono: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_estado: {
+                            [Op.like]: `${texto}`
+                        }
+                    }
+                ]
+            }
+        });
 
+        return usuarios;
+    } catch (error) {
+        console.log(error);
+    }
+}
 export default {
     getAllUsers,
     createUser,
@@ -163,5 +212,6 @@ export default {
     desactivarUsuario,
     getUsuarioPorCorreo,
     obtenerTotalUsuarios,
-    buscarUsuario
+    buscarUsuario,
+    filtrarUsuarios
 }

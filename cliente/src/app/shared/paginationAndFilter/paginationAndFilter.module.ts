@@ -3,12 +3,14 @@ import { NgModule } from "@angular/core";
 import { PaginationComponent } from "./pagination/pagination.component";
 import { FilterComponent } from "./filter/filter.component";
 import { FormsModule } from "@angular/forms";
+import { SearchComponent } from "./search/search.component";
 
 
 @NgModule({
   declarations: [
     PaginationComponent,
     FilterComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule,
@@ -17,6 +19,7 @@ import { FormsModule } from "@angular/forms";
   exports: [
     PaginationComponent,
     FilterComponent,
+    SearchComponent,
   ]
 })
 

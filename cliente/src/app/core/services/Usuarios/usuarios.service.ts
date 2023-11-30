@@ -20,7 +20,7 @@ export class UsuariosService{
     private urlApi_usuarios: string = config.URL_API_BASE + "usuarios";
     private urlApi_desactivar_usuario: string = config.URL_API_BASE + "usuarios/desactivar";
     private urlApi_buscar_usuario: string = config.URL_API_BASE + "usuarios/buscar";
-
+    private urlApi_filtrar_usuario: string = config.URL_API_BASE + "usuarios/filtrar";
 
     constructor(private http: HttpClient){}
     getMe(){
@@ -64,8 +64,6 @@ export class UsuariosService{
 
     //Editar usuario
     editarUsuario(_id:number,_telefono:string){
-      console.log("id",_id);
-      console.log("telefono",_telefono);
       return this.http.put<UsuarioEditadoModel>(`${this.urlApi_usuarios}/${_id}`,
         {
           telefono:_telefono
@@ -106,5 +104,17 @@ export class UsuariosService{
 
     }
 
+    //Filtrar usuarios
+    filtrarUsuarios(_filtro:string){
+      let httpParams = new HttpParams()
+      .set("filtro",_filtro)
+      return this.http.get<UsuariosModel>(`${this.urlApi_filtrar_usuario}`,
+        {
+          params: httpParams,
+          withCredentials: true
+        }
+      );
+
+    }
 
 }

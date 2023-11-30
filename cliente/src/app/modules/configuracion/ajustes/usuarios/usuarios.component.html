@@ -1,8 +1,16 @@
 <div class="cont-filter">
-  <app-filter
-  [placeholder]="placeholder"
-  (search)="buscarUsuario($event)"
-  ></app-filter>
+    <app-search
+    [placeholder]="placeholder"
+    [filtrando]="filtrando"
+    (search)="buscarUsuario($event)"
+    (buscando)="buscando = $event"
+    >
+    </app-search>
+    <app-filter
+      [filtros]="filtros"
+      [buscando]="buscando"
+      (filtroSeleccionado)="filtrarUsuario($event)"
+    ></app-filter>
 </div>
 <div class="tabla-cuerpo">
   <div class="containerNoData" *ngIf="!isData && !isLoading">

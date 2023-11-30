@@ -29,7 +29,6 @@ export class CasService{
   }
 
   validaringreso(cas: string) {
-    console.log('cas.services.ts =>', cas);
     return this.http.post<any>(
       this.URL_API,
       { xmlDatosCas: cas, },

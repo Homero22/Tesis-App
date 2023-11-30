@@ -182,6 +182,20 @@ const buscarUsuario = async (req, res) => {
     });
   }
 }
+const filtrarUsuarios = async (req, res) => {
+  try {
+
+    const { filtro } = req.query;
+    const usuarios = await UsuariosService.filtrarUsuariosService(filtro);
+    res.json(usuarios);
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error en el servidor" + error,
+      body: [],
+    });
+  }
+}
 
 export default {
   obtenerDatosMiCuenta,
@@ -190,5 +204,6 @@ export default {
   actualizarUsuario,
   obtenerUsuario,
   desactivarUsuario,
-  buscarUsuario
+  buscarUsuario,
+  filtrarUsuarios,
 };

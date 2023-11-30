@@ -216,6 +216,42 @@ const buscarUsuarioService = async (texto) => {
 
 }
 
+const filtrarUsuariosService = async (texto) => {
+  //llamo a repositorio para buscar el usuario dado el texto
+  const usuarios = await usuarioRepository.filtrarUsuarios(texto);
+  if (usuarios.length > 0) {
+    return {
+      status: true,
+      message: "Usuarios encontrados",
+      body: usuarios,
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: usuarios.length,
+          limit: usuarios.length,
+        }
+      },
+    }
+  }else{
+    return {
+      status: false,
+      message: "No se encontraron usuarios",
+      body: [],
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: usuarios.length,
+          limit: usuarios.length,
+        }
+      },
+    }
+  }
+}
+
 export default {
   obtenerDatosMiCuentaService,
   obtenerUsuariosService,
@@ -224,4 +260,5 @@ export default {
   obtenerUsuarioService,
   desactivarUsuarioService,
   buscarUsuarioService,
+  filtrarUsuariosService
 };

@@ -1,19 +1,18 @@
 import { NgModule } from "@angular/core";
-import { CuentaComponent } from "./cuenta/cuenta.component";
 import { CommonModule } from "@angular/common";
 import {  RouterModule } from "@angular/router";
-import { MenuComponent } from "./menu/menu.component";
+
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { UsuariosComponent } from "./usuarios/usuarios.component";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditarUsuarioComponent } from "./usuarios/components/editar-usuario/editar-usuario.component";
 import { PaginationAndFilterModule } from "src/app/shared/paginationAndFilter/paginationAndFilter.module";
+import { MenusComponent } from "./menus/menus.component";
 
 
 @NgModule({
   declarations: [
-    CuentaComponent,
-    MenuComponent,
+    MenusComponent,
     UsuariosComponent,
     EditarUsuarioComponent
   ],
@@ -26,8 +25,7 @@ import { PaginationAndFilterModule } from "src/app/shared/paginationAndFilter/pa
     PaginationAndFilterModule
   ],
   exports: [
-    CuentaComponent,
-    MenuComponent,
+    MenusComponent,
     UsuariosModule,
     UsuariosComponent,
     EditarUsuarioComponent

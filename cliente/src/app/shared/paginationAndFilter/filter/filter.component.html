@@ -1,18 +1,18 @@
+<div class="filtros">
+  <div class="flex-item">
+    <label>
+      Filtros:
+    </label>
+    <select [(ngModel)]="filtroSeleccionadoValor" (change)="seleccionarFiltro()">
+      <option  value="Ver todo">Ver todo</option>
+      <option *ngFor="let filtro of filtros" [value]="filtro">{{ filtro }}</option>
+    </select>
 
-<div class="search-bar">
-  <div class="input-group">
-    <input
-      type="text"
-      class="form-control"
-      [placeholder]="placeholder"
-      [(ngModel)]="searchText"
-      (keyup.enter)="filter()"
-      (input)="onInputChange()"
-    />
-    <div class="btn btn-outline-secondary" (click)="filter()">
-      <i class="material-icons">search</i>
-    </div>
   </div>
 </div>
+
+
+
+
 
 

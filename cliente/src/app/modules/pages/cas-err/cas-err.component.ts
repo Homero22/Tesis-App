@@ -12,7 +12,6 @@ export class CasErrComponent implements OnInit {
   private destroy$ = new Subject<any>();
 
   constructor(public casService:CasService) {
-    console.log("cas-err.component.ts");
   }
 
   ngOnInit() {

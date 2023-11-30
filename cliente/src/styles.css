@@ -561,8 +561,8 @@ mx-auto {
 }
 
 .cont-filter {
-  gap: 8px;
-  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
 }
 
 

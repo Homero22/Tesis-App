@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChange } from '@angular/core';
 
 @Component({
   selector: 'app-filter',
@@ -6,24 +6,29 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent implements OnInit {
-searchText: string = '';
-previousSearchText: string = '';
-@Input() placeholder: string = '';
-@Output() search: EventEmitter<any> = new EventEmitter();
+
+@Input() filtros: any[] = [];
+@Input() buscando!: boolean ;
+@Output() filtroSeleccionado: EventEmitter<any> = new EventEmitter();
+filtroSeleccionadoValor: string = 'Ver todo'; // Valor inicial del filtro
   constructor() { }
 
+
+
   ngOnInit() {
-    this.previousSearchText = this.searchText;
   }
-  filter(){
-    this.search.emit(this.searchText);
+  seleccionarFiltro() {
+    this.filtroSeleccionado.emit(this.filtroSeleccionadoValor);
   }
 
-  //cuando el input cambia de no vacio a vacio
-  onInputChange(){
-    if(this.previousSearchText && !this.searchText.trim()){
-      this.filter();
-    }
-    this.previousSearchText = this.searchText;
+  ngOnChanges() {
+
+
+      this.filtroSeleccionadoValor = 'Ver todo';
+
+
   }
+
+
+
 }

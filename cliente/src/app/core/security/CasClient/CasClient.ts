@@ -28,7 +28,6 @@ export class CasClient {
     var logout = '';
     this.remove();
     if (Autenticacion == 'Institucional') {
-      console.log('Institucional');
       logout =
         CONFIG2.LOGOUT_CORREO +
         'post_logout_redirect_uri=' +
@@ -38,7 +37,6 @@ export class CasClient {
         this.router.navigate(['/logout']);
       // window.location.href = logout;
     } else {
-      console.log('Centralizada');
       logout =
         CONFIG2.CASLOGOUT +
         'service='
@@ -71,7 +69,6 @@ export class CasClient {
           this.validacionUsuarioCas(resolve, reject, res);
         },
         error: (err: any) => {
-          console.log(err);
           reject()
         },
       });

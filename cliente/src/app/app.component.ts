@@ -16,17 +16,14 @@ export class AppComponent implements  OnInit, OnDestroy {
   showLoading: boolean = true
 
   constructor(private router: Router) {
-    console.log('AppComponent en constructor()');
   }
 
   ngOnInit():void {
-    console.log('AppComponent en ngOnInit()');
     this.router.events
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (data) => {
         if (data instanceof RoutesRecognized) {
-          console.log("data", data)
           this.layout = data.state.root.firstChild?.data['layout']
         }
       },

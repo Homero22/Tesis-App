@@ -16,7 +16,6 @@ const idUsuario: number = 0;
 })
 export class ModalService {
   ngAfterContentInit(): void {
-    console.log('ngAfterContentInit called ');
     throw new Error('Method not implemented.');
   }
   private FormModal$ = new BehaviorSubject<DataFormModal>(initModal);
@@ -29,7 +28,6 @@ export class ModalService {
   }
   setIdUsuario(id: number) {
     this.idUsuario$.next(id);
-    console.log("paso 3 . idUsuario-value",this.idUsuario$.value);
   }
 
   get selectFormModal$(): Observable<DataFormModal> {
@@ -37,9 +35,7 @@ export class ModalService {
   }
 
   setFormModal(data: DataFormModal) {
-    console.log("paso 2 modal")
     this.FormModal$.next(data);
-    console.log("formmodal-value",this.FormModal$.value);
   }
 
 
@@ -55,8 +51,6 @@ export class ModalService {
           modalGeneral.style.opacity = 1;
         }
       });
-    }else{
-      console.log('no existe modalGeneral');
     }
   }
 

@@ -57,10 +57,19 @@ export class UsuariosComponent implements OnInit {
   status!: boolean;
   isData: boolean = false;
   isLoading: boolean = true;
-  editando: boolean = false;
+  buscando: boolean = false ;
+  filtrando: boolean = false;
   copiaTelefono: string = '';
   searchText: string = '';
   placeholder:string = 'Buscar usuario';
+
+  filtros: any[] = [
+  "Ver usuarios activos",
+  "Ver usuarios inactivos",
+  ]
+
+
+
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -71,10 +80,13 @@ export class UsuariosComponent implements OnInit {
   }
   buscarUsuario(search:string) {
     this.searchText = search;
-    console.log('Llega al componete usuarios el texto:  ', search);
     if (search === '') {
+      this.buscando  = true;
       this.getUsuarios();
     } else {
+      console.log(this.buscando,"1")
+      this.buscando=true;
+      console.log(this.buscando,"2")
       this.UsuariosService.buscarUsuario(search)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -83,10 +95,12 @@ export class UsuariosComponent implements OnInit {
               if (_usuarios.body.length === 0) {
                 this.isData = false;
               }
+              this.isData = true;
               this.UsuariosService.dataUsuarios = _usuarios.body;
               this.metadata = _usuarios.metadata;
               this.currentPage = _usuarios.metadata.pagination.currentPage;
               this.total = _usuarios.metadata.pagination.total;
+              this.buscando = false;
             } else {
               Swal.fire({
                 icon: 'error',
@@ -103,6 +117,90 @@ export class UsuariosComponent implements OnInit {
             });
           },
         });
+    }
+  }
+  filtrarUsuario( filtro:any){
+    this.filtrando = true;
+    Swal.fire({
+      title: 'Aplicando filtro...',
+      icon:'success',
+      timer:900,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    switch (filtro) {
+      case "Ver usuarios activos":
+        this.UsuariosService.filtrarUsuarios("ACTIVO")
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (_usuarios) => {
+            if (_usuarios.body) {
+              if (_usuarios.body.length === 0) {
+                this.isData = false;
+              }else{
+                this.isData =true;
+              }
+              this.UsuariosService.dataUsuarios = _usuarios.body;
+              this.metadata = _usuarios.metadata;
+              this.currentPage = _usuarios.metadata.pagination.currentPage;
+              this.total = _usuarios.metadata.pagination.total;
+              this.filtrando = false;
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al cargar los usuarios',
+                text: _usuarios.message,
+              });
+            }
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al cargar los usuarios',
+              text: error.error.message,
+            });
+          },
+        });
+        break;
+      case "Ver usuarios inactivos":
+        this.UsuariosService.filtrarUsuarios("INACTIVO")
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (_usuarios) => {
+            if (_usuarios.body) {
+              console.log("tamaño xd",_usuarios.metadata.pagination.total)
+              if (_usuarios.metadata.pagination.total===0) {
+                this.isData = false;
+              }
+              this.UsuariosService.dataUsuarios = _usuarios.body;
+              this.metadata = _usuarios.metadata;
+              this.currentPage = _usuarios.metadata.pagination.currentPage;
+              this.total = _usuarios.metadata.pagination.total;
+              this.filtrando = false;
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al cargar los usuarios',
+                text: _usuarios.message,
+              });
+            }
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al cargar los usuarios',
+              text: error.error.message,
+            });
+          },
+        });
+        break;
+      case "Ver todo":
+        this.getUsuarios();
+        break;
+      default:
+        this.getUsuarios();
+        break;
     }
   }
 
@@ -123,13 +221,13 @@ export class UsuariosComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (_usuarios) => {
-          if (_usuarios.body) {
+          if (_usuarios.metadata.pagination.total>0) {
             this.isData = true;
             this.UsuariosService.dataUsuarios = _usuarios.body;
             this.metadata = _usuarios.metadata;
             this.currentPage = _usuarios.metadata.pagination.currentPage;
             this.total = _usuarios.metadata.pagination.total;
-            console.log('metadataAAAAAA: ', this.metadata);
+            this.buscando= false;
           } else {
             Swal.fire({
               icon: 'error',
@@ -149,6 +247,8 @@ export class UsuariosComponent implements OnInit {
   }
 
   editarUsuario(idUser: number, title: string, form: string) {
+    this.buscando = false;
+    this.filtrando = false;
     this.elementForm = {
       formulario: form,
       title: title,
@@ -180,6 +280,8 @@ export class UsuariosComponent implements OnInit {
       denyButtonText: `No, cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
+        this.buscando = false;
+        this.filtrando = false;
           Swal.fire({
             title: 'Espere',
             text: 'Cambiando Estado',
@@ -241,6 +343,4 @@ export class UsuariosComponent implements OnInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
-
 }
