@@ -106,4 +106,14 @@
       </tbody>
     </table>
   </div>
+  <div class="pagi">
+    <app-pagination
+      [dataLength]="total"
+      [metadata]="metadata"
+      [currentPage]="currentPage"
+      (changePage)="changePage($event)"
+    >
+    </app-pagination>
+  </div>
+
 </div>

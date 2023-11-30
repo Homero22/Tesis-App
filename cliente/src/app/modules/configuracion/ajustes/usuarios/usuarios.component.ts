@@ -15,6 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { DataMetadata } from 'src/app/core/models/metadata';
 
 @Component({
   selector: 'app-usuarios',
@@ -22,12 +23,17 @@ import { ModalService } from 'src/app/core/services/modal.service';
   styleUrls: ['./usuarios.component.css'],
 })
 export class UsuariosComponent implements OnInit {
+  request = false;
   myform!: FormGroup;
   elementForm: {
     formulario: string;
     title: string;
     special: boolean;
   } = { formulario: '', title: '', special: true };
+
+  currentPage: number = 1;
+  metadata!: DataMetadata;
+  total!: number;
 
   telefonoFormControl: FormControl;
   @ViewChild('telefonoInput') telefonoInput!: ElementRef | undefined;
@@ -71,14 +77,22 @@ export class UsuariosComponent implements OnInit {
         Swal.showLoading();
       },
     });
+    let params = {
+      page: this.currentPage,
+      limit: 10,
+    };
 
-    this.UsuariosService.getUsuarios()
+    this.UsuariosService.getUsuarios(params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (_usuarios) => {
           if (_usuarios.body) {
             this.isData = true;
             this.UsuariosService.dataUsuarios = _usuarios.body;
+            this.metadata = _usuarios.metadata;
+            this.currentPage = _usuarios.metadata.pagination.currentPage;
+            this.total = _usuarios.metadata.pagination.total;
+            console.log('metadataAAAAAA: ', this.metadata);
           } else {
             Swal.fire({
               icon: 'error',
@@ -98,7 +112,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   editarUsuario(idUser: number, title: string, form: string) {
-    console.log('paso 1 abrir modal');
     this.elementForm = {
       formulario: form,
       title: title,
@@ -179,4 +192,18 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
+
+
+  changePage(page: number) {
+    this.request = true;
+    this.currentPage = page;
+    this.getUsuarios();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+
 }

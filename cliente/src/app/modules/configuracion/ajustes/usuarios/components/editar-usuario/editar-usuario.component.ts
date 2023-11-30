@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, timer } from 'rxjs';
 import { UsuariosComponent } from '../../usuarios.component';
 import { UsuariosService } from 'src/app/core/services/Usuarios/usuarios.service';
 import { ModalService } from 'src/app/core/services/modal.service';
@@ -37,12 +37,8 @@ export class EditarUsuarioComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log("ngOnInit ");
     this.completeForm();
-    //imprimir si estan habilitados los campos
-    console.log("pppp",this.myForm.controls['nombre'].enabled);
     this.myForm.controls['nombre'].disable();
-    console.log("pppp",this.myForm.controls['nombre'].enabled);
   }
 
 
@@ -55,23 +51,14 @@ export class EditarUsuarioComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next:(idUser:number)=>{
-        Swal.fire({
-          title:'Espere',
-          text:'Cargando Información',
-          icon:'info',
-          didOpen:()=>{
-            Swal.showLoading();
-          }
-        });
-          this.idUser = idUser;
-          this.getUsuario();
-        },
+            this.idUser = idUser;
+            this.showLoadingMessage();
+            this.getUsuario();
+          },
       error:(err:any)=>{
         console.log(err);
       }
     })
-
-
   }
 
   getUsuario(){
@@ -79,15 +66,6 @@ export class EditarUsuarioComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next:(res:UsuarioModel)=>{
-        Swal.fire({
-          title:'Espere',
-          text:'Cargando Información',
-          icon:'info',
-          allowOutsideClick:false,
-          didOpen:()=>{
-            Swal.showLoading();
-          }
-        });
         this.myForm = this.fbUsuario.group({
           id: [res.body.int_usuario_id,[Validators.required]],
           nombre: [res.body.str_usuario_nombres,[Validators.required]],
@@ -107,9 +85,21 @@ export class EditarUsuarioComponent implements OnInit, OnDestroy {
         console.log(err);
       },
       complete:()=>{
-        Swal.close();
+        // Swal.close();
       }
     })
+  }
+
+  showLoadingMessage() {
+    Swal.fire({
+      // title: 'Espere',
+      text: 'Cargando Información',
+      icon: 'info',
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      timer: 800,
+    });
   }
 
   modifyUsuario(){
@@ -181,12 +171,17 @@ export class EditarUsuarioComponent implements OnInit, OnDestroy {
   getUsuariosActualizar(){
     Swal.fire({
       title: 'Cargando...',
+      timer: 1000,
       didOpen: () => {
         Swal.showLoading();
       },
     });
     setTimeout(() => {
-      this.srvUsuario.getUsuarios()
+      let params = {
+        page: 1,
+        limit: 10,
+      };
+      this.srvUsuario.getUsuarios( params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (_usuarios) => {

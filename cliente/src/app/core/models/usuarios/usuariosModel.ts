@@ -1,8 +1,11 @@
+import { DataMetadata } from "../metadata";
+
 //Usuarios
 export interface UsuariosModel {
   status: boolean;
   message: string;
   body: UsuariosModelBody[];
+  metadata: DataMetadata;
 }
 export interface UsuariosModelBody {
   int_usuario_id:number;

@@ -7,6 +7,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { UsuariosComponent } from "./usuarios/usuarios.component";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditarUsuarioComponent } from "./usuarios/components/editar-usuario/editar-usuario.component";
+import { PaginationAndFilterModule } from "src/app/shared/paginationAndFilter/paginationAndFilter.module";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { EditarUsuarioComponent } from "./usuarios/components/editar-usuario/edi
     RouterModule.forChild([]),
     UsuariosModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    PaginationAndFilterModule
   ],
   exports: [
     CuentaComponent,

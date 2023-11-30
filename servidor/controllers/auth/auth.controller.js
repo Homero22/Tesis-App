@@ -8,7 +8,6 @@ const validarAuth = async (req, res) => {
 
     //enviar los datos al caso de uso
     const respuesta = await  authUseCase.validarUsuarioDeXml(xmlDatosCas);
-    console.log("Respuesta: ", respuesta)
 
     if (respuesta === false) {
       return res.json({

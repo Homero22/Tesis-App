@@ -1,9 +1,27 @@
 //Casos de uso referente a un usuario
 import usuarioRepository from "../../repositories/seguridad/usuarioRepository.js";
 import { serviciosExternos } from "../../configuracion/variablesGlobales.js";
+import { configVariables } from "../../configuracion/variablesGlobales.js";
 import fetch from "node-fetch"; //para consumir una API
 import https from "https";
-const agent = new https.Agent({ rejectUnauthorized: true }); //Validar credenciales
+import crypto from "crypto";
+import {
+  paginacion,
+  obtenerDataQueryPaginacion,
+  validarPaginacion,
+} from "../utils/paginacion.utils.js";
+
+// Configurar el agente HTTPS
+const httpsAgentOptions = {
+  secureOptions: crypto.constants.SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION,
+};
+
+// Verificar si estamos en entorno de desarrollo
+if (configVariables.env === "development") {
+  httpsAgentOptions.rejectUnauthorized = false;
+}
+
+const httpsAgent = new https.Agent(httpsAgentOptions);
 
 //Obtener datos de mi Cuenta de usuario
 
@@ -14,26 +32,49 @@ const obtenerDatosMiCuentaService = async (cedula) => {
   }
   //obtener los datos del usuario por cédula
   const datosUsuario = await usuarioRepository.getUsuarioPorCedula(cedula);
-  
 
   if (datosUsuario) {
     return datosUsuario;
   }
   return false;
 };
-const obtenerUsuariosService = async () => {
+
+const obtenerUsuariosService = async (query) => {
+  //validar la paginacion
+  const validacion = validarPaginacion(query);
+  if (validacion != true) {
+    return validacion;
+  }
+  //obtener los datos de la query
+  const { page, limit } = obtenerDataQueryPaginacion(query);
+
   //obtener todos los usuarios
-  const usuarios = await usuarioRepository.getAllUsers();
+  const usuarios = await usuarioRepository.obtenerUsuariosConPaginacion(
+    page,
+    limit
+  );
+  //obtener el total de registros de usuarios
+  const totalUsuarios = await usuarioRepository.obtenerTotalUsuarios();
+
   if (usuarios.length > 0) {
-    return usuarios;
+    const metadata = paginacion(page, limit, totalUsuarios);
+    return {
+      status: true,
+      message: "Usuarios encontrados",
+      body: usuarios,
+      metadata: {
+        pagination: metadata,
+      },
+    };
   }
   return false;
 };
+
 const crearUsuarioService = async (cedula) => {
   let respuesta = {};
   //llamo a la funcion para obtener los datos de un servidor externo
   const datosUsuario = await obtenerDatosServidorExterno(cedula);
-  console.log(datosUsuario);
+
   if (datosUsuario == false) {
     return false;
   }
@@ -43,7 +84,7 @@ const crearUsuarioService = async (cedula) => {
     };
     return respuesta;
   }
-  
+
   //creo el objeto usuario
   const usuario = {
     str_usuario_nombres: datosUsuario.listado[0].per_nombres,
@@ -59,6 +100,14 @@ const crearUsuarioService = async (cedula) => {
   const usuarioExiste = await usuarioRepository.getUsuarioPorCedula(
     usuario.str_usuario_cedula
   );
+  //compruebo que el correo no este registrado
+  const correoExiste = await usuarioRepository.getUsuarioPorCorreo(
+    usuario.str_usuario_email
+  );
+  if (correoExiste) {
+    return 1;
+  }
+
 
   if (usuarioExiste) {
     return 1;
@@ -71,7 +120,8 @@ const crearUsuarioService = async (cedula) => {
 const obtenerDatosServidorExterno = async (cedula) => {
   try {
     const url = serviciosExternos.urlServicioCentralizado + cedula;
-    const response = await fetch(url, {agent});
+    const response = await fetch(url, { agent: httpsAgent });
+
     const data = await response.json();
     if (data.success == false) {
       return false;
@@ -115,12 +165,15 @@ const desactivarUsuarioService = async (id) => {
     estado = "ACTIVO";
   }
   //llamo a repositorio para desactivar el usuario dado el id
-  const usuarioDesactivado = await usuarioRepository.desactivarUsuario(id, estado);
+  const usuarioDesactivado = await usuarioRepository.desactivarUsuario(
+    id,
+    estado
+  );
   if (usuarioDesactivado) {
     return usuarioDesactivado;
   }
   return false;
-}
+};
 
 export default {
   obtenerDatosMiCuentaService,

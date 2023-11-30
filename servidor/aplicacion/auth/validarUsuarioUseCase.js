@@ -11,7 +11,7 @@ const validarUsuarioDeXml = async (xmlDatosCas) => {
 
     //extraer datos del xml
     const datos = extraerDatosDelXml(xmlDatosCas);
-    console.log("datos: ", datos);
+
 
     if(!datos){
       return false;
@@ -44,7 +44,7 @@ const validarUsuarioDeXml = async (xmlDatosCas) => {
 //Funcion que extrae los datos del xml
 const extraerDatosDelXml = (xmlDatosCas) => {
   try {
-    console.log(xmlDatosCas);
+
     /**
      * <cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>    <cas:authenticationFailure code="INVALID_TICKET">Ticket &#39;ST-3744687--nKHsXJH2E8EghX6kreIDlg57Ls-aplicativos&#39; not recognized</cas:authenticationFailure></cas:serviceResponse>
      */

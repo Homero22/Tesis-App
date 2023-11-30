@@ -44,10 +44,8 @@ export class ModalService {
 
 
   openModal() {
-    console.log('openModal');
     let modalGeneral = document.getElementById('modalGeneral') as any;
     if (modalGeneral) {
-      console.log('openModal de service');
       modalGeneral.style.display = 'block';
       modalGeneral.classList.add('show');
       modalGeneral.style.backgroundColor = 'rgba(0,0,0,0.5)';

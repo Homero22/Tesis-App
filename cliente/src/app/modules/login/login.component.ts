@@ -18,11 +18,9 @@ export class LoginComponent implements OnInit {
   private destroy$ = new Subject<any>();
 
   constructor(private route: ActivatedRoute, private casClient: CasClient,private srvCasService: CasService) {
-    console.log('LoginComponent en constructor()');
   }
 
   ngOnInit() {
-    console.log('LoginComponent en ngOnInit()');
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
       next: async (params: any) => {
         setTimeout(async () => {

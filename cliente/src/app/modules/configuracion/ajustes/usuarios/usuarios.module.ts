@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CuentaComponent } from './components/cuenta/cuenta.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { EditarUsuarioComponent } from './components/editar-usuario/editar-usuario.component';
+import { PaginationAndFilterModule } from 'src/app/shared/paginationAndFilter/paginationAndFilter.module';
 
 
 @NgModule({
@@ -15,11 +15,12 @@ import { EditarUsuarioComponent } from './components/editar-usuario/editar-usuar
     CommonModule,
     RouterModule.forChild([]),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PaginationAndFilterModule,
   ],
   exports: [
     CuentaComponent,
-   
+
   ],
 })
 export class  UsuariosModule { }

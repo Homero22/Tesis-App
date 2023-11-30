@@ -12,10 +12,14 @@ import { UsuarioEditadoModel, UsuarioModel, UsuariosModel, UsuariosModelBody } f
 })
 
 export class UsuariosService{
+
+
+
     //Rutas para hacer las peticiones al backend
     private urlApi_me: string = config.URL_API_BASE + "usuarios/miCuenta";
     private urlApi_usuarios: string = config.URL_API_BASE + "usuarios";
     private urlApi_desactivar_usuario: string = config.URL_API_BASE + "usuarios/desactivar";
+
 
     constructor(private http: HttpClient){}
     getMe(){
@@ -43,12 +47,20 @@ export class UsuariosService{
 
 
     //Obtener usuarios
-    getUsuarios(){
+    getUsuarios(params: any){
+      console.log("paramsssssssssssssssss",params);
+      //enviar page y limit en httpParams
+      let httpParams = new HttpParams()
+      .set("page", params.page)
+      .set("limit", params.limit);
+
       return this.http.get<UsuariosModel>(this.urlApi_usuarios,
         {
+          params: httpParams,
           withCredentials: true
         }
       );
+
     }
 
     //Editar usuario

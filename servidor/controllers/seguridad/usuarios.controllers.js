@@ -27,19 +27,10 @@ const obtenerDatosMiCuenta = async (req, res) => {
 
 const obtenerUsuarios = async (req, res) => {
   try {
-    const usuarios = await UsuariosService.obtenerUsuariosService();
-    if (!usuarios) {
-      return res.json({
-        status: false,
-        message: "No se encontraron usuarios",
-        body: [],
-      });
-    }
-    res.json({
-      status: true,
-      message: "Usuarios",
-      body: usuarios,
-    });
+    const query = req.query;
+    console.log(query);
+    const usuarios = await UsuariosService.obtenerUsuariosService(query);
+    res.json(usuarios);
   } catch (error) {
     res.status(500).json({
       status: false,

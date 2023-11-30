@@ -12,8 +12,10 @@ const getAllUsers = async () => {
 
 const obtenerUsuariosConPaginacion = async (pagina, cantidad) => {
     try {
+        //calcular el offset
+        const skip = (pagina - 1) * cantidad;
         const usuarios = await Usuario.findAll({
-            offset: pagina,
+            offset: skip,
             limit: cantidad
         });
         return usuarios;
@@ -36,6 +38,19 @@ const getUsuarioPorCedula = async (cedula) => {
         const usuario = await Usuario.findOne({
             where: {
                 str_usuario_cedula: cedula
+            },
+            raw: true
+        });
+        return usuario;
+    } catch (error) {
+        console.log(error);
+    }
+}
+const getUsuarioPorCorreo = async (correo) => {
+    try {
+        const usuario = await Usuario.findOne({
+            where: {
+                str_usuario_email: correo
             },
             raw: true
         });
@@ -89,6 +104,14 @@ const desactivarUsuario = async (id,estado) => {
         console.log(error);
     }
 }
+const obtenerTotalUsuarios = async () => {
+    try {
+        const totalUsuarios = await Usuario.count();
+        return totalUsuarios;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export default {
     getAllUsers,
@@ -97,5 +120,7 @@ export default {
     obtenerUsuariosConPaginacion,
     actualizarTelefonoUsuario,
     obtenerUsuarioPorId,
-    desactivarUsuario
+    desactivarUsuario,
+    getUsuarioPorCorreo,
+    obtenerTotalUsuarios
 }

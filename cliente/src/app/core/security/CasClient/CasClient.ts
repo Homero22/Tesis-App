@@ -1,12 +1,8 @@
-import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {  Injectable } from '@angular/core';
 import { CONFIG } from '../CasClient/ConfigUrl';
-// import { Observable, Subject, throwError } from 'rxjs';
-import { User } from './CasClientUser';
 import { HttpService } from './http.service';
 import { CasService } from 'src/app/core/services/cas.service';
-import { AppRoutingModule } from 'src/app/app-routing.module';
-import { Router, RoutesRecognized } from '@angular/router';
+import { Router } from '@angular/router';
 
 const CONFIG2 = CONFIG.Settings;
 declare var URL: any;
@@ -29,25 +25,27 @@ export class CasClient {
 
   public Logout() {
     var Autenticacion = sessionStorage.getItem('clientName');
-    console.log('Autenticacion =>', Autenticacion);
     var logout = '';
     this.remove();
     if (Autenticacion == 'Institucional') {
+      console.log('Institucional');
       logout =
         CONFIG2.LOGOUT_CORREO +
         'post_logout_redirect_uri=' +
         encodeURIComponent(CONFIG2.CASLOGOUT) +
         'service=' +
         encodeURIComponent(CONFIG2.LOGOUT_REDIRECT);
+        this.router.navigate(['/logout']);
       // window.location.href = logout;
-      this.router.navigate(['/logout']);
     } else {
+      console.log('Centralizada');
       logout =
         CONFIG2.CASLOGOUT +
-        'service=' +
+        'service='
+        +
         encodeURIComponent(CONFIG2.LOGOUT_REDIRECT);
-      // window.location.href = logout;
-      this.router.navigate(['/logout']);
+        this.router.navigate(['/logout']);
+        window.location.href = logout;
     }
   }
 
@@ -63,11 +61,10 @@ export class CasClient {
   }
 
   public validateLogin() {
-    console.log('INGRESO A validateLogin');
+
     var service = encodeURIComponent(CONFIG2.REDIRECT_URI);
     var ticket = sessionStorage.getItem('ticketUser');
-    var urlvalidate =
-      CONFIG2.VALIDATEJAVA + 'service=' + service + '&ticket=' + ticket;
+    var urlvalidate = CONFIG2.VALIDATEJAVA + 'service=' + service + '&ticket=' + ticket;
     return new Promise((resolve, reject) => {
       this.http.doGetUrlXML(urlvalidate).subscribe({
         next: (res: any) => {
@@ -75,9 +72,7 @@ export class CasClient {
         },
         error: (err: any) => {
           console.log(err);
-          // this.Logout();
-          this.casError();
-          reject();
+          reject()
         },
       });
     });
@@ -93,14 +88,13 @@ export class CasClient {
           sessionStorage.setItem('loginUser', user);
         } else {
           // alert('No se pudo validar el usuario');
-          this.caservice.setMessageCasError('No se pudo validar el usuario');
+          this.caservice.setMessageCasError('No se pudo validar el usuario' + response.status);
           // this.Logout();
           this.casError();
         }
         resolve();
       },
       error: (err: any) => {
-        console.log('Se captura el error =>' ,err);
         // alert('No se pudo validar el usuario por un error' + err.message);
         this.caservice.setMessageCasError(err.message);
         this.casError();
@@ -124,8 +118,8 @@ export class CasClient {
     window.sessionStorage.removeItem('ticketUser');
     window.sessionStorage.removeItem('loginUser');
     window.sessionStorage.removeItem('clientName');
+    console.log("ticketU",window.sessionStorage.getItem('ticketUser'));
     localStorage.removeItem('userRole');
-
   }
 
   public isNotEmpty(obj: any): boolean {
@@ -158,8 +152,6 @@ export class CasClient {
   public isAuth(): boolean {
     var ticket = sessionStorage.getItem('ticketUser');
     var user = sessionStorage.getItem('loginUser');
-    console.log('EN la funcion isAuth ticket =>', ticket);
-    console.log('EN la funcion isAuth user =>', user);
     return Boolean(ticket) && Boolean(user);
   }
 
@@ -174,14 +166,5 @@ export class CasClient {
     } else {
       return rawClientInfo;
     }
-  }
-  public SalirSistema() {
-    sessionStorage.removeItem('idRol');
-    sessionStorage.removeItem('perfil');
-    sessionStorage.removeItem('usuario');
-    sessionStorage.removeItem('totalfactura');
-    sessionStorage.removeItem('totalfacturaAnu');
-    sessionStorage.removeItem('totalNota');
-    sessionStorage.removeItem('correo');
   }
 }
