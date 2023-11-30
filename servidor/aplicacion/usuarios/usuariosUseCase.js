@@ -66,8 +66,13 @@ const obtenerUsuariosService = async (query) => {
         pagination: metadata,
       },
     };
-  }
-  return false;
+  }else{
+    return {
+      status: false,
+      message: "No se encontraron usuarios",
+      body: [],
+    }
+  }  
 };
 
 const crearUsuarioService = async (cedula) => {
@@ -174,6 +179,42 @@ const desactivarUsuarioService = async (id) => {
   }
   return false;
 };
+const buscarUsuarioService = async (texto) => {
+  //llamo a repositorio para buscar el usuario dado el texto
+  const usuarios = await usuarioRepository.buscarUsuario(texto);
+  if (usuarios.length > 0) {
+   return {
+      status: true,
+      message: "Usuarios encontrados",
+      body: usuarios,
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: usuarios.length,
+          limit: usuarios.length,
+        }
+      },
+   }
+  }else{
+    return {
+      status: false,
+      message: "No se encontraron usuarios",
+      body: [],
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: usuarios.length,
+          limit: usuarios.length,
+        }
+      },
+    }
+  }
+
+}
 
 export default {
   obtenerDatosMiCuentaService,
@@ -182,4 +223,5 @@ export default {
   actualizarUsuarioService,
   obtenerUsuarioService,
   desactivarUsuarioService,
+  buscarUsuarioService,
 };

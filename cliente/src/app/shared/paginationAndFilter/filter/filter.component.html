@@ -1,3 +1,18 @@
-<p>
-  filter works!
-</p>
+
+<div class="search-bar">
+  <div class="input-group">
+    <input
+      type="text"
+      class="form-control"
+      [placeholder]="placeholder"
+      [(ngModel)]="searchText"
+      (keyup.enter)="filter()"
+      (input)="onInputChange()"
+    />
+    <div class="btn btn-outline-secondary" (click)="filter()">
+      <i class="material-icons">search</i>
+    </div>
+  </div>
+</div>
+
+

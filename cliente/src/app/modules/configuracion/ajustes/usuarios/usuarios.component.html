@@ -1,3 +1,9 @@
+<div class="cont-filter">
+  <app-filter
+  [placeholder]="placeholder"
+  (search)="buscarUsuario($event)"
+  ></app-filter>
+</div>
 <div class="tabla-cuerpo">
   <div class="containerNoData" *ngIf="!isData && !isLoading">
     <div
@@ -23,7 +29,6 @@
       </h6>
     </div>
   </div>
-
   <div class="tableBo" *ngIf="isData">
     <table class="table table-striped tabla-estilos">
       <thead>
@@ -106,7 +111,7 @@
       </tbody>
     </table>
   </div>
-  <div class="pagi">
+  <div class="pagi" *ngIf="isData">
     <app-pagination
       [dataLength]="total"
       [metadata]="metadata"

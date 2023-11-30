@@ -549,15 +549,21 @@ mx-auto {
    /* display: flex; */
     flex-direction: column;
     justify-content: space-between;
+    /*quitar scroll*/
+    overflow: hidden;
 }
 
 .tabla-estilos {
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   margin: 0;
-  font-size: 15px;
+  font-size: 11px;
   width: 100%;
 }
 
+.cont-filter {
+  gap: 8px;
+  flex-wrap: wrap;
+}
 
 
 .content-td {
@@ -1158,7 +1164,7 @@ cuando se va a realizar busqueda por filtrado */
 
 .pBody {
   width: 100%;
-  overflow-y: auto;
+  overflow-y:auto;
 }
 
 .pAside {

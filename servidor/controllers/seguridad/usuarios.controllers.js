@@ -28,7 +28,6 @@ const obtenerDatosMiCuenta = async (req, res) => {
 const obtenerUsuarios = async (req, res) => {
   try {
     const query = req.query;
-    console.log(query);
     const usuarios = await UsuariosService.obtenerUsuariosService(query);
     res.json(usuarios);
   } catch (error) {
@@ -168,11 +167,28 @@ const desactivarUsuario = async (req, res) => {
   }
 }
 
+const buscarUsuario = async (req, res) => {
+  try {
+
+    const {texto} = req.query;
+
+    const usuario = await UsuariosService.buscarUsuarioService(texto);
+    res.json(usuario);
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error en el servidor" + error,
+      body: [],
+    });
+  }
+}
+
 export default {
   obtenerDatosMiCuenta,
   obtenerUsuarios,
   crearUsuario,
   actualizarUsuario,
   obtenerUsuario,
-  desactivarUsuario
+  desactivarUsuario,
+  buscarUsuario
 };

@@ -19,6 +19,7 @@ export class UsuariosService{
     private urlApi_me: string = config.URL_API_BASE + "usuarios/miCuenta";
     private urlApi_usuarios: string = config.URL_API_BASE + "usuarios";
     private urlApi_desactivar_usuario: string = config.URL_API_BASE + "usuarios/desactivar";
+    private urlApi_buscar_usuario: string = config.URL_API_BASE + "usuarios/buscar";
 
 
     constructor(private http: HttpClient){}
@@ -48,8 +49,6 @@ export class UsuariosService{
 
     //Obtener usuarios
     getUsuarios(params: any){
-      console.log("paramsssssssssssssssss",params);
-      //enviar page y limit en httpParams
       let httpParams = new HttpParams()
       .set("page", params.page)
       .set("limit", params.limit);
@@ -93,6 +92,18 @@ export class UsuariosService{
           withCredentials: true
         }
         )
+    }
+    //Buscar usuario
+    buscarUsuario(_texto:string){
+      let httpParams = new HttpParams()
+      .set("texto",_texto)
+      return this.http.get<UsuariosModel>(`${this.urlApi_buscar_usuario}`,
+        {
+          params: httpParams,
+          withCredentials: true
+        }
+      );
+
     }
 
 

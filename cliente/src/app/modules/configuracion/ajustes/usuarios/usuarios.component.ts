@@ -59,6 +59,8 @@ export class UsuariosComponent implements OnInit {
   isLoading: boolean = true;
   editando: boolean = false;
   copiaTelefono: string = '';
+  searchText: string = '';
+  placeholder:string = 'Buscar usuario';
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -66,6 +68,42 @@ export class UsuariosComponent implements OnInit {
       Swal.close();
     }, 1000);
     this.getUsuarios();
+  }
+  buscarUsuario(search:string) {
+    this.searchText = search;
+    console.log('Llega al componete usuarios el texto:  ', search);
+    if (search === '') {
+      this.getUsuarios();
+    } else {
+      this.UsuariosService.buscarUsuario(search)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (_usuarios) => {
+            if (_usuarios.body) {
+              if (_usuarios.body.length === 0) {
+                this.isData = false;
+              }
+              this.UsuariosService.dataUsuarios = _usuarios.body;
+              this.metadata = _usuarios.metadata;
+              this.currentPage = _usuarios.metadata.pagination.currentPage;
+              this.total = _usuarios.metadata.pagination.total;
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al cargar los usuarios',
+                text: _usuarios.message,
+              });
+            }
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al cargar los usuarios',
+              text: error.error.message,
+            });
+          },
+        });
+    }
   }
 
   //Obtener usuarios
@@ -81,7 +119,6 @@ export class UsuariosComponent implements OnInit {
       page: this.currentPage,
       limit: 10,
     };
-
     this.UsuariosService.getUsuarios(params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({

@@ -1,4 +1,5 @@
 import { Usuario } from "../../models/esquemaSeguridad/usuario.model.js";
+import { Op } from "sequelize";
 
 
 const getAllUsers = async () => {
@@ -112,6 +113,45 @@ const obtenerTotalUsuarios = async () => {
         console.log(error);
     }
 }
+const buscarUsuario = async (texto) => {
+    try {
+        //debo buscar o por nombre o por apellido o por cedula o por correo o por telefono con ilike
+        const usuarios = await Usuario.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        str_usuario_nombres: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_apellidos: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_cedula: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_email: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_telefono: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    }
+                ]
+            }
+        });
+        return usuarios;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export default {
     getAllUsers,
@@ -122,5 +162,6 @@ export default {
     obtenerUsuarioPorId,
     desactivarUsuario,
     getUsuarioPorCorreo,
-    obtenerTotalUsuarios
+    obtenerTotalUsuarios,
+    buscarUsuario
 }
