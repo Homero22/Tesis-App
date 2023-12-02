@@ -8,13 +8,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditarUsuarioComponent } from "./usuarios/components/editar-usuario/editar-usuario.component";
 import { PaginationAndFilterModule } from "src/app/shared/paginationAndFilter/paginationAndFilter.module";
 import { MenusComponent } from "./menus/menus.component";
+import { RolesComponent } from "./roles/roles.component";
+import { AgregarUsuarioComponent } from "./usuarios/components/agregar-usuario/agregar-usuario.component";
 
 
 @NgModule({
   declarations: [
     MenusComponent,
     UsuariosComponent,
-    EditarUsuarioComponent
+    EditarUsuarioComponent,
+    AgregarUsuarioComponent,
+    RolesComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +32,9 @@ import { MenusComponent } from "./menus/menus.component";
     MenusComponent,
     UsuariosModule,
     UsuariosComponent,
-    EditarUsuarioComponent
+    EditarUsuarioComponent,
+    AgregarUsuarioComponent,
+    RolesComponent
   ],
 })
 

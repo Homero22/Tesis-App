@@ -75,7 +75,7 @@ const obtenerUsuariosService = async (query) => {
   }  
 };
 
-const crearUsuarioService = async (cedula) => {
+const crearUsuarioService = async (cedula,telefono) => {
   let respuesta = {};
   //llamo a la funcion para obtener los datos de un servidor externo
   const datosUsuario = await obtenerDatosServidorExterno(cedula);
@@ -90,24 +90,14 @@ const crearUsuarioService = async (cedula) => {
     return respuesta;
   }
 
-  //creo el objeto usuario
-  const usuario = {
-    str_usuario_nombres: datosUsuario.listado[0].per_nombres,
-    str_usuario_apellidos:
-      datosUsuario.listado[0].per_primerApellido +
-      " " +
-      datosUsuario.listado[0].per_segundoApellido,
-    str_usuario_email: datosUsuario.listado[0].per_email,
-    str_usuario_cedula: cedula,
-    str_usuario_telefono: datosUsuario.listado[0].per_telefonoCelular,
-  };
+
   //compruebo si el usuario ya existe
   const usuarioExiste = await usuarioRepository.getUsuarioPorCedula(
-    usuario.str_usuario_cedula
+    datosUsuario.str_usuario_cedula
   );
   //compruebo que el correo no este registrado
   const correoExiste = await usuarioRepository.getUsuarioPorCorreo(
-    usuario.str_usuario_email
+    datosUsuario.str_usuario_email
   );
   if (correoExiste) {
     return 1;
@@ -117,7 +107,8 @@ const crearUsuarioService = async (cedula) => {
   if (usuarioExiste) {
     return 1;
   }
-  const usuarioCreado = await usuarioRepository.createUser(usuario);
+  datosUsuario.str_usuario_telefono = telefono;
+  const usuarioCreado = await usuarioRepository.createUser(datosUsuario);
   return usuarioCreado;
 };
 
@@ -131,7 +122,17 @@ const obtenerDatosServidorExterno = async (cedula) => {
     if (data.success == false) {
       return false;
     }
-    return data;
+    const usuario ={
+      str_usuario_nombres: data.listado[0].per_nombres,
+      str_usuario_apellidos:
+        data.listado[0].per_primerApellido +
+        " " +
+        data.listado[0].per_segundoApellido,
+      str_usuario_email: data.listado[0].per_email,
+      str_usuario_cedula: cedula,
+      str_usuario_telefono: data.listado[0].per_telefonoCelular,
+    }
+    return usuario;
   } catch (error) {
     const errorMessage = {
       err: error.message,
@@ -251,6 +252,29 @@ const filtrarUsuariosService = async (texto) => {
     }
   }
 }
+const obtenerUsuariosCentralizadaService = async (cedula) => {
+
+  //llamo a obtenerDatosServidorExterno
+  const datosUsuario = await obtenerDatosServidorExterno(cedula);
+  if(datosUsuario == false){
+    return {
+      status: false,
+      message: "No se encontró el usuario",
+      body: [],
+    }
+  }
+  return  {
+    status: true,
+    message: "Usuario encontrado",
+    body: {
+      nombres: datosUsuario.str_usuario_nombres,
+      apellidos: datosUsuario.str_usuario_apellidos,
+      correo: datosUsuario.str_usuario_email,
+      telefono: datosUsuario.str_usuario_telefono,
+    }
+  }
+
+}
 
 export default {
   obtenerDatosMiCuentaService,
@@ -260,5 +284,6 @@ export default {
   obtenerUsuarioService,
   desactivarUsuarioService,
   buscarUsuarioService,
-  filtrarUsuariosService
+  filtrarUsuariosService,
+  obtenerUsuariosCentralizadaService
 };

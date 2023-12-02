@@ -15,7 +15,6 @@ export interface UsuariosModelBody {
   str_usuario_cedula:string;
   str_usuario_estado:string;
   str_usuario_telefono:string;
-  editando?:boolean;
 }
 
 //Modelo cuando devuelve un usuario editado

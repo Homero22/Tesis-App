@@ -41,9 +41,8 @@ const obtenerUsuarios = async (req, res) => {
 
 const crearUsuario = async (req, res) => {
   try {
-    const { cedula } = req.body;
-    console.log(cedula);
-    const usuarioCreado = await UsuariosService.crearUsuarioService(cedula);
+    const { cedula,telefono } = req.body;
+    const usuarioCreado = await UsuariosService.crearUsuarioService(cedula,telefono);
 
     if (usuarioCreado == false) {
       return res.json({
@@ -171,8 +170,9 @@ const buscarUsuario = async (req, res) => {
   try {
 
     const {texto} = req.query;
-
+    console.log(texto)
     const usuario = await UsuariosService.buscarUsuarioService(texto);
+    console.log(usuario)
     res.json(usuario);
   } catch (error) {
     res.status(500).json({
@@ -196,6 +196,21 @@ const filtrarUsuarios = async (req, res) => {
     });
   }
 }
+const obtenerUsuariosCentralizada = async (req, res) => {
+  try {
+    const { cedula } = req.params;
+    console.log(cedula);
+    const usuario = await UsuariosService.obtenerUsuariosCentralizadaService(cedula);
+    res.json(usuario);
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error en el servidor" + error,
+      body: [],
+    });
+    
+  }
+}
 
 export default {
   obtenerDatosMiCuenta,
@@ -206,4 +221,5 @@ export default {
   desactivarUsuario,
   buscarUsuario,
   filtrarUsuarios,
+  obtenerUsuariosCentralizada
 };

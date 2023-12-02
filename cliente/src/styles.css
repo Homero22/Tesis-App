@@ -1189,7 +1189,6 @@ cuando se va a realizar busqueda por filtrado */
 }
 
 .btn-usuario {
-  background-color: var(--color-black);
   border: none;
   color: #fff;
   border-radius: var(--border-radius-sm);
@@ -1199,9 +1198,9 @@ cuando se va a realizar busqueda por filtrado */
 }
 
 .btn-usuario:hover {
-  color: var(--color-black);
-  background-color: var(--color-accent);
+  box-shadow: 0px 0px 3px #00000025;
   cursor: pointer;
+  opacity: 0.75;
 }
 
 /*---------------------------Menú lateral Sidebar------------------------------*/

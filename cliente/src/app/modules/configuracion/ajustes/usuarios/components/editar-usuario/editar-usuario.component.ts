@@ -159,7 +159,10 @@ export class EditarUsuarioComponent implements OnInit, OnDestroy {
               this.srvModal.closeModal();
               this.myForm.reset();
               this.request = false;
-              this.getUsuariosActualizar();
+              this.srvUsuario.obtenerUsuarios({
+                page:1,
+                limit:10
+              })
             }
           });
         }, 1000);
@@ -167,53 +170,4 @@ export class EditarUsuarioComponent implements OnInit, OnDestroy {
 
     });
   }
-
-  getUsuariosActualizar(){
-    Swal.fire({
-      title: 'Cargando...',
-      timer: 1000,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    setTimeout(() => {
-      let params = {
-        page: 1,
-        limit: 10,
-      };
-      this.srvUsuario.getUsuarios( params)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (_usuarios) => {
-          if (_usuarios.body) {
-            this.srvUsuario.dataUsuarios = _usuarios.body;
-            Swal.close();
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error al cargar los usuarios',
-              text: _usuarios.message,
-            });
-          }
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al cargar los usuarios',
-            text: error.error.message,
-          });
-        },
-      });
-    }, 1000);
-  }
-
-
-
-
-
-
-
-
-
-
 }

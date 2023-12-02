@@ -23,17 +23,14 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
       next: async (params: any) => {
-        setTimeout(async () => {
           if (this.casClient.isAuth()) {
             window.location.href = config.URL_BASE_PATH + '/welcome';
+          }else{
+            console.log('PASO 2 Xd');
+            await this.loginWithTicket(params);
           }
           this.isLoading = true;
-        }, 2200);
-       // alert('params => ' + params.ticket);
-
-
-        await this.loginWithTicket(params);
-        this.request = true;
+          this.request = true;
       },
       error: (err) => {
         console.log('err =>', err);
@@ -49,9 +46,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  async autenticar() {
+ async autenticar() {
     this.casClient.saveTicket();
-    this.casClient.verificaLogin();
+    let res = await  this.casClient.verificaLogin();
+    if (res) {
+      window.location.href = config.URL_BASE_PATH + '/welcome';
+    }else{
+      this.srvCasService.setMessageCasError('No se pudo autenticar');
+      this.casClient.casError();
+    }
   }
 
   ngOnDestroy(): void {

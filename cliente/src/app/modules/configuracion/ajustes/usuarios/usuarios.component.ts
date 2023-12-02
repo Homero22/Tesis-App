@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { DataMetadata } from 'src/app/core/models/metadata';
+import { UsuariosModelBody } from 'src/app/core/models/usuarios/usuariosModel';
 
 @Component({
   selector: 'app-usuarios',
@@ -62,6 +63,9 @@ export class UsuariosComponent implements OnInit {
   copiaTelefono: string = '';
   searchText: string = '';
   placeholder:string = 'Buscar usuario';
+  actualizarPaginacion: number = 0;
+  usuarios : UsuariosModelBody []=[];
+  loading : boolean = false;
 
   filtros: any[] = [
   "Ver usuarios activos",
@@ -72,35 +76,75 @@ export class UsuariosComponent implements OnInit {
 
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.isLoading = false;
-      Swal.close();
-    }, 1000);
-    this.getUsuarios();
+    console.log("1")
+    this.request = true;
+    setTimeout(()=>{
+        this.loading = false;
+      },400
+    )
+    let params = {
+      page: 1,
+      limit: 10,
+    };
+
+    this.UsuariosService.obtenerUsuarios({
+      page:1,
+      limit:10
+    })
+
+    this.UsuariosService.selectUsuarios$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res)=>{
+          this.usuarios = res;
+          this.request = false;
+          this.isData=true;
+          console.log("usuarios:->",this.usuarios)
+        }
+      )
+
+    this.UsuariosService.selectMetadata$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res)=>{
+        this.metadata = res;
+        this.currentPage =res.pagination.currentPage;
+        console.log("3",this.currentPage)
+      }
+    )
   }
   buscarUsuario(search:string) {
     this.searchText = search;
     if (search === '') {
       this.buscando  = true;
-      this.getUsuarios();
+      this.UsuariosService.obtenerUsuarios({
+        page:1,
+        limit:10
+      })
     } else {
-      console.log(this.buscando,"1")
       this.buscando=true;
-      console.log(this.buscando,"2")
+      Swal.fire({
+        title: 'Buscando coincidencias ...',
+        timer:500,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       this.UsuariosService.buscarUsuario(search)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (_usuarios) => {
             if (_usuarios.body) {
-              if (_usuarios.body.length === 0) {
+              if (_usuarios.metadata.pagination.total!==0) {
+                this.isData = true;
+                this.UsuariosService.usuarios = _usuarios.body;
+                this.metadata = _usuarios.metadata;
+                this.currentPage = _usuarios.metadata.pagination.currentPage;
+                this.total = _usuarios.metadata.pagination.total;
+                this.buscando = false;
+              }else{
                 this.isData = false;
+                this.isLoading=false;
               }
-              this.isData = true;
-              this.UsuariosService.dataUsuarios = _usuarios.body;
-              this.metadata = _usuarios.metadata;
-              this.currentPage = _usuarios.metadata.pagination.currentPage;
-              this.total = _usuarios.metadata.pagination.total;
-              this.buscando = false;
+
             } else {
               Swal.fire({
                 icon: 'error',
@@ -119,6 +163,7 @@ export class UsuariosComponent implements OnInit {
         });
     }
   }
+
   filtrarUsuario( filtro:any){
     this.filtrando = true;
     Swal.fire({
@@ -141,7 +186,7 @@ export class UsuariosComponent implements OnInit {
               }else{
                 this.isData =true;
               }
-              this.UsuariosService.dataUsuarios = _usuarios.body;
+              this.UsuariosService.usuarios = _usuarios.body;
               this.metadata = _usuarios.metadata;
               this.currentPage = _usuarios.metadata.pagination.currentPage;
               this.total = _usuarios.metadata.pagination.total;
@@ -172,8 +217,9 @@ export class UsuariosComponent implements OnInit {
               console.log("tamaño xd",_usuarios.metadata.pagination.total)
               if (_usuarios.metadata.pagination.total===0) {
                 this.isData = false;
+                this.isLoading= false;
               }
-              this.UsuariosService.dataUsuarios = _usuarios.body;
+              this.UsuariosService.usuarios = _usuarios.body;
               this.metadata = _usuarios.metadata;
               this.currentPage = _usuarios.metadata.pagination.currentPage;
               this.total = _usuarios.metadata.pagination.total;
@@ -196,54 +242,18 @@ export class UsuariosComponent implements OnInit {
         });
         break;
       case "Ver todo":
-        this.getUsuarios();
+        this.UsuariosService.obtenerUsuarios({
+          page:1,
+          limit:10
+        })
         break;
       default:
-        this.getUsuarios();
+        this.UsuariosService.obtenerUsuarios({
+          page:1,
+          limit:this.UsuariosService.usuarios.length
+        })
         break;
     }
-  }
-
-  //Obtener usuarios
-  getUsuarios() {
-    Swal.fire({
-      title: 'Cargando...',
-      timer:1000,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    let params = {
-      page: this.currentPage,
-      limit: 10,
-    };
-    this.UsuariosService.getUsuarios(params)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (_usuarios) => {
-          if (_usuarios.metadata.pagination.total>0) {
-            this.isData = true;
-            this.UsuariosService.dataUsuarios = _usuarios.body;
-            this.metadata = _usuarios.metadata;
-            this.currentPage = _usuarios.metadata.pagination.currentPage;
-            this.total = _usuarios.metadata.pagination.total;
-            this.buscando= false;
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error al cargar los usuarios',
-              text: _usuarios.message,
-            });
-          }
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al cargar los usuarios',
-            text: error.error.message,
-          });
-        },
-      });
   }
 
   editarUsuario(idUser: number, title: string, form: string) {
@@ -303,7 +313,10 @@ export class UsuariosComponent implements OnInit {
                   icon: 'success',
                   confirmButtonText: 'Aceptar',
                 }).then(() => {
-                  this.getUsuarios();
+                    this.UsuariosService.obtenerUsuarios({
+                      page:1,
+                      limit:10
+                    })
                 });
               } else {
                 Swal.fire({
@@ -336,7 +349,10 @@ export class UsuariosComponent implements OnInit {
   changePage(page: number) {
     this.request = true;
     this.currentPage = page;
-    this.getUsuarios();
+    this.UsuariosService.obtenerUsuarios({
+      page,
+      limit:10
+    })
   }
 
   ngOnDestroy(): void {

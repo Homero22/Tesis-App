@@ -4,19 +4,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ConfiguracionRoutingModule } from './configuracion-routing.module';
 import { AjustesModule } from './ajustes/ajustes.module';
+import { ComponentsModule } from '../components/components.module';
 
 
 const routes: Routes = [
   {
     path:'',
     children:[
-      // {
-      //   path:'cuenta',
-      //   loadChildren:()=>
-      //   import('./configuracion-routing.module').then(
-      //     (m)=>m.ConfiguracionRoutingModule
-      //   )
-      // },
       {
         path:'menus',
         loadChildren:()=>
@@ -33,6 +27,13 @@ const routes: Routes = [
       },
       {
         path:'usuarios',
+        loadChildren:()=>
+        import('./configuracion-routing.module').then(
+          (m)=>m.ConfiguracionRoutingModule
+        )
+      },
+      {
+        path:'roles',
         loadChildren:()=>
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
@@ -55,7 +56,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ConfiguracionRoutingModule,
-    AjustesModule
+    AjustesModule,
+    ComponentsModule
   ],
   exports: [
     RouterModule,

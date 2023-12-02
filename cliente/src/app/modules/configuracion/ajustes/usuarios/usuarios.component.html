@@ -65,7 +65,7 @@
       <tbody>
         <tr
           class="pru color"
-          *ngFor="let usuario of UsuariosService.dataUsuarios; let i = index"
+          *ngFor="let usuario of UsuariosService.usuarios; let i = index"
         >
           <td scope="row">{{ i + 1 }}</td>
           <td class="user">
@@ -121,7 +121,7 @@
   </div>
   <div class="pagi" *ngIf="isData">
     <app-pagination
-      [dataLength]="total"
+      [dataLength]="this.UsuariosService.usuarios.length"
       [metadata]="metadata"
       [currentPage]="currentPage"
       (changePage)="changePage($event)"

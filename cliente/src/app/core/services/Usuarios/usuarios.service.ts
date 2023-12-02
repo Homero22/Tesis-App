@@ -6,6 +6,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MiCuentaModel, MiCuentaModelBody } from "../../models/usuarios/miCuentaModel";
 import { UsuarioEditadoModel, UsuarioModel, UsuariosModel, UsuariosModelBody } from "../../models/usuarios/usuariosModel";
+import { DataCentralizada, UsuarioCentralizadaModel } from "../../models/usuarios/usuarioCentralizadaModel";
+import { DataMetadata } from "../../models/metadata";
+import { Subject, takeUntil } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -43,7 +46,28 @@ export class UsuariosService{
       str_usuario_telefono:''
     }
 
-    dataUsuarios! : UsuariosModelBody [];
+    usuarios! : UsuariosModelBody [];
+    metaData!: DataMetadata;
+
+    private dataMetadata$ = new Subject<DataMetadata>();
+    private destroy$ = new Subject<any>();
+    private dataUsuarios$ = new Subject<UsuariosModelBody[]>();
+
+
+    setDataMetadata(data:DataMetadata){
+      this.dataMetadata$.next(data);
+    }
+    get selectMetadata$(){
+      return this.dataMetadata$.asObservable();
+    }
+
+    setUsuarios(data:UsuariosModelBody[]){
+      this.dataUsuarios$.next(data);
+    }
+    get selectUsuarios$(){
+      return this.dataUsuarios$.asObservable();
+    }
+
 
 
 
@@ -115,6 +139,46 @@ export class UsuariosService{
         }
       );
 
+    }
+
+    //Obtener usuario centralizada
+    getUsuarioCentralizada(_cedula:string){
+      return this.http.get<UsuarioCentralizadaModel>(`${this.urlApi_usuarios}/centralizada/${_cedula}`,
+        {
+          withCredentials: true
+        }
+      );
+    }
+
+    //Crear usuario
+    crearUsuario(cedula:string, telefono:string){
+      return this.http.post<UsuarioModel>(`${this.urlApi_usuarios}`,
+        {
+          cedula:cedula,
+          telefono:telefono
+        },
+        {
+          withCredentials: true
+        }
+      );
+    }
+
+    //funcion general de obtener usuarios
+
+    obtenerUsuarios(params:any){
+      this.getUsuarios(params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next:(data: UsuariosModel)=>{
+          this.usuarios = data.body;
+          this.metaData = data.metadata;
+          this.setDataMetadata(this.metaData)
+          this.setUsuarios(this.usuarios)
+        },
+        error:(err)=>{
+          console.log('Error',err)
+        }
+      })
     }
 
 }

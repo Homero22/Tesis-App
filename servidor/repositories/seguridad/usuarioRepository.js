@@ -13,11 +13,15 @@ const getAllUsers = async () => {
 
 const obtenerUsuariosConPaginacion = async (pagina, cantidad) => {
     try {
-        //calcular el offset
+
         const skip = (pagina - 1) * cantidad;
+        //devolver los usuarios con dt_fecha_actualizacion mas reciente
         const usuarios = await Usuario.findAll({
             offset: skip,
-            limit: cantidad
+            limit: cantidad,
+            order: [
+                ['dt_fecha_actualizacion', 'DESC']
+            ]
         });
         return usuarios;
     } catch (error) {
@@ -64,7 +68,8 @@ const getUsuarioPorCorreo = async (correo) => {
 const actualizarTelefonoUsuario = async (id, telefono) => {
     try {
         const usuarioActualizado = await Usuario.update({
-            str_usuario_telefono: telefono
+            str_usuario_telefono: telefono,
+            dt_fecha_actualizacion: new Date()
         }, {
             where: {
                 int_usuario_id: id
@@ -94,7 +99,8 @@ const obtenerUsuarioPorId = async (id) => {
 const desactivarUsuario = async (id,estado) => {
     try {
         const usuarioDesactivado = await Usuario.update({
-            str_usuario_estado: estado
+            str_usuario_estado: estado,
+            dt_fecha_actualizacion: new Date()
         }, {
             where: {
                 int_usuario_id: id
