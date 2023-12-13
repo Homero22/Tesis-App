@@ -885,6 +885,7 @@ cuando se va a realizar busqueda por filtrado */
   background: none;
   border: none;
   border-radius: var(--border-radius-sm);
+  margin-left: 2px;
 }
 
 .inp-info:focus {
@@ -1053,7 +1054,7 @@ cuando se va a realizar busqueda por filtrado */
 /* ----------------------------Botones------------------------------------------ */
 
 .btn {
-  padding: 2px;
+  /* padding: 1.5px; */
   font-size: 14px;
   margin: 0.2rem;
   border-radius: 10px;

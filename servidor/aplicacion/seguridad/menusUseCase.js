@@ -1,26 +1,34 @@
 import menuRepository from "../../repositories/seguridad/menuRepository.js";
+import { paginacion,validarPaginacion, obtenerDataQueryPaginacion } from "../utils/paginacion.utils.js";
 
-const obtenerMenusService = async () => {
+const obtenerMenusService = async (query) => {
+    const validacion = validarPaginacion(query);
+    if (validacion != true) {
+        return validacion;
+    }
+    //obtener los datos de la query
+    const { page, limit } = obtenerDataQueryPaginacion(query);
     //obtener todos los menus
-    const menus = await menuRepository.getAllMenus();
-    
-    let respuesta = {};
-    
+    const menus = await menuRepository.obtenerMenusConPaginacion(page, limit);
+    //obtener el total de registros de menus
+    const totalMenus = await menuRepository.obtenerTotalMenus();
     if (menus.length > 0) {
-        respuesta = {
+        const metadata = paginacion(page, limit, totalMenus);
+        return {
         status: true,
         message: "Menus encontrados",
         body: menus,
+        metadata: {
+            pagination: metadata,
+        },
         };
-    } else {
-        respuesta = {
+    }
+    return {
         status: false,
         message: "No se encontraron menus",
         body: [],
-        };
-    }
-    
-    return respuesta;
+    };
+
 };
 const obtenerMenuService = async (id) => {
     let respuesta = {};
@@ -69,16 +77,29 @@ const obtenerSubmenusService = async (id) => {
     const submenus = await menuRepository.getSubmenusPorId(id);
     
     if (submenus.length > 0) {
+        const metadata = paginacion(1, submenus.length, submenus.length);
         respuesta = {
         status: true,
         message: "Submenus encontrados",
         body: submenus,
+        metadata: {
+            pagination: metadata,
+        },
         };
     } else {
         respuesta = {
         status: false,
         message: "No se encontraron submenus",
         body: [],
+        metadata: {
+            pagination: {
+            previousPage: 0,
+            currentPage: 1,
+            nextPage: null,
+            total: submenus.length,
+            limit: submenus.length,
+            },
+        },
         };
     }
     
@@ -143,11 +164,179 @@ const crearMenuService = async (
     
     return respuesta;
 };
+const actualizarMenuService = async (nombre, path, icono, descripcion, id_menu_padre) => {
+    let respuesta = {};
+    //comprobar que el id_menu_padre sea un numero y no sea decimal
+    if (isNaN(id_menu_padre) || id_menu_padre % 1 != 0) {
+        respuesta = {
+        status: false,
+        message: "El id_menu_padre debe ser un número entero",
+        body: [],
+        };
+        return respuesta;
+    }
+    
+    //comprobar que el menu no exista
+    const menuEncontrado = await menuRepository.comprobarMenuPorNombre(
+        nombre
+    );
+    
+    if (menuEncontrado) {
+        respuesta = {
+        status: false,
+        message: "El menu ya existe",
+        body: [],
+        };
+        return respuesta;
+    }
+    
+    //creo el objeto
+    const menu = {
+        str_menu_nombre: nombre,
+        str_menu_path: path,
+        str_menu_icono: icono,
+        str_menu_descripcion: descripcion,
+        int_menu_padre_id: id_menu_padre,
+    };
+    
+    //actualizar el menu
+    const menuActualizado = await menuRepository.actualizarMenu(menu);
+    
+    if (menuActualizado) {
+        respuesta = {
+        status: true,
+        message: "Menu actualizado",
+        body: menuActualizado,
+        };
+    } else {
+        respuesta = {
+        status: false,
+        message: "No se pudo actualizar el menu",
+        body: [],
+        };
+    }
+    
+    return respuesta;
+};
+const desactivarMenuService = async (id) => {
+    let respuesta = {};
+    //comprobar que el id sea un numero y no sea decimal
+    if (isNaN(id) || id % 1 != 0) {
+        respuesta = {
+        status: false,
+        message: "El id debe ser un número entero",
+        body: [],
+        };
+        return respuesta;
+    }
+    
+    //comprobar que el menu exista
+    const menuEncontrado = await menuRepository.getMenuPorId(id);
+
+    if (!menuEncontrado) {
+        respuesta = {
+        status: false,
+        message: "El menu no existe",
+        body: [],
+        };
+        return respuesta;
+    }
+    let estado = menuEncontrado.str_menu_estado;
+    if(estado =="ACTIVO"){
+        estado = "INACTIVO";
+    }else{
+        estado = "ACTIVO";
+    }
+    
+    //desactivar el menu
+    const menuDesactivado = await menuRepository.desactivarMenu(id,estado);
+    
+    if (menuDesactivado) {
+        return {
+        status: true,
+        message: "Menu desactivado",
+        body: menuDesactivado,
+        };
+    } else {
+        return{
+        status: false,
+        message: "No se pudo desactivar el menu",
+        body: [],
+        };
+    }
+    
+};
+const filtrarMenusService = async (texto, page) => {
+    page = parseInt(page);
+    const {menus, totalMenus} = await menuRepository.filtrarMenus(texto,page);
+    console.log("TOTAL",totalMenus)
+    if(menus.length > 0){
+        const metadata = paginacion(page, 10, totalMenus);
+        console.log(metadata);
+        return {
+            status: true,
+            message: "Menus encontrados",
+            body: menus,
+            metadata: {
+                pagination: metadata,
+            },
+        };
+    }else{
+        return {
+            status: false,
+            message: "No se encontraron menus",
+            body: [],
+            metadata:{
+                pagination:{
+                    previousPage:0,
+                    currentPage:1,
+                    nextPage:null,
+                    total:menus.length,
+                    limit:menus.length
+                }
+            }
+        }
+    }
+};
+const buscarMenuService = async ( texto,page) => {
+
+    page = parseInt(page);
+    const {menus, totalMenus} = await menuRepository.buscarMenu(texto,page);
+    if(menus.length > 0){
+        const metadata = paginacion(page, 10, totalMenus);
+        return {
+            status: true,
+            message: "Menus encontrados",
+            body: menus,
+            metadata: {
+                pagination: metadata,
+            },
+        };
+    }else{
+        return {
+            status: false,
+            message: "No se encontraron menus",
+            body: [],
+            metadata:{
+                pagination:{
+                    previousPage:0,
+                    currentPage:1,
+                    nextPage:null,
+                    total:menus.length,
+                    limit:menus.length
+                }
+            }
+        }
+    }
+};
 
 export default {
     obtenerMenusService,
     obtenerMenuService,
     obtenerSubmenusService,
     crearMenuService,
-
+    actualizarMenuService,
+    desactivarMenuService,
+    filtrarMenusService,
+    buscarMenuService,
 };

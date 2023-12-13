@@ -10,6 +10,11 @@ import { PaginationAndFilterModule } from "src/app/shared/paginationAndFilter/pa
 import { MenusComponent } from "./menus/menus.component";
 import { RolesComponent } from "./roles/roles.component";
 import { AgregarUsuarioComponent } from "./usuarios/components/agregar-usuario/agregar-usuario.component";
+import { EditarRolComponent } from "./roles/editar-rol/editar-rol.component";
+import { AgregarRolComponent } from "./roles/agregar-rol/agregar-rol.component";
+import { AgregarMenuComponent } from "./menus/agregar-menu/agregar-menu.component";
+import { EditarMenuComponent } from "./menus/editar-menu/editar-menu.component";
+import { SubmenusComponent } from "./menus/submenus/submenus.component";
 
 
 @NgModule({
@@ -18,7 +23,12 @@ import { AgregarUsuarioComponent } from "./usuarios/components/agregar-usuario/a
     UsuariosComponent,
     EditarUsuarioComponent,
     AgregarUsuarioComponent,
-    RolesComponent
+    RolesComponent,
+    EditarRolComponent,
+    AgregarRolComponent,
+    AgregarMenuComponent,
+    EditarMenuComponent,
+    SubmenusComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +44,12 @@ import { AgregarUsuarioComponent } from "./usuarios/components/agregar-usuario/a
     UsuariosComponent,
     EditarUsuarioComponent,
     AgregarUsuarioComponent,
-    RolesComponent
+    RolesComponent,
+    EditarRolComponent,
+    AgregarRolComponent,
+    AgregarMenuComponent,
+    EditarMenuComponent,
+    SubmenusComponent
   ],
 })
 

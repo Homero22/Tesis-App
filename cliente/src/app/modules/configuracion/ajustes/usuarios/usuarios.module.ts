@@ -9,7 +9,6 @@ import { PaginationAndFilterModule } from 'src/app/shared/paginationAndFilter/pa
 @NgModule({
   declarations: [
     CuentaComponent,
-
   ],
   imports: [
     CommonModule,
@@ -20,7 +19,6 @@ import { PaginationAndFilterModule } from 'src/app/shared/paginationAndFilter/pa
   ],
   exports: [
     CuentaComponent,
-
   ],
 })
 export class  UsuariosModule { }

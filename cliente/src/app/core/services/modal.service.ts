@@ -20,15 +20,7 @@ export class ModalService {
   }
   private FormModal$ = new BehaviorSubject<DataFormModal>(initModal);
 
-  private idUsuario$ = new BehaviorSubject<number>(idUsuario);
 
-
-  get selectIdUsuario$() {
-    return this.idUsuario$.asObservable();
-  }
-  setIdUsuario(id: number) {
-    this.idUsuario$.next(id);
-  }
 
   get selectFormModal$(): Observable<DataFormModal> {
     return this.FormModal$.asObservable();

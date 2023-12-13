@@ -119,8 +119,9 @@ const obtenerTotalUsuarios = async () => {
         console.log(error);
     }
 }
-const buscarUsuario = async (texto) => {
+const buscarUsuario = async (texto, page) => {
     try {
+        const skip = (page - 1) * 10;
         //debo buscar o por nombre o por apellido o por cedula o por correo o por telefono o estado con ilike
         const usuarios = await Usuario.findAll({
             where: {
@@ -156,17 +157,107 @@ const buscarUsuario = async (texto) => {
                         }
                     }
                 ]
+            },
+            order:[
+                ['dt_fecha_actualizacion','DESC']
+            ],
+            offset: skip,
+            limit: 10
+        });
+        //obtener la cantidad de registros con el texto
+        const totalUsuarios = await Usuario.count({
+            where: {
+                [Op.or]: [
+                    {
+                        str_usuario_nombres: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_apellidos: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_cedula: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_email: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_telefono: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_estado: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    }
+                ]
             }
         });
-        return usuarios;
+        const data = {
+            usuarios,
+            totalUsuarios
+        }
+        return data;
     } catch (error) {
         console.log(error);
     }
 }
-const filtrarUsuarios = async (texto) => {
+const filtrarUsuarios = async (texto,page) => {
     try {
         //debo buscar o por nombre o por apellido o por cedula o por correo o por telefono o estado con  like
+         const skip = (page - 1) * 10;   
         const usuarios = await Usuario.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        str_usuario_nombres: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_apellidos: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_cedula: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_email: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_telefono: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_estado: {
+                            [Op.like]: `${texto}`
+                        }
+                    }
+                ]
+            },
+            order:[
+                ['dt_fecha_actualizacion','DESC']
+            ],
+            offset: skip,
+            limit: 10 
+        });
+
+        //contar cuantos registros existen con ese filtro
+        const totalUsuarios = await Usuario.count({
             where: {
                 [Op.or]: [
                     {
@@ -202,8 +293,12 @@ const filtrarUsuarios = async (texto) => {
                 ]
             }
         });
+        const data = {
+            usuarios,
+            totalUsuarios
+        }
 
-        return usuarios;
+        return data;
     } catch (error) {
         console.log(error);
     }

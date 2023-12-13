@@ -105,13 +105,13 @@
             </div>
           </td>
           <td>
-            <button class="btn btn-primary"  (click)="editarUsuario(usuario.int_usuario_id, 'Editar Usuario', 'editarUsuario')" >
+            <button class="btn btn-primary"  (click)="editarUsuario(usuario, 'Editar Usuario', 'editarUsuario')" >
               <i class="material-icons"> create </i>
             </button>
-            <button *ngIf="usuario.str_usuario_estado =='ACTIVO'" class="btn btn-danger"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
+            <button *ngIf="usuario.str_usuario_estado =='ACTIVO' " class="btn btn-danger"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
               <i class="material-icons"> delete </i>
             </button>
-            <button *ngIf="usuario.str_usuario_estado =='INACTIVO'" class="btn btn-loop"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
+            <button *ngIf="usuario.str_usuario_estado =='INACTIVO' " class="btn btn-loop"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
               <i class="material-icons"> loop </i>
             </button>
           </td>
@@ -121,7 +121,7 @@
   </div>
   <div class="pagi" *ngIf="isData">
     <app-pagination
-      [dataLength]="this.UsuariosService.usuarios.length"
+      [dataLength]="this.metadata.pagination.total"
       [metadata]="metadata"
       [currentPage]="currentPage"
       (changePage)="changePage($event)"

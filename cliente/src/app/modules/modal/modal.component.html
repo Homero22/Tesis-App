@@ -15,12 +15,36 @@
       </div>
       <div class="modal-body">
         <div [ngSwitch]="tipoFormulario">
+
+
           <div *ngSwitchCase="'editarUsuario'">
             <app-editar-usuario></app-editar-usuario>
           </div>
+
           <div *ngSwitchCase="'nuevoUsuario'">
             <app-agregar-usuario></app-agregar-usuario>
           </div>
+
+          <div *ngSwitchCase="'editarRol'">
+            <app-editar-rol></app-editar-rol>
+          </div>
+
+          <div *ngSwitchCase="'nuevoRol'">
+            <app-agregar-rol></app-agregar-rol>
+          </div>
+
+          <div *ngSwitchCase="'editarMenu'">
+            <app-editar-menu></app-editar-menu>
+          </div>
+
+          <div *ngSwitchCase="'nuevoMenu'">
+            <app-agregar-menu></app-agregar-menu>
+          </div>
+
+
+
+
+
         </div>
       </div>
 

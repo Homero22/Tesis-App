@@ -169,9 +169,8 @@ const desactivarUsuario = async (req, res) => {
 const buscarUsuario = async (req, res) => {
   try {
 
-    const {texto} = req.query;
-    console.log(texto)
-    const usuario = await UsuariosService.buscarUsuarioService(texto);
+    const {texto,page} = req.query;
+    const usuario = await UsuariosService.buscarUsuarioService(texto,page);
     console.log(usuario)
     res.json(usuario);
   } catch (error) {
@@ -185,8 +184,8 @@ const buscarUsuario = async (req, res) => {
 const filtrarUsuarios = async (req, res) => {
   try {
 
-    const { filtro } = req.query;
-    const usuarios = await UsuariosService.filtrarUsuariosService(filtro);
+    const { filtro,page } = req.query;
+    const usuarios = await UsuariosService.filtrarUsuariosService(filtro,page);
     res.json(usuarios);
   } catch (error) {
     res.status(500).json({

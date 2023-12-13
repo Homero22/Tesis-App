@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-submenus',
   templateUrl: './submenus.component.html',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubmenusComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit() {
-  }
+  constructor(
+
+  ) { }
+
+
+  ngOnInit() {}
+
+
 
 }

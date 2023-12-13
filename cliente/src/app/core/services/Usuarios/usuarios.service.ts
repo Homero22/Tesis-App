@@ -8,7 +8,8 @@ import { MiCuentaModel, MiCuentaModelBody } from "../../models/usuarios/miCuenta
 import { UsuarioEditadoModel, UsuarioModel, UsuariosModel, UsuariosModelBody } from "../../models/usuarios/usuariosModel";
 import { DataCentralizada, UsuarioCentralizadaModel } from "../../models/usuarios/usuarioCentralizadaModel";
 import { DataMetadata } from "../../models/metadata";
-import { Subject, takeUntil } from "rxjs";
+import { BehaviorSubject, Subject, takeUntil } from "rxjs";
+import Swal from "sweetalert2";
 
 @Injectable({
     providedIn: 'root'
@@ -46,13 +47,23 @@ export class UsuariosService{
       str_usuario_telefono:''
     }
 
+    initUsuario:UsuariosModelBody={
+      int_usuario_id:0,
+      str_usuario_nombres:'',
+      str_usuario_apellidos:'',
+      str_usuario_email:'',
+      str_usuario_cedula:'',
+      str_usuario_estado:'',
+      str_usuario_telefono:''
+    }
+
     usuarios! : UsuariosModelBody [];
     metaData!: DataMetadata;
 
     private dataMetadata$ = new Subject<DataMetadata>();
     private destroy$ = new Subject<any>();
     private dataUsuarios$ = new Subject<UsuariosModelBody[]>();
-
+    private updateUsuario$ = new BehaviorSubject<UsuariosModelBody>( this.initUsuario);
 
     setDataMetadata(data:DataMetadata){
       this.dataMetadata$.next(data);
@@ -66,6 +77,13 @@ export class UsuariosService{
     }
     get selectUsuarios$(){
       return this.dataUsuarios$.asObservable();
+    }
+
+    setUpdateUsuario(data:UsuariosModelBody){
+      this.updateUsuario$.next(data);
+    }
+    get selectUpdateUsuario$(){
+      return this.updateUsuario$.asObservable();
     }
 
 
@@ -116,9 +134,10 @@ export class UsuariosService{
         )
     }
     //Buscar usuario
-    buscarUsuario(_texto:string){
+    buscarUsuario(_texto:string,page : number){
       let httpParams = new HttpParams()
       .set("texto",_texto)
+      .set("page",page);
       return this.http.get<UsuariosModel>(`${this.urlApi_buscar_usuario}`,
         {
           params: httpParams,
@@ -129,9 +148,10 @@ export class UsuariosService{
     }
 
     //Filtrar usuarios
-    filtrarUsuarios(_filtro:string){
+    filtrarUsuarios(_filtro:string, page : number){
       let httpParams = new HttpParams()
       .set("filtro",_filtro)
+      .set("page",page);
       return this.http.get<UsuariosModel>(`${this.urlApi_filtrar_usuario}`,
         {
           params: httpParams,
@@ -176,7 +196,53 @@ export class UsuariosService{
           this.setUsuarios(this.usuarios)
         },
         error:(err)=>{
-          console.log('Error',err)
+          Swal.fire({
+            icon:'error',
+            title:'Ha ocurrido un error',
+            text:err.error.message
+          })
+        }
+      })
+    }
+
+    //funcion general de buscar usuarios
+    buscarUsuariosGeneral(_texto:string, page:number){
+      this.buscarUsuario(_texto,page)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next:(data: UsuariosModel)=>{
+          this.usuarios = data.body;
+          this.metaData = data.metadata;
+          this.setDataMetadata(this.metaData)
+          this.setUsuarios(this.usuarios)
+        },
+        error:(err)=>{
+          Swal.fire({
+            icon:'error',
+            title:'Ha ocurrido un error',
+            text:err.error.message
+          })
+        }
+      })
+    }
+
+    //funcion general de filtrar usuarios
+ filtrarUsuariosGeneral(_filtro:string,page : number){
+      this.filtrarUsuarios(_filtro,page)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next:(data: UsuariosModel)=>{
+          this.usuarios = data.body;
+          this.metaData = data.metadata;
+          this.setDataMetadata(this.metaData)
+          this.setUsuarios(this.usuarios)
+        },
+        error:(err)=>{
+          Swal.fire({
+            icon:'error',
+            title:'Ha ocurrido un error',
+            text:err.error.message
+          })
         }
       })
     }

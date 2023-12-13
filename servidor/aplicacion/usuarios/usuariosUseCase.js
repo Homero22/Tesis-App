@@ -180,23 +180,20 @@ const desactivarUsuarioService = async (id) => {
   }
   return false;
 };
-const buscarUsuarioService = async (texto) => {
+const buscarUsuarioService = async (texto,page) => {
+  //convierto page en numero
+  page = parseInt(page);
   //llamo a repositorio para buscar el usuario dado el texto
-  const usuarios = await usuarioRepository.buscarUsuario(texto);
+  const {usuarios, totalUsuarios} = await usuarioRepository.buscarUsuario(texto,page);
   if (usuarios.length > 0) {
+    const metadata = paginacion(page, 10, totalUsuarios);
    return {
       status: true,
       message: "Usuarios encontrados",
       body: usuarios,
       metadata: {
-        pagination:{
-          previousPage: 0,
-          currentPage: 1,
-          nextPage: null,
-          total: usuarios.length,
-          limit: usuarios.length,
-        }
-      },
+        pagination:metadata
+      }
    }
   }else{
     return {
@@ -217,23 +214,20 @@ const buscarUsuarioService = async (texto) => {
 
 }
 
-const filtrarUsuariosService = async (texto) => {
+const filtrarUsuariosService = async (texto,page) => {
+  //convierto page en numero
+  page = parseInt(page);
   //llamo a repositorio para buscar el usuario dado el texto
-  const usuarios = await usuarioRepository.filtrarUsuarios(texto);
+  const {usuarios,totalUsuarios} = await usuarioRepository.filtrarUsuarios(texto,page);
   if (usuarios.length > 0) {
+    const metadata = paginacion(page, 10, totalUsuarios);
     return {
       status: true,
       message: "Usuarios encontrados",
       body: usuarios,
       metadata: {
-        pagination:{
-          previousPage: 0,
-          currentPage: 1,
-          nextPage: null,
-          total: usuarios.length,
-          limit: usuarios.length,
-        }
-      },
+        pagination:metadata
+      }
     }
   }else{
     return {
