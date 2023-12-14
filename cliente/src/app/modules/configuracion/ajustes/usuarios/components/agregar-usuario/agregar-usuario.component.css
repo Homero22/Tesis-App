@@ -1,0 +1,12 @@
+
+
+.btnSearch{
+  color: #000;
+}
+
+.btnSearch:hover {
+  background-color: var(--color-accent);
+  color: #000;
+}
+
+

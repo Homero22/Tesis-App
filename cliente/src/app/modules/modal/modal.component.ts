@@ -17,12 +17,10 @@ export class ModalComponent implements OnInit{
   ) { }
 
   ngOnInit():void {
-    console.log("ngOnInit modal");
     this.srvModal.selectFormModal$
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next:(data)=>{
-        console.log("formulario en modal.comp",data);
         this.tipoFormulario = data.formulario;
         this.titleModal = data.title;
         this.triggerModal = data.special;

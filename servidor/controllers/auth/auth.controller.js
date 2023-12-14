@@ -8,7 +8,6 @@ const validarAuth = async (req, res) => {
 
     //enviar los datos al caso de uso
     const respuesta = await  authUseCase.validarUsuarioDeXml(xmlDatosCas);
-    console.log("Respuesta: ", respuesta)
 
     if (respuesta === false) {
       return res.json({
@@ -21,11 +20,13 @@ const validarAuth = async (req, res) => {
       const token = respuesta.token;
 
       //Agrego a la cookie
+      
       res.cookie("token", token, { 
         httpOnly: true,
         secure: true,
         sameSite: "none",
       });
+      
       return res.json({
         status: "success",
         message: "Usuario autorizado",

@@ -25,3 +25,8 @@ export const jwtVariables={
 export const serviciosExternos = {
     urlServicioCentralizado: "https://centralizada2.espoch.edu.ec/rutadinardap/obtenerpersona/",
 }
+
+
+  
+
+

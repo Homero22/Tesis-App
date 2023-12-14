@@ -4,6 +4,9 @@ import { sequelize } from "./database/postgres.js";
 import { configuracionInicial } from "./aplicacion/configuracion/configuracionInicialUseCase.js";
 import https from "https";
 import fs from "fs";
+
+
+
 async function main(port) {
   try {
     //Conectarse a la base de datos
@@ -16,7 +19,7 @@ async function main(port) {
       //Iniciar el servidor
       app.listen(port, () => {
         console.log(
-          `Servidor produccion escuchando en http://localhost:${port}`
+          `Servidor produccion escuchando en el puerto ${port}`
         );
       });
     } else {
