@@ -18,6 +18,7 @@ export class EditarMenuComponent implements OnInit {
   nombreMenuPadre!: string;
   iconoAux!: string;
   isLoading: boolean = false;
+  idMenuPadre!: number;
   constructor(
     public srvMenus : MenusService,
     public srvModal: ModalService,
@@ -28,7 +29,7 @@ export class EditarMenuComponent implements OnInit {
       str_menu_icono:[
       null,
     ],
-    int_menu_padre:[
+    int_menu_padre_id:[
       null,
     ],
     str_menu_nombre:[
@@ -42,7 +43,10 @@ export class EditarMenuComponent implements OnInit {
     str_menu_path:[
       null,
       [Validators.required],
-    ]
+    ],
+    int_menu_id:[
+      null,
+    ],
     });
    }
 
@@ -60,11 +64,15 @@ export class EditarMenuComponent implements OnInit {
     this.srvMenus.selectUpdateMenu$
     .subscribe({
       next:(res:any)=>{
+        console.log("res",res);
         this.myForm.controls['str_menu_nombre'].setValue(res.str_menu_nombre);
         this.myForm.controls['str_menu_descripcion'].setValue(res.str_menu_descripcion);
         this.myForm.controls['str_menu_path'].setValue(res.str_menu_path);
         this.myForm.controls['str_menu_icono'].setValue(res.str_menu_icono);
-        this.myForm.controls['int_menu_padre'].setValue(res.int_menu_padre);
+        this.myForm.controls['int_menu_id'].setValue(res.int_menu_id);
+        this.myForm.controls['int_menu_padre_id'].setValue(res.int_menu_padre_id);
+
+        this.idMenuPadre = res.int_menu_padre_id;
       },
       error:(err:any)=>{
         console.log(err);
@@ -72,6 +80,8 @@ export class EditarMenuComponent implements OnInit {
     });
     this.iconoAux = this.myForm.controls['str_menu_icono'].value;
     this.obtenerMenuPadre();
+
+
 
   }
   onIconSelect( event: any ){
@@ -91,7 +101,50 @@ export class EditarMenuComponent implements OnInit {
   }
 
   modifyMenu(){
-
+    Swal.fire({
+      title: '¿Estas seguro de modificar el menu?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Modificar`,
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.srvMenus.editarMenu(this.myForm.value)
+        .subscribe({
+          next:(res:any)=>{
+            if(res.status == true){
+            Swal.fire({
+              icon: 'success',
+              title: 'Menu modificado correctamente',
+            });
+          }else{
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al modificar el menu',
+              text: res.message,
+            });
+          }
+          },
+          error:(err:any)=>{
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al modificar el menu',
+              text: err.error.message,
+            });
+          },
+          complete:()=>{
+            this.myForm.reset();
+            this.srvModal.closeModal();
+            this.srvMenus.obtenerMenus({
+              page: 1,
+              limit: 10,
+            });
+          }
+        });
+      } else if (result.isDenied) {
+        Swal.fire('Los cambios no se guardaron', '', 'info')
+      }
+    });
   }
 
 

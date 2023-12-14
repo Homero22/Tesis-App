@@ -46,8 +46,7 @@
               <div class="container-Select">
                 <select formControlName="int_menu_padre_id" id="menuPadreSelect">
                   <option value="default" selected hidden>Seleccione una Opción</option>
-                  <!-- Iterar sobre la lista de menús y crear una opción para cada uno -->
-                  <option *ngFor="let menu of srvMenus.agregarMenuPadre" [value]="menu.int_menu_id" >
+                  <option *ngFor="let menu of srvMenus.allmenus" [value]="menu.int_menu_id" >
                     {{ menu.str_menu_nombre }}
                   </option>
                 </select>

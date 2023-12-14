@@ -120,7 +120,7 @@
               </label>
             </div>
           </td>
-          <td>{{ menu.str_menu_descripcion.toUpperCase() }}</td>
+          <td (click)="menuSeleccionado(menu)">{{ menu.str_menu_descripcion.toUpperCase() }}</td>
           <td *ngIf="menu.str_menu_estado === 'ACTIVO'">
             <div class="estado">
               <div class="activo">
@@ -128,7 +128,7 @@
               </div>
             </div>
           </td>
-          <td *ngIf="menu.str_menu_estado === 'INACTIVO'">
+          <td (click)="menuSeleccionado(menu)" *ngIf="menu.str_menu_estado === 'INACTIVO'">
             <div class="estado">
               <div class="inactivo">
                 {{ menu.str_menu_estado }}

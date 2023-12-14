@@ -164,10 +164,12 @@ const crearMenuService = async (
     
     return respuesta;
 };
-const actualizarMenuService = async (nombre, path, icono, descripcion, id_menu_padre) => {
+const actualizarMenuService = async (id, nombre, path, icono, descripcion, id_menu_padre) => {
     let respuesta = {};
-    //comprobar que el id_menu_padre sea un numero y no sea decimal
-    if (isNaN(id_menu_padre) || id_menu_padre % 1 != 0) {
+    console.log(id);
+    console.log(id_menu_padre)
+    //comprobar que el id_menu_padre sea un numero entero
+    if(isNaN(id_menu_padre) || isNaN(id)){
         respuesta = {
         status: false,
         message: "El id_menu_padre debe ser un número entero",
@@ -175,20 +177,7 @@ const actualizarMenuService = async (nombre, path, icono, descripcion, id_menu_p
         };
         return respuesta;
     }
-    
-    //comprobar que el menu no exista
-    const menuEncontrado = await menuRepository.comprobarMenuPorNombre(
-        nombre
-    );
-    
-    if (menuEncontrado) {
-        respuesta = {
-        status: false,
-        message: "El menu ya existe",
-        body: [],
-        };
-        return respuesta;
-    }
+
     
     //creo el objeto
     const menu = {
@@ -200,7 +189,7 @@ const actualizarMenuService = async (nombre, path, icono, descripcion, id_menu_p
     };
     
     //actualizar el menu
-    const menuActualizado = await menuRepository.actualizarMenu(menu);
+    const menuActualizado = await menuRepository.actualizarMenu(id,menu);
     
     if (menuActualizado) {
         respuesta = {
@@ -254,13 +243,13 @@ const desactivarMenuService = async (id) => {
     if (menuDesactivado) {
         return {
         status: true,
-        message: "Menu desactivado",
+        message: "Se ha cambiado el estado del menú",
         body: menuDesactivado,
         };
     } else {
         return{
         status: false,
-        message: "No se pudo desactivar el menu",
+        message: "No se pudo cambiar el estado del menú",
         body: [],
         };
     }
@@ -329,6 +318,22 @@ const buscarMenuService = async ( texto,page) => {
         }
     }
 };
+const obtenerMenusSinPaginacionService = async () => {
+    const menus = await menuRepository.getAllMenus();
+    if (menus.length > 0) {
+        return {
+        status: true,
+        message: "Menus encontrados",
+        body: menus,
+        };
+    }
+    return {
+        status: false,
+        message: "No se encontraron menus",
+        body: [],
+    };
+
+};
 
 export default {
     obtenerMenusService,
@@ -339,4 +344,5 @@ export default {
     desactivarMenuService,
     filtrarMenusService,
     buscarMenuService,
+    obtenerMenusSinPaginacionService
 };

@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 export class MenusService {
 
   private urlApi_menus: string = config.URL_API_BASE + "menus";
+  private urlApi_all_menus: string = config.URL_API_BASE + "menus/all";
   private urlApi_desactivar_menu: string = config.URL_API_BASE + "menus/desactivar";
   private urlApi_buscar_menu: string = config.URL_API_BASE + "menus/buscar";
   private urlApi_filtrar_menu: string = config.URL_API_BASE + "menus/filtrar";
@@ -21,6 +22,7 @@ export class MenusService {
   constructor(private http: HttpClient) {}
 
   menus!: MenusModelBody[];
+  allmenus!: MenusModelBody[];
   metaData!: DataMetadata;
   menuSeleccionado!: MenusModelBody;
   agregarMenuPadre!: MenusModelBody[];
@@ -49,6 +51,7 @@ export class MenusService {
   private dataMetadata$ = new Subject<DataMetadata>();
   private destroy$ = new Subject<any>();
   private dataMenus$ = new Subject<MenusModelBody[]>();
+  private dataAllMenus$ = new Subject<MenusModelBody[]>();
   private updateMenu$ = new BehaviorSubject<MenusModelBody>({
     // Update this based on your menu model
     int_menu_id: 0,
@@ -108,12 +111,26 @@ export class MenusService {
     return this.dataMenus$.asObservable();
   }
 
+  setAllMenus(data: MenusModelBody[]) {
+    this.dataAllMenus$.next(data);
+  }
+
+  get selectAllMenus$() {
+    return this.dataAllMenus$.asObservable();
+  }
+
   getMenus(params: any) {
     let httpParams = new HttpParams()
       .set("page", params.page)
       .set("limit", params.limit);
     return this.http.get<MenusModel>(this.urlApi_menus, {
       params: httpParams,
+      withCredentials: true,
+    });
+  }
+  //obtener todos los menus sin paginacion para el select
+  getAllMenus() {
+    return this.http.get<MenusModel>(this.urlApi_all_menus, {
       withCredentials: true,
     });
   }
@@ -124,12 +141,11 @@ export class MenusService {
   }
 
 
-  editarMenu(_id: number, _nombre: string, _descripcion: string) {
+  editarMenu(menu: MenusModelBody) {
     return this.http.put<MenusModel>(
-      `${this.urlApi_menus}/${_id}`,
+      `${this.urlApi_menus}/${menu.int_menu_id}`,
       {
-        nombre: _nombre,
-        descripcion: _descripcion,
+        menu,
       },
       {
         withCredentials: true,
@@ -277,6 +293,26 @@ export class MenusService {
           this.idMenuPadre = _id;
           console.log("1",data.body.str_menu_nombre)
           this.setNombreMenuPadre(this.nombreMenuPadre);
+        },
+        error: (err) => {
+          Swal.fire({
+            icon:'error',
+            title:'Ha ocurrido un error',
+            text:err.error.message
+          })
+        },
+      });
+  }
+
+  obtenerAllMenus() {
+    console.log("entro")
+    this.getAllMenus()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data: MenusModel) => {
+          this.allmenus = data.body;
+          this.setAllMenus(this.allmenus);
+          console.log("all",this.allmenus)
         },
         error: (err) => {
           Swal.fire({

@@ -44,9 +44,9 @@
             <div  class="containerInfo">
               <label for="dependencia">Menú Padre</label>
               <div class="container-Select">
-                  <select formControlName="int_menu_padre" id="menuPadreSelect" [ngModel]="nombreMenuPadre">
-                    <option [value]="nombreMenuPadre">{{nombreMenuPadre}}</option>
-                    <option *ngFor="let menu of srvMenus.menus" [value]="menu.int_menu_id">
+                  <select formControlName="int_menu_padre_id" id="menuPadreSelect">
+                    <option [value]="idMenuPadre">{{nombreMenuPadre}}</option>
+                    <option *ngFor="let menu of srvMenus.allmenus" [value]="menu.int_menu_id">
                       {{ menu.str_menu_nombre }}
                     </option>
                   </select>

@@ -42,6 +42,7 @@ export class MenusComponent implements OnInit {
   filtroActual: string = 'Ver todo';
 
   ngOnInit() {
+    this.srvMenus.obtenerAllMenus();
     this.request = true;
     setTimeout(() => {
       this.isLoading = false;
@@ -89,6 +90,7 @@ export class MenusComponent implements OnInit {
     this.srvMenus.setUpdateMenu(menu);
     this.srvMenus.obtenerMenuPadre(menu.int_menu_padre_id);
     this.srvModal.setFormModal(this.elementForm);
+    this.srvMenus.obtenerAllMenus();
     this.srvModal.openModal();
   }
 
@@ -248,6 +250,7 @@ export class MenusComponent implements OnInit {
 
     this.srvMenus.setMenuSeleccionado(menu);
     this.srvMenus.obtenerSubmenus(menu.int_menu_id);
+    this.srvMenus.obtenerAllMenus();
     this.srvMenus.agregarMenuPadre =[menu]
 
     this.mostrarMenuPrincipal = false;

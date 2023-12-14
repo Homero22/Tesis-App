@@ -31,11 +31,25 @@ export class AgregarMenuComponent implements OnInit {
       str_menu_icono: [''],
     });
    }
+   isLoading: boolean = true;
 
   ngOnInit(
 
+
   ) {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 400);
+    Swal.fire({
+      title: 'Cargando...',
+      timer: 800,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    });
   }
+
+  
   agregarMenu(){
     let intMenuPadre = this.myForm.get('int_menu_padre_id')?.value;
     intMenuPadre= parseInt(intMenuPadre);

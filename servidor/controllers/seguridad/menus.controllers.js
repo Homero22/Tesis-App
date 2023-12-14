@@ -13,6 +13,18 @@ const obtenerMenus = async (req, res) => {
         });
     }
 };
+const obtenerMenusSinPaginacion = async (req, res) => {
+    try {
+        const menus = await menusUseCase.obtenerMenusSinPaginacionService();
+        res.json(menus);
+    } catch (error) {
+        res.status(500).json({
+        status: false,
+        message: "Error en el servidor" + error,
+        body: [],
+        });
+    }
+};
 const obtenerMenu = async (req, res) => {
     try {
         const { id } = req.params;
@@ -92,17 +104,18 @@ const filtrarMenus = async (req, res) => {
 
 const actualizarMenu = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { nombre, path, icono, descripcion, id_menu_padre } = req.body;
-        const menu = await menusUseCase.actualizarMenuService(
+        let { id } = req.params;
+        const{menu} = req.body;
+        console.log("h",menu.str_menu_nombre);
+        const menuE = await menusUseCase.actualizarMenuService(
         id,
-        nombre,
-        path,
-        icono,
-        descripcion,
-        id_menu_padre
+        menu.str_menu_nombre,
+        menu.str_menu_path,
+        menu.str_menu_icono,
+        menu.str_menu_descripcion,
+        menu.int_menu_padre_id,
         );
-        res.json(menu);
+        res.json(menuE);
     } catch (error) {
         res.status(500).json({
         status: false,
@@ -115,7 +128,6 @@ const actualizarMenu = async (req, res) => {
 const desactivarMenu = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log(id);
         const menu = await menusUseCase.desactivarMenuService(id);
         res.json(menu);
     } catch (error) {
@@ -138,4 +150,5 @@ export default {
     filtrarMenus,
     actualizarMenu,
     desactivarMenu,
+    obtenerMenusSinPaginacion
 };
