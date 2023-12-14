@@ -1,11 +1,17 @@
 import {Router} from 'express';
-import menusControllers from '../../controllers/seguridad/menus.controllers.js';
+import menusController from '../../controllers/seguridad/menus.controllers.js';
 
 const router = Router();
 
-router.get('/', menusControllers.obtenerMenus);
-router.get('/:id', menusControllers.obtenerMenu);
-router.get('/submenus/:id', menusControllers.obtenerSubmenus);
-router.post('/', menusControllers.crearMenu);
+router.get("/", menusController.obtenerMenus);
+router.get("/all", menusController.obtenerMenusSinPaginacion);
+router.get("/buscar", menusController.buscarMenu);
+router.get("/filtrar", menusController.filtrarMenus);
+router.get("/:id", menusController.obtenerMenu);
+router.post("/", menusController.crearMenu);
+router.put("/:id", menusController.actualizarMenu);
+router.put("/desactivar/:id", menusController.desactivarMenu);
+router.get("/submenus/:id", menusController.obtenerSubmenus);
 
-export default router;
+
+export default router; 

@@ -1,3 +1,17 @@
+<div class="cont-filter">
+    <app-search
+    [placeholder]="placeholder"
+    [filtrando]="filtrando"
+    (search)="buscarUsuario($event)"
+    (buscando)="buscando = $event"
+    >
+    </app-search>
+    <app-filter
+      [filtros]="filtros"
+      [buscando]="buscando"
+      (filtroSeleccionado)="filtrarUsuario($event)"
+    ></app-filter>
+</div>
 <div class="tabla-cuerpo">
   <div class="containerNoData" *ngIf="!isData && !isLoading">
     <div
@@ -23,7 +37,6 @@
       </h6>
     </div>
   </div>
-
   <div class="tableBo" *ngIf="isData">
     <table class="table table-striped tabla-estilos">
       <thead>
@@ -52,7 +65,7 @@
       <tbody>
         <tr
           class="pru color"
-          *ngFor="let usuario of UsuariosService.dataUsuarios; let i = index"
+          *ngFor="let usuario of UsuariosService.usuarios; let i = index"
         >
           <td scope="row">{{ i + 1 }}</td>
           <td class="user">
@@ -92,13 +105,13 @@
             </div>
           </td>
           <td>
-            <button class="btn btn-primary"  (click)="editarUsuario(usuario.int_usuario_id, 'Editar Usuario', 'editarUsuario')" >
+            <button class="btn btn-primary"  (click)="editarUsuario(usuario, 'Editar Usuario', 'editarUsuario')" >
               <i class="material-icons"> create </i>
             </button>
-            <button *ngIf="usuario.str_usuario_estado =='ACTIVO'" class="btn btn-danger"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
+            <button *ngIf="usuario.str_usuario_estado =='ACTIVO' " class="btn btn-danger"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
               <i class="material-icons"> delete </i>
             </button>
-            <button *ngIf="usuario.str_usuario_estado =='INACTIVO'" class="btn btn-loop"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
+            <button *ngIf="usuario.str_usuario_estado =='INACTIVO' " class="btn btn-loop"   (click)="cambiarEstado(usuario.int_usuario_id, usuario.str_usuario_estado)">
               <i class="material-icons"> loop </i>
             </button>
           </td>
@@ -106,4 +119,14 @@
       </tbody>
     </table>
   </div>
+  <div class="pagi" *ngIf="isData">
+    <app-pagination
+      [dataLength]="this.metadata.pagination.total"
+      [metadata]="metadata"
+      [currentPage]="currentPage"
+      (changePage)="changePage($event)"
+    >
+    </app-pagination>
+  </div>
+
 </div>

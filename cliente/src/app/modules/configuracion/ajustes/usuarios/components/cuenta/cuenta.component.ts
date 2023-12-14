@@ -26,12 +26,10 @@ export class CuentaComponent implements OnInit {
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next:(_me)=>{
-        console.log("me",_me )
         Swal.close();
         if(_me.body){
           this.isData = true;
           this.servicioUsuario.dataMiCuenta = _me.body;
-          console.log("Datos recibidos :->",this.servicioUsuario.dataMiCuenta);
         }
       },
       error:(error)=>{

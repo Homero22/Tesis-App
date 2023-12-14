@@ -2,7 +2,8 @@ import rolesUseCase from "../../aplicacion/seguridad/rolesUseCase.js";
 
 const obtenerRoles = async (req, res) => {
   try {
-    const roles = await rolesUseCase.obtenerRolesService();
+    const query = req.query;
+    const roles = await rolesUseCase.obtenerRolesService(query);
     res.json(roles);
   } catch (error) {
     res.status(500).json({
@@ -55,10 +56,54 @@ const actualizarRol = async (req, res) => {
         });
     }
 }
+const desactivarRol = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const rol = await rolesUseCase.desactivarRolService(id);
+        res.json(rol);
+    } catch (error) {
+        res.status(500).json({
+        status: false,
+        message: "Error en el servidor" + error,
+        body: [],
+        });
+    }
+}
+const buscarRol = async (req, res) => {
+    try {
+        const { texto,page } = req.query;
+
+        const rol = await rolesUseCase.buscarRolService(texto,page);
+        res.json(rol);
+    } catch (error) {
+        res.status(500).json({
+        status: false,
+        message: "Error en el servidor" + error,
+        body: [],
+        });
+    }
+}
+const filtrarRoles = async (req, res) => {
+    try {
+        const { filtro,page } = req.query;
+        const roles = await rolesUseCase.filtrarRolesService(filtro,page);
+        res.json(roles);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+        status: false,
+        message: "Error en el servidor" + error,
+        body: [],
+        });
+    }
+}
 
 export default {
     obtenerRoles,
     obtenerRol,
     crearRol,
-    actualizarRol
+    actualizarRol,
+    desactivarRol,
+    buscarRol,
+    filtrarRoles,
 };

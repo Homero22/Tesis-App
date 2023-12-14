@@ -1,0 +1,39 @@
+
+<div class="container-Form">
+  <form [formGroup]="myForm">
+
+  <div class="containerItems">
+
+    <div class="cont-Rol_Name">
+
+      <div class="container-Name">
+        <!--Div text-RolName -->
+        <div class="rolName-Text">
+          <label class="lbl-info" for="nombre">Nombre:</label>
+        </div>
+        <!-- Div input-RolName -->
+        <div class="rolName-Input">
+          <input class="inp-info" type="text"  placeholder="Nombre del Rol" formControlName="nombre">
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="cont-Rol_Description">
+
+      <!-- Div Text-RolDescription -->
+      <div class="rolDescription-Text">
+        <label class="lbl-info" for="nombre">Descripción:</label>
+      </div>
+      <!-- Div Input-RolDescription -->
+      <div class="rolDescription-Input">
+        <input class="inp-info" type="text"  placeholder="Descripción del Rol" formControlName="descripcion">
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-primary-add" (click)="modifyRol()" >Guardar</button>
+  </form>
+</div>

@@ -1,8 +1,11 @@
+import { DataMetadata } from "../metadata";
+
 //Usuarios
 export interface UsuariosModel {
   status: boolean;
   message: string;
   body: UsuariosModelBody[];
+  metadata: DataMetadata;
 }
 export interface UsuariosModelBody {
   int_usuario_id:number;
@@ -12,7 +15,6 @@ export interface UsuariosModelBody {
   str_usuario_cedula:string;
   str_usuario_estado:string;
   str_usuario_telefono:string;
-  editando?:boolean;
 }
 
 //Modelo cuando devuelve un usuario editado

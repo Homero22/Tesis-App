@@ -1,0 +1,66 @@
+<div class="body-Form">
+
+  <form [formGroup]="myForm" class="formFather">
+
+      <div class="container-DataInfoFind">
+
+            <div class="containerInfo">
+              <label for="nombre">Nombre</label>
+              <div class="container-Input">
+                <input type="text" required formControlName="str_menu_nombre"
+                 placeholder="Ingrese el Nombre del Menú" >
+              </div>
+            </div>
+
+            <div class="containerInfo">
+              <label>Path</label>
+              <div class="container-Input">
+                <input type="text"required formControlName="str_menu_path"
+                 placeholder="Ingrese la Dirección URL del Menú">
+              </div>
+            </div>
+
+            <div class="containerInfo">
+              <label for="Descripción">Descripción</label>
+              <div class="container-Input">
+                <input type="text" required formControlName="str_menu_descripcion"
+                 placeholder="Ingrese la Descripción del Menú" >
+              </div>
+            </div>
+
+            <div   class="containerInfo">
+              <label for="icono">Icono</label>
+              <div class="container-Select">
+                  <select  (change)="onIconSelect($event)" formControlName="str_menu_icono">
+                     <option value="default" selected hidden>Seleccione una Opción</option>
+                    <option *ngFor="let op of srvMenus.icons">
+                     {{op}}
+                    </option>
+                  </select>
+                  <i class="material-icons"> {{myForm.value.str_menu_icono}} </i>
+                </div>
+            </div>
+
+            <div class="containerInfo">
+              <label for="MenuPadre">Menú Padre</label>
+              <div class="container-Select">
+                <select formControlName="int_menu_padre_id" id="menuPadreSelect">
+                  <option value="default" selected hidden>Seleccione una Opción</option>
+                  <option *ngFor="let menu of srvMenus.allmenus" [value]="menu.int_menu_id" >
+                    {{ menu.str_menu_nombre }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+      </div>
+
+
+        <div class="cont">
+          <button  (keydown.enter)="agregarMenu()" type="submit" class="btn-primary-add" (click)="agregarMenu()"
+          [disabled]="myForm.invalid">Guardar</button>
+        </div>
+
+    </form>
+</div>

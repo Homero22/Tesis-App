@@ -1,9 +1,27 @@
 //Casos de uso referente a un usuario
 import usuarioRepository from "../../repositories/seguridad/usuarioRepository.js";
 import { serviciosExternos } from "../../configuracion/variablesGlobales.js";
+import { configVariables } from "../../configuracion/variablesGlobales.js";
 import fetch from "node-fetch"; //para consumir una API
 import https from "https";
-const agent = new https.Agent({ rejectUnauthorized: true }); //Validar credenciales
+import crypto from "crypto";
+import {
+  paginacion,
+  obtenerDataQueryPaginacion,
+  validarPaginacion,
+} from "../utils/paginacion.utils.js";
+
+// Configurar el agente HTTPS
+const httpsAgentOptions = {
+  secureOptions: crypto.constants.SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION,
+};
+
+// Verificar si estamos en entorno de desarrollo
+if (configVariables.env === "development") {
+  httpsAgentOptions.rejectUnauthorized = false;
+}
+
+const httpsAgent = new https.Agent(httpsAgentOptions);
 
 //Obtener datos de mi Cuenta de usuario
 
@@ -14,26 +32,54 @@ const obtenerDatosMiCuentaService = async (cedula) => {
   }
   //obtener los datos del usuario por cédula
   const datosUsuario = await usuarioRepository.getUsuarioPorCedula(cedula);
-  
 
   if (datosUsuario) {
     return datosUsuario;
   }
   return false;
 };
-const obtenerUsuariosService = async () => {
-  //obtener todos los usuarios
-  const usuarios = await usuarioRepository.getAllUsers();
-  if (usuarios.length > 0) {
-    return usuarios;
+
+const obtenerUsuariosService = async (query) => {
+  //validar la paginacion
+  const validacion = validarPaginacion(query);
+  if (validacion != true) {
+    return validacion;
   }
-  return false;
+  //obtener los datos de la query
+  const { page, limit } = obtenerDataQueryPaginacion(query);
+
+  //obtener todos los usuarios
+  const usuarios = await usuarioRepository.obtenerUsuariosConPaginacion(
+    page,
+    limit
+  );
+  //obtener el total de registros de usuarios
+  const totalUsuarios = await usuarioRepository.obtenerTotalUsuarios();
+
+  if (usuarios.length > 0) {
+    const metadata = paginacion(page, limit, totalUsuarios);
+    return {
+      status: true,
+      message: "Usuarios encontrados",
+      body: usuarios,
+      metadata: {
+        pagination: metadata,
+      },
+    };
+  }else{
+    return {
+      status: false,
+      message: "No se encontraron usuarios",
+      body: [],
+    }
+  }  
 };
-const crearUsuarioService = async (cedula) => {
+
+const crearUsuarioService = async (cedula,telefono) => {
   let respuesta = {};
   //llamo a la funcion para obtener los datos de un servidor externo
   const datosUsuario = await obtenerDatosServidorExterno(cedula);
-  console.log(datosUsuario);
+
   if (datosUsuario == false) {
     return false;
   }
@@ -43,27 +89,26 @@ const crearUsuarioService = async (cedula) => {
     };
     return respuesta;
   }
-  
-  //creo el objeto usuario
-  const usuario = {
-    str_usuario_nombres: datosUsuario.listado[0].per_nombres,
-    str_usuario_apellidos:
-      datosUsuario.listado[0].per_primerApellido +
-      " " +
-      datosUsuario.listado[0].per_segundoApellido,
-    str_usuario_email: datosUsuario.listado[0].per_email,
-    str_usuario_cedula: cedula,
-    str_usuario_telefono: datosUsuario.listado[0].per_telefonoCelular,
-  };
+
+
   //compruebo si el usuario ya existe
   const usuarioExiste = await usuarioRepository.getUsuarioPorCedula(
-    usuario.str_usuario_cedula
+    datosUsuario.str_usuario_cedula
   );
+  //compruebo que el correo no este registrado
+  const correoExiste = await usuarioRepository.getUsuarioPorCorreo(
+    datosUsuario.str_usuario_email
+  );
+  if (correoExiste) {
+    return 1;
+  }
+
 
   if (usuarioExiste) {
     return 1;
   }
-  const usuarioCreado = await usuarioRepository.createUser(usuario);
+  datosUsuario.str_usuario_telefono = telefono;
+  const usuarioCreado = await usuarioRepository.createUser(datosUsuario);
   return usuarioCreado;
 };
 
@@ -71,12 +116,23 @@ const crearUsuarioService = async (cedula) => {
 const obtenerDatosServidorExterno = async (cedula) => {
   try {
     const url = serviciosExternos.urlServicioCentralizado + cedula;
-    const response = await fetch(url, {agent});
+    const response = await fetch(url, { agent: httpsAgent });
+
     const data = await response.json();
     if (data.success == false) {
       return false;
     }
-    return data;
+    const usuario ={
+      str_usuario_nombres: data.listado[0].per_nombres,
+      str_usuario_apellidos:
+        data.listado[0].per_primerApellido +
+        " " +
+        data.listado[0].per_segundoApellido,
+      str_usuario_email: data.listado[0].per_email,
+      str_usuario_cedula: cedula,
+      str_usuario_telefono: data.listado[0].per_telefonoCelular,
+    }
+    return usuario;
   } catch (error) {
     const errorMessage = {
       err: error.message,
@@ -115,11 +171,103 @@ const desactivarUsuarioService = async (id) => {
     estado = "ACTIVO";
   }
   //llamo a repositorio para desactivar el usuario dado el id
-  const usuarioDesactivado = await usuarioRepository.desactivarUsuario(id, estado);
+  const usuarioDesactivado = await usuarioRepository.desactivarUsuario(
+    id,
+    estado
+  );
   if (usuarioDesactivado) {
     return usuarioDesactivado;
   }
   return false;
+};
+const buscarUsuarioService = async (texto,page) => {
+  //convierto page en numero
+  page = parseInt(page);
+  //llamo a repositorio para buscar el usuario dado el texto
+  const {usuarios, totalUsuarios} = await usuarioRepository.buscarUsuario(texto,page);
+  if (usuarios.length > 0) {
+    const metadata = paginacion(page, 10, totalUsuarios);
+   return {
+      status: true,
+      message: "Usuarios encontrados",
+      body: usuarios,
+      metadata: {
+        pagination:metadata
+      }
+   }
+  }else{
+    return {
+      status: false,
+      message: "No se encontraron usuarios",
+      body: [],
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: usuarios.length,
+          limit: usuarios.length,
+        }
+      },
+    }
+  }
+
+}
+
+const filtrarUsuariosService = async (texto,page) => {
+  //convierto page en numero
+  page = parseInt(page);
+  //llamo a repositorio para buscar el usuario dado el texto
+  const {usuarios,totalUsuarios} = await usuarioRepository.filtrarUsuarios(texto,page);
+  if (usuarios.length > 0) {
+    const metadata = paginacion(page, 10, totalUsuarios);
+    return {
+      status: true,
+      message: "Usuarios encontrados",
+      body: usuarios,
+      metadata: {
+        pagination:metadata
+      }
+    }
+  }else{
+    return {
+      status: false,
+      message: "No se encontraron usuarios",
+      body: [],
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: usuarios.length,
+          limit: usuarios.length,
+        }
+      },
+    }
+  }
+}
+const obtenerUsuariosCentralizadaService = async (cedula) => {
+
+  //llamo a obtenerDatosServidorExterno
+  const datosUsuario = await obtenerDatosServidorExterno(cedula);
+  if(datosUsuario == false){
+    return {
+      status: false,
+      message: "No se encontró el usuario",
+      body: [],
+    }
+  }
+  return  {
+    status: true,
+    message: "Usuario encontrado",
+    body: {
+      nombres: datosUsuario.str_usuario_nombres,
+      apellidos: datosUsuario.str_usuario_apellidos,
+      correo: datosUsuario.str_usuario_email,
+      telefono: datosUsuario.str_usuario_telefono,
+    }
+  }
+
 }
 
 export default {
@@ -129,4 +277,7 @@ export default {
   actualizarUsuarioService,
   obtenerUsuarioService,
   desactivarUsuarioService,
+  buscarUsuarioService,
+  filtrarUsuariosService,
+  obtenerUsuariosCentralizadaService
 };

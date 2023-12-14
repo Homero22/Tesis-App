@@ -13,11 +13,48 @@
           <span style="color:rgb(160, 160, 160);
             font-family: 'Roboto', Arial, sans-serif;
             font-size: 14px;">
-            Configuraciones de tu cuenta
+            De tu cuenta y de la aplicación
           </span>
         </div>
+        <div class="buttonSettings">
+          <div class="btn-agg" *ngIf="this.menuTabsSelected ===1 ">
+            <app-button-modal
+            [tipoModal]="'nuevoMenu'"
+            [titleModal]="'Agregar Menú'"
+            [contenido]="'Nuevo menú  '"
+            [conIcono]="true"
+            [icono]="'add'"
+            [color]="'#1c1917'"
+            >
+            </app-button-modal>
 
-        <!--Completar-->
+          </div>
+          <div class="btn-agg" *ngIf="this.menuTabsSelected ===2 ">
+            <app-button-modal
+            [tipoModal]="'nuevoUsuario'"
+            [titleModal]="'Agregar Usuario'"
+            [contenido]="'Nuevo Usuario '"
+            [conIcono]="true"
+            [icono]="'add'"
+            [color]="'#1c1917'"
+            >
+            </app-button-modal>
+
+          </div>
+          <div class="btn-agg" *ngIf="this.menuTabsSelected ===3 ">
+            <app-button-modal
+            [tipoModal]="'nuevoRol'"
+            [titleModal]="'Agregar Rol'"
+            [contenido]="'Nuevo Rol '"
+            [conIcono]="true"
+            [icono]="'add'"
+            [color]="'#1c1917'"
+            >
+            </app-button-modal>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -47,6 +84,13 @@
                 Usuarios
               </button>
             </div>
+            <!--Roles-->
+            <div class="container-button" id="nav-contact-tab">
+              <button class="nav-link {{this.menuTabsSelected === 3 ? 'active' : isValue == 4}}" id="nav-contact-tab"
+                [routerLink]="'/ajustes/'+baseUrl+'roles'" type="button">
+                Roles
+              </button>
+            </div>
 
         </div>
       </nav>
@@ -61,13 +105,17 @@
 
         <!--Contenido de Menus-->
         <div class="tab-pane fade" id="nav-profile" *ngIf=" this.menuTabsSelected === 1">
-          <app-menu></app-menu>
+          <app-menus></app-menus>
         </div>
 
-          <!-- Usuarios-->
-          <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===2" typeView=true>
+        <!-- Usuarios-->
+        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===2 " typeView="true" >
             <app-usuarios *ngIf="typeView"></app-usuarios>
-          </div>
+        </div>
+
+        <!-- Roles-->
+        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===3 " typeView="true" >
+            <app-roles *ngIf="typeView"></app-roles>
 
       </div>
 

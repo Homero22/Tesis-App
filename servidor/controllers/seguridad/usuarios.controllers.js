@@ -27,19 +27,9 @@ const obtenerDatosMiCuenta = async (req, res) => {
 
 const obtenerUsuarios = async (req, res) => {
   try {
-    const usuarios = await UsuariosService.obtenerUsuariosService();
-    if (!usuarios) {
-      return res.json({
-        status: false,
-        message: "No se encontraron usuarios",
-        body: [],
-      });
-    }
-    res.json({
-      status: true,
-      message: "Usuarios",
-      body: usuarios,
-    });
+    const query = req.query;
+    const usuarios = await UsuariosService.obtenerUsuariosService(query);
+    res.json(usuarios);
   } catch (error) {
     res.status(500).json({
       status: false,
@@ -51,9 +41,8 @@ const obtenerUsuarios = async (req, res) => {
 
 const crearUsuario = async (req, res) => {
   try {
-    const { cedula } = req.body;
-    console.log(cedula);
-    const usuarioCreado = await UsuariosService.crearUsuarioService(cedula);
+    const { cedula,telefono } = req.body;
+    const usuarioCreado = await UsuariosService.crearUsuarioService(cedula,telefono);
 
     if (usuarioCreado == false) {
       return res.json({
@@ -177,11 +166,59 @@ const desactivarUsuario = async (req, res) => {
   }
 }
 
+const buscarUsuario = async (req, res) => {
+  try {
+
+    const {texto,page} = req.query;
+    const usuario = await UsuariosService.buscarUsuarioService(texto,page);
+    console.log(usuario)
+    res.json(usuario);
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error en el servidor" + error,
+      body: [],
+    });
+  }
+}
+const filtrarUsuarios = async (req, res) => {
+  try {
+
+    const { filtro,page } = req.query;
+    const usuarios = await UsuariosService.filtrarUsuariosService(filtro,page);
+    res.json(usuarios);
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error en el servidor" + error,
+      body: [],
+    });
+  }
+}
+const obtenerUsuariosCentralizada = async (req, res) => {
+  try {
+    const { cedula } = req.params;
+    console.log(cedula);
+    const usuario = await UsuariosService.obtenerUsuariosCentralizadaService(cedula);
+    res.json(usuario);
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error en el servidor" + error,
+      body: [],
+    });
+    
+  }
+}
+
 export default {
   obtenerDatosMiCuenta,
   obtenerUsuarios,
   crearUsuario,
   actualizarUsuario,
   obtenerUsuario,
-  desactivarUsuario
+  desactivarUsuario,
+  buscarUsuario,
+  filtrarUsuarios,
+  obtenerUsuariosCentralizada
 };

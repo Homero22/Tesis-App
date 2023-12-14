@@ -1,0 +1,18 @@
+<div class="filtros">
+  <div class="flex-item">
+    <label>
+      Filtros:
+    </label>
+    <select [(ngModel)]="filtroSeleccionadoValor" (change)="seleccionarFiltro()">
+      <option  value="Ver todo">Ver todo</option>
+      <option *ngFor="let filtro of filtros" [value]="filtro">{{ filtro }}</option>
+    </select>
+
+  </div>
+</div>
+
+
+
+
+
+

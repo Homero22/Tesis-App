@@ -1,4 +1,5 @@
 import { Usuario } from "../../models/esquemaSeguridad/usuario.model.js";
+import { Op } from "sequelize";
 
 
 const getAllUsers = async () => {
@@ -12,9 +13,15 @@ const getAllUsers = async () => {
 
 const obtenerUsuariosConPaginacion = async (pagina, cantidad) => {
     try {
+
+        const skip = (pagina - 1) * cantidad;
+        //devolver los usuarios con dt_fecha_actualizacion mas reciente
         const usuarios = await Usuario.findAll({
-            offset: pagina,
-            limit: cantidad
+            offset: skip,
+            limit: cantidad,
+            order: [
+                ['dt_fecha_actualizacion', 'DESC']
+            ]
         });
         return usuarios;
     } catch (error) {
@@ -44,11 +51,25 @@ const getUsuarioPorCedula = async (cedula) => {
         console.log(error);
     }
 }
+const getUsuarioPorCorreo = async (correo) => {
+    try {
+        const usuario = await Usuario.findOne({
+            where: {
+                str_usuario_email: correo
+            },
+            raw: true
+        });
+        return usuario;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const actualizarTelefonoUsuario = async (id, telefono) => {
     try {
         const usuarioActualizado = await Usuario.update({
-            str_usuario_telefono: telefono
+            str_usuario_telefono: telefono,
+            dt_fecha_actualizacion: new Date()
         }, {
             where: {
                 int_usuario_id: id
@@ -78,7 +99,8 @@ const obtenerUsuarioPorId = async (id) => {
 const desactivarUsuario = async (id,estado) => {
     try {
         const usuarioDesactivado = await Usuario.update({
-            str_usuario_estado: estado
+            str_usuario_estado: estado,
+            dt_fecha_actualizacion: new Date()
         }, {
             where: {
                 int_usuario_id: id
@@ -89,7 +111,198 @@ const desactivarUsuario = async (id,estado) => {
         console.log(error);
     }
 }
+const obtenerTotalUsuarios = async () => {
+    try {
+        const totalUsuarios = await Usuario.count();
+        return totalUsuarios;
+    } catch (error) {
+        console.log(error);
+    }
+}
+const buscarUsuario = async (texto, page) => {
+    try {
+        const skip = (page - 1) * 10;
+        //debo buscar o por nombre o por apellido o por cedula o por correo o por telefono o estado con ilike
+        const usuarios = await Usuario.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        str_usuario_nombres: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_apellidos: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_cedula: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_email: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_telefono: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_estado: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    }
+                ]
+            },
+            order:[
+                ['dt_fecha_actualizacion','DESC']
+            ],
+            offset: skip,
+            limit: 10
+        });
+        //obtener la cantidad de registros con el texto
+        const totalUsuarios = await Usuario.count({
+            where: {
+                [Op.or]: [
+                    {
+                        str_usuario_nombres: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_apellidos: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_cedula: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_email: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_telefono: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_estado: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    }
+                ]
+            }
+        });
+        const data = {
+            usuarios,
+            totalUsuarios
+        }
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+const filtrarUsuarios = async (texto,page) => {
+    try {
+        //debo buscar o por nombre o por apellido o por cedula o por correo o por telefono o estado con  like
+         const skip = (page - 1) * 10;   
+        const usuarios = await Usuario.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        str_usuario_nombres: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_apellidos: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_cedula: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_email: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_telefono: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_estado: {
+                            [Op.like]: `${texto}`
+                        }
+                    }
+                ]
+            },
+            order:[
+                ['dt_fecha_actualizacion','DESC']
+            ],
+            offset: skip,
+            limit: 10 
+        });
 
+        //contar cuantos registros existen con ese filtro
+        const totalUsuarios = await Usuario.count({
+            where: {
+                [Op.or]: [
+                    {
+                        str_usuario_nombres: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_apellidos: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_cedula: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_email: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_telefono: {
+                            [Op.like]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_estado: {
+                            [Op.like]: `${texto}`
+                        }
+                    }
+                ]
+            }
+        });
+        const data = {
+            usuarios,
+            totalUsuarios
+        }
+
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
 export default {
     getAllUsers,
     createUser,
@@ -97,5 +310,9 @@ export default {
     obtenerUsuariosConPaginacion,
     actualizarTelefonoUsuario,
     obtenerUsuarioPorId,
-    desactivarUsuario
+    desactivarUsuario,
+    getUsuarioPorCorreo,
+    obtenerTotalUsuarios,
+    buscarUsuario,
+    filtrarUsuarios
 }

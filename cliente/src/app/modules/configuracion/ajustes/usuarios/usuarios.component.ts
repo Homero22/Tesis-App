@@ -15,6 +15,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { DataMetadata } from 'src/app/core/models/metadata';
+import { UsuariosModelBody } from 'src/app/core/models/usuarios/usuariosModel';
 
 @Component({
   selector: 'app-usuarios',
@@ -22,12 +24,17 @@ import { ModalService } from 'src/app/core/services/modal.service';
   styleUrls: ['./usuarios.component.css'],
 })
 export class UsuariosComponent implements OnInit {
+  request = false;
   myform!: FormGroup;
   elementForm: {
     formulario: string;
     title: string;
     special: boolean;
   } = { formulario: '', title: '', special: true };
+
+  currentPage: number = 1;
+  metadata!: DataMetadata;
+  total!: number;
 
   telefonoFormControl: FormControl;
   @ViewChild('telefonoInput') telefonoInput!: ElementRef | undefined;
@@ -48,64 +55,141 @@ export class UsuariosComponent implements OnInit {
     this.telefonoFormControl = new FormControl();
   }
   private destroy$ = new Subject<any>();
+
   status!: boolean;
   isData: boolean = false;
   isLoading: boolean = true;
-  editando: boolean = false;
+  buscando: boolean = false ;
+  filtrando: boolean = false;
   copiaTelefono: string = '';
+  searchText: string = '';
+  placeholder:string = 'Buscar usuario';
+  actualizarPaginacion: number = 0;
+  usuarios : UsuariosModelBody []=[];
+  loading : boolean = false;
+  filtros: any[] = [
+  "Ver usuarios activos",
+  "Ver usuarios inactivos",
+  ]
+  filtroActual: string = 'Ver todo';
+
+
+
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.isLoading = false;
-      Swal.close();
-    }, 1000);
-    this.getUsuarios();
+    this.request = true;
+    setTimeout(()=>{
+        this.isLoading = false;
+      },400
+    )
+    let params = {
+      page: 1,
+      limit: 10,
+    };
+
+    this.UsuariosService.obtenerUsuarios({
+      page:1,
+      limit:10
+    })
+
+    this.UsuariosService.selectUsuarios$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res)=>{
+          this.usuarios = res;
+          this.request = false;
+          this.verificarData();
+        }
+      )
+
+    this.UsuariosService.selectMetadata$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res)=>{
+        this.metadata = res;
+        this.currentPage =res.pagination.currentPage;
+      }
+    )
   }
 
-  //Obtener usuarios
-  getUsuarios() {
+
+  buscarUsuario(search:string) {
+    this.searchText = search;
+    if (search != '') {
+      Swal.fire({
+        title: 'Buscando...',
+        icon:'question',
+        timer:500,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    }
+    if(search===''){
+      this.buscando=true;
+      this.UsuariosService.obtenerUsuarios({
+        page:1,
+        limit:10
+      })
+      this.verificarData();
+    }else{
+      this.UsuariosService.buscarUsuariosGeneral(search,1)
+      this.verificarData();
+    }
+
+  }
+  verificarData(){
+
+    if(this.UsuariosService.metaData.pagination.total === 0){
+      console.log(this.UsuariosService.metaData.pagination.total)
+      this.isData = false;
+    }else{
+      this.isData = true;
+    }
+  }
+
+  filtrarUsuario( filtro:any){
+    this.filtrando = true;
     Swal.fire({
-      title: 'Cargando...',
-      timer:1000,
+      title: 'Aplicando filtro...',
+      icon:'success',
+      timer:900,
       didOpen: () => {
         Swal.showLoading();
       },
     });
-
-    this.UsuariosService.getUsuarios()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (_usuarios) => {
-          if (_usuarios.body) {
-            this.isData = true;
-            this.UsuariosService.dataUsuarios = _usuarios.body;
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error al cargar los usuarios',
-              text: _usuarios.message,
-            });
-          }
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al cargar los usuarios',
-            text: error.error.message,
-          });
-        },
-      });
+    switch (filtro) {
+      case "Ver usuarios activos":
+        this.filtroActual = "Ver usuarios activos";
+        this.filtrando = true;
+        this.UsuariosService.filtrarUsuariosGeneral("ACTIVO",1)
+        this.verificarData();
+        break;
+      case "Ver usuarios inactivos":
+        this.filtroActual = "Ver usuarios inactivos";
+        this.filtrando = true;
+        this.UsuariosService.filtrarUsuariosGeneral("INACTIVO",1)
+        this.verificarData();
+        break;
+      case "Ver todo":
+        this.filtroActual = "Ver todo";
+        this.UsuariosService.obtenerUsuarios({
+          page:1,
+          limit:10
+        })
+        this.verificarData();
+        break;
+    }
   }
 
-  editarUsuario(idUser: number, title: string, form: string) {
-    console.log('paso 1 abrir modal');
+  editarUsuario(user: UsuariosModelBody, title: string, form: string) {
+    this.buscando = false;
+    this.filtrando = false;
     this.elementForm = {
       formulario: form,
       title: title,
       special: false,
     };
+    this.UsuariosService.setUpdateUsuario(user);
     this.srvModal.setFormModal(this.elementForm);
-    this.srvModal.setIdUsuario(idUser);
     this.srvModal.openModal();
   }
 
@@ -130,6 +214,8 @@ export class UsuariosComponent implements OnInit {
       denyButtonText: `No, cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
+        this.buscando = false;
+        this.filtrando = false;
           Swal.fire({
             title: 'Espere',
             text: 'Cambiando Estado',
@@ -151,7 +237,10 @@ export class UsuariosComponent implements OnInit {
                   icon: 'success',
                   confirmButtonText: 'Aceptar',
                 }).then(() => {
-                  this.getUsuarios();
+                    this.UsuariosService.obtenerUsuarios({
+                      page:1,
+                      limit:10
+                    })
                 });
               } else {
                 Swal.fire({
@@ -178,5 +267,32 @@ export class UsuariosComponent implements OnInit {
         Swal.fire('Cambios no realizados', '', 'info');
       }
     });
+  }
+
+
+  changePage(page: number) {
+    this.request = true;
+    this.currentPage = page;
+    //comprobar si se esta filtrando para cambiar la pagina
+    if(this.filtroActual === 'Ver usuarios activos'){
+      this.UsuariosService.filtrarUsuariosGeneral('ACTIVO',page)
+    }
+    if(this.filtroActual === 'Ver usuarios inactivos'){
+      this.UsuariosService.filtrarUsuariosGeneral('INACTIVO',page)
+    }
+    if(this.searchText !== ''){
+      this.UsuariosService.buscarUsuariosGeneral(this.searchText,page)
+    }
+    if(this.filtroActual === 'Ver todo' && this.searchText === ''){
+      this.UsuariosService.obtenerUsuarios({
+        page: page,
+        limit: 10,
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
