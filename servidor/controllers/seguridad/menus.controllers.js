@@ -43,7 +43,6 @@ const obtenerSubmenus = async (req, res) => {
     try {
         const { id } = req.params;
         const submenus = await menusUseCase.obtenerSubmenusService(id);
-        console.log(submenus);
         res.json(submenus);
     } catch (error) {
         res.status(500).json({
@@ -106,7 +105,6 @@ const actualizarMenu = async (req, res) => {
     try {
         let { id } = req.params;
         const{menu} = req.body;
-        console.log("h",menu.str_menu_nombre);
         const menuE = await menusUseCase.actualizarMenuService(
         id,
         menu.str_menu_nombre,

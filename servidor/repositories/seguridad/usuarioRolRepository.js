@@ -17,6 +17,22 @@ const createUsuarioRol = async (usuarioRol) => {
         console.log(error);
     }
 }
+//crear un usuarioRol con transaccion
+const createUsuarioRolT = async (idRol, idUsuer , t) => {
+    try {
+        //creo el usuarioRol y retorno el int_usuario_rol_id
+        const usuarioRolCreado = await UsuarioRol.create({
+            int_usuario_id: idUsuer,
+            int_rol_id: idRol
+        }, { transaction: t });
+        return usuarioRolCreado.int_usuario_rol_id;
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 
 
 const getUsuarioRolPorId = async (id) => {
@@ -120,5 +136,6 @@ export default {
     cambiarEstadoUsuarioRol,
     getUsuarioRolPorIdUsuario,
     getUsuarioRolesPorIdUsuario,
-    comprobarUsuarioRol
+    comprobarUsuarioRol,
+    createUsuarioRolT
 }

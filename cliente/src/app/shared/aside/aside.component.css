@@ -1,5 +1,32 @@
-* {
-  font-family: var(--font-family);
-  /* margin: 0; */
-  padding: 0;
+
+
+.father {
+  display: block;
+
 }
+
+button{
+  cursor: pointer;
+}
+.Swap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#pSidebar {
+  width: 200px; /* Ancho inicial cuando está expandido */
+  transition: width 0.3s ease;
+}
+#pSidebar i {
+  display: block; /* Cada elemento <i> ocupa todo el ancho y se muestra en una nueva línea */
+  margin-bottom: 10px; /* Agrega un espacio entre cada elemento */
+}
+
+.collapsed #pSidebar {
+  width: 0;
+  transition: width 0.3s ease; /* Asegúrate de tener esta línea para la transición */
+}
+
+

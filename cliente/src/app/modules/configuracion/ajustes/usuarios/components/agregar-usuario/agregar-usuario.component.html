@@ -10,13 +10,6 @@
           <label for="text">Buscar Cédula:</label>
         </div>
 
-        <!-- <div class="search-BarBtn">
-          <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder=" 0000000000" formControlName="per_cedula" (keyup.enter)="obtenerDatosCentralizada(myForm.get('per_cedula')?.value,2)"/>
-          <button class="btnSearch"
-          [disabled]="!myForm.value.per_cedula" (click)="obtenerDatosCentralizada(myForm.get('per_cedula')!.value,1)">
-          <i class="material-icons">search</i>
-          </button>
-        </div> -->
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
           <div class="search-BarBtn">
             <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder=" 0000000000" formControlName="per_cedula" />
@@ -47,6 +40,16 @@
               [attr.disabled]="true" required>
             </div>
           </div>
+
+          <div class="containerInfo">
+            <label for="correo">Rol</label>
+            <select id="idRoles" formControlName="roles" >
+              <option *ngFor="let rol of srvRoles.allRoles" [value]="rol.int_rol_id">
+                {{ rol.str_rol_nombre }}
+              </option>
+            </select>
+          </div>
+
         </div>
 
         <div class="container-Right">
@@ -75,7 +78,7 @@
         <button  type="submit" class="btn-primary-add" (click)="agregarUsuario()"
           [disabled]="myForm.invalid">Guardar</button>
       </div>
-      
+
 
 
   </form>

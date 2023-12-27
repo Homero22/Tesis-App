@@ -109,13 +109,14 @@
         </div>
 
         <!-- Usuarios-->
-        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===2 " typeView="true" >
-            <app-usuarios *ngIf="typeView"></app-usuarios>
+        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===2 ">
+            <app-usuarios *ngIf="!usuariosService.verPerfil"></app-usuarios>
+            <app-perfiles *ngIf="usuariosService.verPerfil"></app-perfiles>
         </div>
 
         <!-- Roles-->
         <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===3 " typeView="true" >
-            <app-roles *ngIf="typeView"></app-roles>
+            <app-roles></app-roles>
 
       </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import config from 'config/config';
 import { UsuariosService } from '../../core/services/Usuarios/usuarios.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -15,6 +15,9 @@ export class ConfiguracionComponent implements OnInit {
   baseUrl = config.URL_BASE_PATH;
   path: string = '';
   typeView: boolean = true;
+  @Input() verPerfil: boolean = false;
+  
+
 
   listaViews: any = {
     AJUSTES: 0,
@@ -36,6 +39,10 @@ export class ConfiguracionComponent implements OnInit {
   b!: boolean
   ngOnInit() {
     let c: boolean = this.b
+    this.usuariosService.selectVerPerfil$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
+      this.open = res;
+    });
+
 
   }
 

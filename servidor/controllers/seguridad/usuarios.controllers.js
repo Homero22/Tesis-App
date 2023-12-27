@@ -41,38 +41,11 @@ const obtenerUsuarios = async (req, res) => {
 
 const crearUsuario = async (req, res) => {
   try {
-    const { cedula,telefono } = req.body;
-    const usuarioCreado = await UsuariosService.crearUsuarioService(cedula,telefono);
-
-    if (usuarioCreado == false) {
-      return res.json({
-        status: false,
-        message:
-          "No se pudo crear el usuario, verifique que la cédula sea correcta",
-        body: [],
-      });
-    }
-    if (usuarioCreado == 1) {
-      return res.json({
-        status: false,
-        message: "El usuario ya existe",
-        body: [],
-      });
-    }
-    if(usuarioCreado.error){
-      return res.json({
-        status: false,
-        message: usuarioCreado.error,
-        body: [],
-      });
-    }
-    
-    res.json({
-      status: true,
-      message: "Usuario creado correctamente",
-      body: usuarioCreado,
-    });
+    const { cedula,telefono, idRol } = req.body;
+    const usuarioCreado = await UsuariosService.crearUsuarioService(cedula,telefono,idRol);
+    res.json(usuarioCreado);
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: false,
       message: "Error en el servidor" + error,
@@ -86,9 +59,6 @@ const actualizarUsuario = async (req, res) => {
     //se puede actualizar solo el telefono
     const { telefono } = req.body;
     const { id } = req.params;
-
-
-
     const usuarioActualizado = await UsuariosService.actualizarUsuarioService(
       id,
       telefono

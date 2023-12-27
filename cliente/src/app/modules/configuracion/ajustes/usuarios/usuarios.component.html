@@ -68,7 +68,7 @@
           *ngFor="let usuario of UsuariosService.usuarios; let i = index"
         >
           <td scope="row">{{ i + 1 }}</td>
-          <td class="user">
+          <td class="user" (click)="perfiles()">
             <div class="content-td">
               <i class="material-icons"> person </i>
               {{
@@ -79,9 +79,9 @@
             </div>
           </td>
 
-          <td>{{ usuario.str_usuario_email }}</td>
+          <td (click)="perfiles()">{{ usuario.str_usuario_email }}</td>
 
-          <td >
+          <td (click)="perfiles()">
             {{ usuario.str_usuario_telefono }}
           </td>
 

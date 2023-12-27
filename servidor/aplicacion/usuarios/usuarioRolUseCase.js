@@ -131,4 +131,5 @@ export default {
     obtenerRolesPorUsuarioService,
     crearUsuarioRolService,
     cambiarEstadoUsuarioRolService,
+    
 }

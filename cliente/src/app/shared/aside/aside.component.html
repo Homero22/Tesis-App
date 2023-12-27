@@ -1,3 +1,21 @@
-<div class="father">
+<!-- aside.component.html -->
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+<div class="father" [ngClass]="{'collapsed': !isExpanded}">
+  <div class="Swap" >
+    <button  id="toggle-sidebar" (click)="toggleSidebar()">
+      <i class="material-icons" id="icon-menu">swap_horiz</i>
+    </button>
+  </div>
+
+  <aside id="pSidebar">
+    <i class="material-icons" id="icon-menu">swap_horiz</i>
+    <i class="material-icons" id="icon-menu">swap_horiz</i>
+    <i class="material-icons" id="icon-menu">swap_horiz</i>
+    <i class="material-icons" id="icon-menu">swap_horiz</i>
+    <i class="material-icons" id="icon-menu">swap_horiz</i>
+  </aside>
 </div>
+
+
