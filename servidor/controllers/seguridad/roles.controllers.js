@@ -13,6 +13,18 @@ const obtenerRoles = async (req, res) => {
     });
   }
 };
+const obtenerTodosRoles = async (req, res) => {
+    try {
+        const roles = await rolesUseCase.obtenerTodosRolesService();
+        res.json(roles);
+    } catch (error) {
+        res.status(500).json({
+        status: false,
+        message: "Error en el servidor" + error,
+        body: [],
+        });
+    }
+}
 
 const obtenerRol = async (req, res) => {
     try {
@@ -72,7 +84,6 @@ const desactivarRol = async (req, res) => {
 const buscarRol = async (req, res) => {
     try {
         const { texto,page } = req.query;
-
         const rol = await rolesUseCase.buscarRolService(texto,page);
         res.json(rol);
     } catch (error) {
@@ -106,4 +117,5 @@ export default {
     desactivarRol,
     buscarRol,
     filtrarRoles,
+    obtenerTodosRoles
 };

@@ -12,7 +12,7 @@
 }
 
 .pAside-body{
-transition: all .2s ease;
+  transition: margin-left .3s ease;
   position: relative;
   overflow: hidden;
   height: 100vh;
@@ -24,15 +24,12 @@ transition: all .2s ease;
   width: 100%;
   background-color: rgb(180, 26, 18);
   color: white;
-  /* transition: width 0.3s ease; */
 }
 
 
 
-/* ///////////////////////////////////////////////// */
 
-
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
 
   .icon {
     position: relative;
@@ -44,22 +41,13 @@ transition: all .2s ease;
 }
 
 @media (max-width: 767px) {
-  .pAside.close {
-    width: 0%;
-    left: 0;
-    transition: all .3s ease;
-    /* display: none;     */
-
-  }
-  /* .pAside.close i {
-    display: none;
-  } */
-  .pAside{
+  .pAside {
     width: 260px;
-    /* left: 0; */
-    transition: all .3s ease;
-    /* display: block;     */
+    transition: width 0.3s ease;
   }
-  /* width: 0; */
 
-}
+  .pAside.close {
+    width: 0;
+    transition: width 0.3s ease;
+  }
+} */

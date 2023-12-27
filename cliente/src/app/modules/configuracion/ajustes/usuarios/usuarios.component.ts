@@ -17,6 +17,7 @@ import {
 import { ModalService } from 'src/app/core/services/modal.service';
 import { DataMetadata } from 'src/app/core/models/metadata';
 import { UsuariosModelBody } from 'src/app/core/models/usuarios/usuariosModel';
+import { RolesService } from 'src/app/core/services/roles.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -43,7 +44,8 @@ export class UsuariosComponent implements OnInit {
     public UsuariosService: UsuariosService,
     public form: FormBuilder,
     public renderer: Renderer2,
-    public srvModal: ModalService
+    public srvModal: ModalService,
+    public srvRoles: RolesService
   ) {
     this.myform = this.form.group({
       telefono: [
@@ -77,6 +79,7 @@ export class UsuariosComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.UsuariosService.setVerPerfil(false);
     this.request = true;
     setTimeout(()=>{
         this.isLoading = false;
@@ -86,6 +89,8 @@ export class UsuariosComponent implements OnInit {
       page: 1,
       limit: 10,
     };
+
+    this.srvRoles.obtenerTodosRoles();
 
     this.UsuariosService.obtenerUsuarios({
       page:1,
@@ -108,6 +113,11 @@ export class UsuariosComponent implements OnInit {
         this.currentPage =res.pagination.currentPage;
       }
     )
+  }
+
+  perfiles(){
+    console.log("perfiles")
+    this.UsuariosService.setVerPerfil(true);
   }
 
 

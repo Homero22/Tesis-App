@@ -9,4 +9,13 @@
   color: #000;
 }
 
+select{
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+  font-size: 14px;
+  color: #000;
+}
+
 

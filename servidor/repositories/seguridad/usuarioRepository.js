@@ -29,10 +29,22 @@ const obtenerUsuariosConPaginacion = async (pagina, cantidad) => {
     }
 }
 
-const createUser = async (usuario) => {
+// const createUser = async (usuario,t) => {
+//     try {
+//         //creo el usuario y retorno el int_usuario_id
+//         const usuarioCreado = await Usuario.create(usuario);
+//         return usuarioCreado.int_usuario_id;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+//crear un usuario con transaccion
+const createUser = async (usuario, t) => {
     try {
-        const usuarioCreado = await Usuario.create(usuario);
-        return usuarioCreado;
+        //creo el usuario y retorno el int_usuario_id
+        const usuarioCreado = await Usuario.create(usuario, { transaction: t });
+        return usuarioCreado.int_usuario_id;
     } catch (error) {
         console.log(error);
     }
