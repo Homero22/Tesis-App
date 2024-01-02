@@ -35,6 +35,22 @@ const obtenerRolesService = async (query) => {
   
 
 };
+const obtenerTodosRolesService = async () => {
+    //obtener todos los roles
+    const roles = await rolRepository.getAllRoles();
+    if (roles.length > 0) {
+        return {
+            status:true,
+            message:"Roles encontrados",
+            body:roles
+        };
+    }
+    return {
+        status:false,
+        message:"No se encontraron roles",
+        body:[]
+    };
+}
 
 const obtenerRolService = async (id) => {
     let respuesta={};
@@ -280,5 +296,6 @@ export default {
     actualizarRolService,
     desactivarRolService,
     buscarRolService,
-    filtrarRolesService
+    filtrarRolesService,
+    obtenerTodosRolesService
 };

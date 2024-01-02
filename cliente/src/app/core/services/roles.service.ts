@@ -14,13 +14,14 @@ export class RolesService {
 
 // Rutas para hacer las peticiones al backend
 private urlApi_roles: string = config.URL_API_BASE + "roles";
+private urlApi_all_roles: string = config.URL_API_BASE + "roles/all";
 private urlApi_desactivar_rol: string = config.URL_API_BASE + "roles/desactivar";
 private urlApi_buscar_rol: string = config.URL_API_BASE + "roles/buscar";
 private urlApi_filtrar_rol: string = config.URL_API_BASE + "roles/filtrar";
 
 constructor(private http: HttpClient) {}
 
-
+allRoles! : RolesModelBody[];
 
 roles!: RolesModelBody[];
 metaData!: DataMetadata;
@@ -34,6 +35,15 @@ private  updateRol$ = new BehaviorSubject<RolesModelBody>({
   str_rol_nombre: "",
   str_rol_estado: "",
 });
+private allRoles$ = new Subject<RolesModelBody[]>();
+
+setAllRoles(data: RolesModelBody[]) {
+  this.allRoles$.next(data);
+}
+
+get selectAllRoles$() {
+  return this.allRoles$.asObservable();
+}
 
 setUpdataRol(data: RolesModelBody) {
   this.updateRol$.next(data);
@@ -67,6 +77,12 @@ getRoles(params: any) {
 
   return this.http.get<RolesModel>(this.urlApi_roles, {
     params: httpParams,
+    withCredentials: true,
+  });
+}
+// Obtener todos los roles
+getAllRoles() {
+  return this.http.get<RolesModel>(this.urlApi_all_roles, {
     withCredentials: true,
   });
 }
@@ -144,7 +160,6 @@ crearRol(nombre: string, descripcion: string) {
 
 // Funcion general de obtener roles
 obtenerRoles(params: any) {
-  console.log("OBTENIENDO ROLES CON PAGINACION", params)
   this.getRoles(params)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
@@ -153,7 +168,6 @@ obtenerRoles(params: any) {
         this.metaData = data.metadata;
         this.setDataMetadata(this.metaData);
         this.setRoles(this.roles);
-        console.log("metadata", this.metaData);
       },
       error: (err) => {
         console.log("Error", err);
@@ -163,7 +177,6 @@ obtenerRoles(params: any) {
 
 //funcion general para filtrar roles
 filtrarRolesGeneral(filtro: string, page: number) {
-  console.log("FILTRANDO ROLES CON PAGINACION", filtro, page)
   this.filtrarRoles(filtro,page)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
@@ -172,7 +185,6 @@ filtrarRolesGeneral(filtro: string, page: number) {
         this.metaData = data.metadata;
         this.setDataMetadata(this.metaData);
         this.setRoles(this.roles);
-        console.log("metadata filtros", this.metaData);
       },
       error: (err) => {
         console.log("Error", err);
@@ -191,7 +203,22 @@ buscarRolesGeneral(texto: string , page:number) {
         this.metaData = data.metadata;
         this.setDataMetadata(this.metaData);
         this.setRoles(this.roles);
-        console.log("metadata", this.metaData);
+      },
+      error: (err) => {
+        console.log("Error", err);
+      },
+    });
+  }
+
+//funcion para obtener todos los roles
+obtenerTodosRoles() {
+  this.getAllRoles()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data: RolesModel) => {
+        this.allRoles = data.body;
+        this.setAllRoles(this.allRoles);
+        console.log("roles", this.allRoles);
       },
       error: (err) => {
         console.log("Error", err);

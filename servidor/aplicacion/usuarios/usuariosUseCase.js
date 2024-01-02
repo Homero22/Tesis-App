@@ -2,6 +2,8 @@
 import usuarioRepository from "../../repositories/seguridad/usuarioRepository.js";
 import { serviciosExternos } from "../../configuracion/variablesGlobales.js";
 import { configVariables } from "../../configuracion/variablesGlobales.js";
+import usuarioRolRepository from "../../repositories/seguridad/usuarioRolRepository.js";
+import {sequelize} from "../../database/postgres.js";
 import fetch from "node-fetch"; //para consumir una API
 import https from "https";
 import crypto from "crypto";
@@ -10,6 +12,7 @@ import {
   obtenerDataQueryPaginacion,
   validarPaginacion,
 } from "../utils/paginacion.utils.js";
+import { Transaction } from "sequelize";
 
 // Configurar el agente HTTPS
 const httpsAgentOptions = {
@@ -75,19 +78,25 @@ const obtenerUsuariosService = async (query) => {
   }  
 };
 
-const crearUsuarioService = async (cedula,telefono) => {
+const crearUsuarioService = async (cedula,telefono,idRol) => {
   let respuesta = {};
   //llamo a la funcion para obtener los datos de un servidor externo
   const datosUsuario = await obtenerDatosServidorExterno(cedula);
 
   if (datosUsuario == false) {
-    return false;
+    return {
+      status: false,
+      message:
+        "No se pudo crear el usuario, verifique que la cédula sea correcta",
+      body: [],
+    };
   }
   if (datosUsuario.err) {
-    respuesta = {
-      error: datosUsuario.err,
-    };
-    return respuesta;
+    return {
+      status: false,
+      message: datosUsuario.err,
+      body: [],
+    }
   }
 
 
@@ -95,21 +104,53 @@ const crearUsuarioService = async (cedula,telefono) => {
   const usuarioExiste = await usuarioRepository.getUsuarioPorCedula(
     datosUsuario.str_usuario_cedula
   );
+
   //compruebo que el correo no este registrado
   const correoExiste = await usuarioRepository.getUsuarioPorCorreo(
     datosUsuario.str_usuario_email
   );
   if (correoExiste) {
-    return 1;
+    return {
+      status: false,
+      message: "El usuario ya existe",
+      body: [],
+    };
   }
-
-
   if (usuarioExiste) {
-    return 1;
+    return {
+      status: false,
+      message: "El usuario ya existe",
+      body: [],
+    };
   }
+
   datosUsuario.str_usuario_telefono = telefono;
-  const usuarioCreado = await usuarioRepository.createUser(datosUsuario);
-  return usuarioCreado;
+
+  //en una transaccion con sequelize se crea el usuario y el usuarioRol para que si falla una no se cree la otra
+  //llamo a la funcion para crear el usuario
+  const t = await sequelize.transaction();
+
+  const idUsuario = await usuarioRepository.createUser(datosUsuario, t);
+  if (!idUsuario) {
+    await t.rollback();
+  }
+  //creo el usuarioRol
+  const usuarioRol = await usuarioRolRepository.createUsuarioRolT(
+    idRol,
+    idUsuario,
+    t
+  );
+
+  if (!usuarioRol) {
+    await t.rollback();
+  }
+  await t.commit();
+
+  return {
+    status: true,
+    message: "Usuario creado correctamente",
+    body: datosUsuario,
+  };
 };
 
 //funcion para obtener los datos de un servidor externo

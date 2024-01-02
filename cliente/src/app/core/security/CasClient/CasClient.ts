@@ -32,9 +32,23 @@ export class CasClient {
       logout =
         CONFIG2.LOGOUT_CORREO +
         '?post_logout_redirect_uri=' +
+        encodeURIComponent(CONFIG2.CASLOGOUT) +
+        'service=' +
         encodeURIComponent(CONFIG2.LOGOUT_REDIRECT);
       window.location.href = logout;
+
+      /**
+       * logout =
+        CONFIG2.LOGOUT_CORREO +
+        'post_logout_redirect_uri=' +
+        encodeURIComponent(CONFIG2.CASLOGOUT) +
+        'service=' +
+        encodeURIComponent(CONFIG2.LOGOUT_REDIRECT);
+      window.location.href = logout;
+
+       */
     } else {
+      this.remove();
       logout =
         CONFIG2.CASLOGOUT +
         'service=' +

@@ -59,11 +59,22 @@ export class UsuariosService{
 
     usuarios! : UsuariosModelBody [];
     metaData!: DataMetadata;
+    verPerfil:boolean = false;
 
     private dataMetadata$ = new Subject<DataMetadata>();
     private destroy$ = new Subject<any>();
     private dataUsuarios$ = new Subject<UsuariosModelBody[]>();
     private updateUsuario$ = new BehaviorSubject<UsuariosModelBody>( this.initUsuario);
+    private verPerfil$ = new BehaviorSubject<boolean>(this.verPerfil);
+
+    setVerPerfil(data:boolean){
+      console.log("set",data)
+      this.verPerfil$.next(data);
+    }
+
+    get selectVerPerfil$(){
+      return this.verPerfil$.asObservable();
+    }
 
     setDataMetadata(data:DataMetadata){
       this.dataMetadata$.next(data);
@@ -171,11 +182,12 @@ export class UsuariosService{
     }
 
     //Crear usuario
-    crearUsuario(cedula:string, telefono:string){
+    crearUsuario(cedula:string, telefono:string, idRol:number){
       return this.http.post<UsuarioModel>(`${this.urlApi_usuarios}`,
         {
           cedula:cedula,
-          telefono:telefono
+          telefono:telefono,
+          idRol:idRol
         },
         {
           withCredentials: true
