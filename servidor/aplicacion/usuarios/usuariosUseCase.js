@@ -19,9 +19,9 @@ const httpsAgentOptions = {
 };
 
 // Verificar si estamos en entorno de desarrollo
-if (configVariables.env === "development") {
+
   httpsAgentOptions.rejectUnauthorized = false;
-}
+
 
 const httpsAgent = new https.Agent(httpsAgentOptions);
 
@@ -155,6 +155,7 @@ const crearUsuarioService = async (cedula,telefono,idRol) => {
 //funcion para obtener los datos de un servidor externo
 const obtenerDatosServidorExterno = async (cedula) => {
   try {
+    
     const url = serviciosExternos.urlServicioCentralizado + cedula;
     const response = await fetch(url, { agent: httpsAgent });
 
@@ -172,6 +173,7 @@ const obtenerDatosServidorExterno = async (cedula) => {
       str_usuario_cedula: cedula,
       str_usuario_telefono: data.listado[0].per_telefonoCelular,
     }
+    console.log(usuario);
     return usuario;
   } catch (error) {
     console.log(error);
