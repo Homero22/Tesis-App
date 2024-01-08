@@ -12,7 +12,6 @@ import {
   obtenerDataQueryPaginacion,
   validarPaginacion,
 } from "../utils/paginacion.utils.js";
-import { Transaction } from "sequelize";
 
 // Configurar el agente HTTPS
 const httpsAgentOptions = {
@@ -175,6 +174,7 @@ const obtenerDatosServidorExterno = async (cedula) => {
     }
     return usuario;
   } catch (error) {
+    console.log(error);
     const errorMessage = {
       err: error.message,
     };
