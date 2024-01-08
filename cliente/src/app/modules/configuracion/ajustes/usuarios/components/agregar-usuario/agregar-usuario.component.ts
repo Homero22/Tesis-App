@@ -96,6 +96,7 @@ export class AgregarUsuarioComponent implements OnInit {
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next:(usuario:UsuarioCentralizadaModel)=>{
+        console.log("q llega",usuario);
         if(usuario.status){
           Swal.fire({
             title: 'Éxito',
