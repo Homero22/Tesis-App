@@ -11,7 +11,7 @@ const router = Router();
 router.get("/info", (req, res) => {
     res.json({
       Nombre: "Sistema de registro y seguimiento de incidencias",
-      Version: "1.0.0",
+      Version: "2.0.0",
       Descripcion:
         "Sistema de incidencias para la Escuela Superior Politecnica de Chimborazo",
       Autor: "Homero Ojeda",
