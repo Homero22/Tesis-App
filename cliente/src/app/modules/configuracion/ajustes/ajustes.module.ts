@@ -15,6 +15,9 @@ import { AgregarRolComponent } from "./roles/agregar-rol/agregar-rol.component";
 import { AgregarMenuComponent } from "./menus/agregar-menu/agregar-menu.component";
 import { EditarMenuComponent } from "./menus/editar-menu/editar-menu.component";
 import { SubmenusComponent } from "./menus/submenus/submenus.component";
+import { AgregarPerfilesComponent } from "./usuarios/components/perfiles/agregar-perfiles/agregar-perfiles.component";
+import { EditarPermisosComponent } from "./usuarios/components/editar-permisos/editar-permisos.component";
+
 
 
 @NgModule({
@@ -28,7 +31,9 @@ import { SubmenusComponent } from "./menus/submenus/submenus.component";
     AgregarRolComponent,
     AgregarMenuComponent,
     EditarMenuComponent,
-    SubmenusComponent
+    SubmenusComponent,
+    AgregarPerfilesComponent,
+    EditarPermisosComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +54,10 @@ import { SubmenusComponent } from "./menus/submenus/submenus.component";
     AgregarRolComponent,
     AgregarMenuComponent,
     EditarMenuComponent,
-    SubmenusComponent
+    SubmenusComponent,
+    AgregarPerfilesComponent,
+    EditarPermisosComponent,
+
   ],
 })
 

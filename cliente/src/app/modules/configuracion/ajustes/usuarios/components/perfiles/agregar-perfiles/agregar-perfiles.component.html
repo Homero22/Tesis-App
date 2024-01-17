@@ -1,0 +1,30 @@
+<div class="body-Form">
+
+  <form [formGroup]="myForm" class="formFather">
+
+    <div class="container-DataInfoFind">
+
+      <div class="containerInfo">
+        <label for="text"> Seleccione un Rol:</label>
+        <div class="container-Select">
+          <select formControlName="str_rol_nombre" (change)="onRolChange()">
+            <option disabled>Seleccione un Rol</option>
+            <option *ngFor="let op of srvRoles.allRoles" [ngValue]="op">{{ op.str_rol_nombre }}</option>
+          </select>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="cont">
+      <button (keydown.enter)="addProfile()" type="submit" class="btn-primary-add" (click)="addProfile()"
+        [disabled]="myForm.invalid">Guardar</button>
+    </div>
+
+  </form>
+</div>

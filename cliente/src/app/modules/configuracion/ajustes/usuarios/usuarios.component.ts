@@ -18,6 +18,7 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { DataMetadata } from 'src/app/core/models/metadata';
 import { UsuariosModelBody } from 'src/app/core/models/usuarios/usuariosModel';
 import { RolesService } from 'src/app/core/services/roles.service';
+import { UsuarioRolService } from 'src/app/core/services/Usuarios/usuarioRol.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -42,6 +43,7 @@ export class UsuariosComponent implements OnInit {
 
   constructor(
     public UsuariosService: UsuariosService,
+    public UsuarioRolService: UsuarioRolService,
     public form: FormBuilder,
     public renderer: Renderer2,
     public srvModal: ModalService,
@@ -89,7 +91,6 @@ export class UsuariosComponent implements OnInit {
       page: 1,
       limit: 10,
     };
-
     this.srvRoles.obtenerTodosRoles();
 
     this.UsuariosService.obtenerUsuarios({
@@ -115,8 +116,9 @@ export class UsuariosComponent implements OnInit {
     )
   }
 
-  perfiles(){
-    console.log("perfiles")
+  perfiles(usuario: UsuariosModelBody){
+    this.UsuariosService.setUsuario(usuario);
+    this.UsuarioRolService.obtenerUsuarioRoles(usuario.int_usuario_id)
     this.UsuariosService.setVerPerfil(true);
   }
 

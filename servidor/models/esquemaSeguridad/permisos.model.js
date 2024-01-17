@@ -83,23 +83,23 @@ export const Permiso= sequelize.define(
     }
 );
 // Modelo Usuario
-Usuario.hasMany(UsuarioRol, { foreignKey: 'int_usuario_id', as: 'RolesUsuarios' });
+Usuario.hasMany(UsuarioRol, { foreignKey: 'int_usuario_id' });
 
 // Modelo Rol
-Rol.hasMany(UsuarioRol, { foreignKey: 'int_rol_id', as: 'UsuariosRoles' });
+Rol.hasMany(UsuarioRol, { foreignKey: 'int_rol_id' });
 
 // Modelo UsuarioRol
-UsuarioRol.belongsTo(Usuario, { foreignKey: 'int_usuario_id', as: 'Usuario' });
-UsuarioRol.belongsTo(Rol, { foreignKey: 'int_rol_id', as: 'Rol' });
-UsuarioRol.hasMany(Permiso, { foreignKey: 'int_usuario_rol_id', as: 'Permisos' });
+UsuarioRol.belongsTo(Usuario, { foreignKey: 'int_usuario_id' });
+UsuarioRol.belongsTo(Rol, { foreignKey: 'int_rol_id' });
+UsuarioRol.hasMany(Permiso, { foreignKey: 'int_usuario_rol_id' });
 
 // Modelo Permiso
-Permiso.belongsTo(UsuarioRol, { foreignKey: 'int_usuario_rol_id', as: 'UsuarioRol' });
-Permiso.belongsTo(Menu, { foreignKey: 'int_menu_id', as: 'OpcionMenu' });
+Permiso.belongsTo(UsuarioRol, { foreignKey: 'int_usuario_rol_id'});
+Permiso.belongsTo(Menu, { foreignKey: 'int_menu_id'});
 
 // Modelo Menu
-Menu.hasMany(Permiso, { foreignKey: 'int_menu_id', as: 'Permisos' });
-Menu.hasMany(Menu, { foreignKey: 'int_menu_padre_id', as: 'Hijos' });
-Menu.belongsTo(Menu, { foreignKey: 'int_menu_padre_id', as: 'Padre' });
+Menu.hasMany(Permiso, { foreignKey: 'int_menu_id'});
+Menu.hasMany(Menu, { foreignKey: 'int_menu_padre_id' });
+Menu.belongsTo(Menu, { foreignKey: 'int_menu_padre_id'});
 
 
