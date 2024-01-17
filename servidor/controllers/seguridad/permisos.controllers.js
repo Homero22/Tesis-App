@@ -16,6 +16,8 @@ const obtenerPermisosPorIdUsuarioRol = async (req, res) => {
   }
 };
 
+
+
 const actualizarPermisosPorIdUsuarioRol = async (req, res) => {
     try {
         const { id } = req.params;

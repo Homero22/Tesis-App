@@ -218,7 +218,6 @@ obtenerTodosRoles() {
       next: (data: RolesModel) => {
         this.allRoles = data.body;
         this.setAllRoles(this.allRoles);
-        console.log("roles", this.allRoles);
       },
       error: (err) => {
         console.log("Error", err);

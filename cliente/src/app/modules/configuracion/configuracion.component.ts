@@ -15,8 +15,9 @@ export class ConfiguracionComponent implements OnInit {
   baseUrl = config.URL_BASE_PATH;
   path: string = '';
   typeView: boolean = true;
-  @Input() verPerfil: boolean = false;
-  
+
+  verPerfil: boolean = false;
+
 
 
   listaViews: any = {
@@ -42,6 +43,8 @@ export class ConfiguracionComponent implements OnInit {
     this.usuariosService.selectVerPerfil$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
       this.open = res;
     });
+
+
 
 
   }

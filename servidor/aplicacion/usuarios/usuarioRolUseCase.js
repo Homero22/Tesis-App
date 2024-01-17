@@ -1,7 +1,14 @@
 import usuarioRolRepository from "../../repositories/seguridad/usuarioRolRepository.js";
 import usuarioRepository from "../../repositories/seguridad/usuarioRepository.js";
 import rolRepository from "../../repositories/seguridad/rolRepository.js";
+import permisosService from "../../aplicacion/seguridad/permisosUseCase.js"
 
+import {
+    paginacion,
+    obtenerDataQueryPaginacion,
+    validarPaginacion,
+  } from "../utils/paginacion.utils.js";
+  
 const obtenerRolesPorUsuarioService = async (id) => {
     //comprobar que el id del usuario exista
     const usuario = await usuarioRepository.obtenerUsuarioPorId(id);
@@ -24,8 +31,7 @@ const obtenerRolesPorUsuarioService = async (id) => {
             const rol = await rolRepository.getRolPorId(roles[i].int_rol_id);
             roles[i].str_rol_nombre = rol.str_rol_nombre;
         }
-        //añado la información del usuario en la posición 0 del array
-        roles[0].usuario= usuario;
+
 
 
         respuesta = {
@@ -79,10 +85,21 @@ const crearUsuarioRolService = async (idRol, idUsuario) => {
 
     //crear el usuario rol
     const usuarioRolCreado = await usuarioRolRepository.createUsuarioRol(info);
+
     if (!usuarioRolCreado) {
         return {
         status: false,
         message: "No se pudo crear el usuario rol",
+        body: [],
+        };
+    }
+    //despues de crear el usuarioRol, con el int_usuario_rol_id debo darle permisos de todos los menus
+    console.log("Id del usuariorol",usuarioRolCreado.int_usuario_rol_id);
+    const permisos = await permisosService.crearPermisosPorIdUsuarioRolService(usuarioRolCreado.int_usuario_rol_id);
+    if (!permisos) {
+        return {
+        status: false,
+        message: "No se pudo crear los permisos",
         body: [],
         };
     }

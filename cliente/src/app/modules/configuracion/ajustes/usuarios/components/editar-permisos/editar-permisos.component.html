@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+<div class="edit-permisos">
+    <div class="fatherModal" >
+        <!-- <div class="sidebar">
+            <p>Previsualización</p>
+            <ul class="nav-links">
+                <div class="link-opcion">
+                  <li *ngFor="let item of srvPermisos.permisosUsuarioRol" class="link-opcion">
+                    <div *ngIf="item.bln_permiso_ver === 'checked'" class="icon-link">
+                      <a *ngIf="item.str_menu_icono != 'subdirectory_arrow_right'">
+                        <i d="toggle-sidebar" class="material-icons icon-opcion">{{
+                          item.str_menu_icono
+                        }}</i>
+                        <span class="link_name">{{ item.str_menu_nombre }}</span>
+                      </a>
+                    </div>
+                  </li>
+                </div>
+              </ul>
+        </div> -->
+        <div class="table">
+            <table class="table tabla-estilos">
+                <thead>
+                    <tr class="encabezado">
+                        <th >
+                            <div class="d-flex"> MENÚ  </div>
+                        </th>
+                        <th>
+                            <div class="d-flex">VER</div>
+                        </th>
+                        <th>
+                            <div class="d-flex">CREAR</div>
+                        </th>
+                        <th>
+                            <div class="d-flex">EDITAR</div>
+                        </th>
+                        <th>
+                            <div class="d-flex">ELIMNAR</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="tdbody">
+                    <tr *ngFor=" let item of srvPermisos.permisosUsuarioRol  , let i = index" >
+                        <td>
+                            <div class="content-td">
+                                <i class="material-icons"> {{item.tb_menu.str_menu_icono}} </i>
+                                {{ item.tb_menu.str_menu_nombre }}
+                            </div>
+
+                        </td>
+
+                        <!-- <td>
+                            <div class="content-td check">
+                                <input type="checkbox" [checked]="item.bln_permiso_ver === 'checked'" (change)="onChange($event, i, 1)">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="content-td check">
+                                <input type="checkbox" [checked]="item.bln_crear=== 'checked'" (change)="onChange($event, i, 2)">
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="content-td check">
+                                <input type="checkbox" [checked]="item.bln_editar=== 'checked'" (change)="onChange($event, i, 3)">
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="content-td check">
+                                <input type="checkbox" [checked]="item.bln_eliminar === 'checked'" (change)="onChange($event, i, 4)">
+                            </div>
+
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="cont">
+        <button  type="submit" class="btn-primary-add" (click)="addPermiso()"
+        >Guardar</button>
+    </div>
+</div>
