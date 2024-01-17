@@ -150,8 +150,6 @@ export const configuracionInicial = async () => {
   const usuarioRolInfoExistente =
     await usuarioRolRepository.comprobarUsuarioRol(usuarioRolInfo);
   if (!usuarioRolInfoExistente) {
-    console.log("Creando usuario rol");
-
     const usuarioRolCreado = await usuarioRolRepository.createUsuarioRol({
       ...usuarioRolInfo,
     });
@@ -227,6 +225,14 @@ export const configuracionInicial = async () => {
       bln_permiso_eliminar: true,
       bln_permiso_ver: true,
     },
+    {
+      int_usuario_rol_id: 1,
+      int_menu_id: 9,
+      bln_permiso_crear: true,
+      bln_permiso_editar: false,
+      bln_permiso_eliminar: false,
+      bln_permiso_ver: true,
+    }
   ];
   //comprobar que los permisos no existan
   const permisosEncontrados = await permisoRepository.comprobarPermisos(

@@ -58,6 +58,7 @@ export class UsuariosService{
     }
 
     usuarios! : UsuariosModelBody [];
+    usuario! : UsuariosModelBody;
     metaData!: DataMetadata;
     verPerfil:boolean = false;
 
@@ -66,9 +67,17 @@ export class UsuariosService{
     private dataUsuarios$ = new Subject<UsuariosModelBody[]>();
     private updateUsuario$ = new BehaviorSubject<UsuariosModelBody>( this.initUsuario);
     private verPerfil$ = new BehaviorSubject<boolean>(this.verPerfil);
+    private usuario$ = new Subject<UsuariosModelBody>();
+
+    setUsuario(data:UsuariosModelBody){
+      this.usuario = data;
+    }
+
+    get selectUsuario$(){
+      return this.usuario$.asObservable();
+    }
 
     setVerPerfil(data:boolean){
-      console.log("set",data)
       this.verPerfil$.next(data);
     }
 

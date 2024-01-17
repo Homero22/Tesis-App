@@ -17,6 +17,7 @@ const obtenerRolesPorUsuario = async (req, res) => {
 const crearUsuarioRol = async (req, res) => {
     try {
         const { idRol, idUsuario } = req.body;
+        console.log("crear perfil ",idRol, idUsuario);
         const usuarioRolCreado = await usuarioRol.crearUsuarioRolService(
         idRol,
         idUsuario

@@ -10,7 +10,8 @@ import { PerfilesComponent } from './components/perfiles/perfiles.component';
 @NgModule({
   declarations: [
     CuentaComponent,
-    PerfilesComponent
+    PerfilesComponent,
+
   ],
   imports: [
     CommonModule,
@@ -22,6 +23,7 @@ import { PerfilesComponent } from './components/perfiles/perfiles.component';
   exports: [
     CuentaComponent,
     PerfilesComponent,
+
   ],
 })
 export class  UsuariosModule { }

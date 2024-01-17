@@ -1,5 +1,6 @@
 import menuRepository from "../../repositories/seguridad/menuRepository.js";
 import { paginacion,validarPaginacion, obtenerDataQueryPaginacion } from "../utils/paginacion.utils.js";
+import permisosService from "../../aplicacion/seguridad/permisosUseCase.js"
 
 const obtenerMenusService = async (query) => {
     const validacion = validarPaginacion(query);
@@ -147,20 +148,41 @@ const crearMenuService = async (
     };
     //crear el menu
     const menuCreado = await menuRepository.createMenu(menu);
-    
-    if (menuCreado) {
-        respuesta = {
-        status: true,
-        message: "Menu creado",
-        body: menuCreado,
-        };
-    } else {
+
+    if(!menuCreado){
         respuesta = {
         status: false,
         message: "No se pudo crear el menu",
         body: [],
         };
+        return respuesta;
     }
+
+    //Cuando se crea un nuevo Menu , se debe actualizar la tabla permisos con el int_menu_id que se crea recientemente y debemos obtener
+    //tods los int_usuario_rol_id de UsuarioRol para completar los permisos.
+
+    //llamo al permisosService enviandole el int_menu_id creado
+    console.log("Id del menu creado",menuCreado.int_menu_id)
+    const permisosActualizados = await permisosService.crearPermisosPorIdMenuService(menuCreado.int_menu_id)
+
+    if(!permisosActualizados){
+        respuesta ={
+            status: false,
+            message: "No se pudo actualizar los permisos",
+            body: [],
+        }
+        return respuesta;
+    }
+
+    respuesta = {
+        status: true,
+        message: "Menu creado",
+        body: menuCreado,
+    };
+
+
+    
+
     
     return respuesta;
 };

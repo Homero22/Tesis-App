@@ -1,4 +1,6 @@
 import {Permiso} from '../../models/esquemaSeguridad/permisos.model.js';
+import {Menu} from '../../models/esquemaSeguridad/menus.model.js';
+import {UsuarioRol} from '../../models/esquemaSeguridad/usuarioRoles.model.js';
 
 const getAllPermisos = async () => {
     try {
@@ -79,6 +81,29 @@ const comprobarPermisos = async (permisos) => {
     }
 }
 
+const getMenusPermisosPorIdUsuarioRol = async (idUsuarioRol) => {
+    try {
+        // Uno los modelos Permisos y Menus para obtener los menus y permisos dado el idUsuarioRol
+        const permisos = await Permiso.findAll({
+            where: {
+                int_usuario_rol_id: idUsuarioRol
+            },
+            include: [{
+                model: Menu,
+                attributes: ['int_menu_id', 'str_menu_nombre', 'str_menu_descripcion', 'str_menu_icono', 'str_menu_path', 'int_menu_padre_id', 'str_menu_estado'],
+                required: true
+            }],
+            nest: true // Anida las columnas de las tablas relacionadas en la misma estructura de objetos
+        });
+
+        return permisos;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
 
 
 
@@ -88,6 +113,7 @@ export default {
     getPermisosPorIdUsuarioRol,
     actualizarPermiso,
     createPermisos,
-    comprobarPermisos
+    comprobarPermisos,
+    getMenusPermisosPorIdUsuarioRol
 
 }
