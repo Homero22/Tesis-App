@@ -1,6 +1,7 @@
 import menuRepository from "../../repositories/seguridad/menuRepository.js";
 import { paginacion,validarPaginacion, obtenerDataQueryPaginacion } from "../utils/paginacion.utils.js";
 import permisosService from "../../aplicacion/seguridad/permisosUseCase.js"
+import { or } from "sequelize";
 
 const obtenerMenusService = async (query) => {
     const validacion = validarPaginacion(query);
@@ -357,6 +358,188 @@ const obtenerMenusSinPaginacionService = async () => {
 
 };
 
+const obtenerMenusAndSubmenusService = async () => {
+    let menus = await menuRepository.getAllMenusAndSubmenus();
+    if(!menus){
+        return {
+            status: false,
+            message: "No se encontraron menus",
+            body: [],
+        };
+    }
+
+
+    /**
+     * [
+        {
+            "int_menu_id": 2,
+            "int_menu_padre_id": 1,
+            "str_menu_nombre": "Inicio",
+            "str_menu_descripcion": "Bienvenida",
+            "str_menu_path": "welcome",
+            "str_menu_icono": "home",
+            "str_menu_estado": "ACTIVO",
+            "dt_fecha_creacion": "2024-01-17T16:18:14.910Z",
+            "dt_fecha_actualizacion": "2024-01-17T16:18:14.910Z"
+        },
+        {
+            "int_menu_id": 3,
+            "int_menu_padre_id": 1,
+            "str_menu_nombre": "Ajustes",
+            "str_menu_descripcion": "Seguridad",
+            "str_menu_path": "ajustes",
+            "str_menu_icono": "settings",
+            "str_menu_estado": "ACTIVO",
+            "dt_fecha_creacion": "2024-01-17T16:18:14.910Z",
+            "dt_fecha_actualizacion": "2024-01-17T16:18:14.910Z"
+        },
+        {
+            "int_menu_id": 4,
+            "int_menu_padre_id": 3,
+            "str_menu_nombre": "Roles",
+            "str_menu_descripcion": "Roles del usuario",
+            "str_menu_path": "ajustes/roles",
+            "str_menu_icono": "subdirectory_arrow_right",
+            "str_menu_estado": "ACTIVO",
+            "dt_fecha_creacion": "2024-01-17T16:18:14.910Z",
+            "dt_fecha_actualizacion": "2024-01-17T16:18:14.910Z"
+        },
+        {
+            "int_menu_id": 5,
+            "int_menu_padre_id": 3,
+            "str_menu_nombre": "Mi cuenta",
+            "str_menu_descripcion": "información del usuario",
+            "str_menu_path": "ajustes/cuenta",
+            "str_menu_icono": "subdirectory_arrow_right",
+            "str_menu_estado": "ACTIVO",
+            "dt_fecha_creacion": "2024-01-17T16:18:14.910Z",
+            "dt_fecha_actualizacion": "2024-01-17T16:18:14.910Z"
+        },
+        {
+            "int_menu_id": 6,
+            "int_menu_padre_id": 3,
+            "str_menu_nombre": "Menus",
+            "str_menu_descripcion": "Todos los menus del sistema",
+            "str_menu_path": "ajustes/menus",
+            "str_menu_icono": "subdirectory_arrow_right",
+            "str_menu_estado": "ACTIVO",
+            "dt_fecha_creacion": "2024-01-17T16:18:14.910Z",
+            "dt_fecha_actualizacion": "2024-01-17T16:18:14.910Z"
+        },
+        {
+            "int_menu_id": 7,
+            "int_menu_padre_id": 3,
+            "str_menu_nombre": "Usuarios",
+            "str_menu_descripcion": "Todos los usuarios del sistema",
+            "str_menu_path": "ajustes/usuarios",
+            "str_menu_icono": "subdirectory_arrow_right",
+            "str_menu_estado": "ACTIVO",
+            "dt_fecha_creacion": "2024-01-17T16:18:14.910Z",
+            "dt_fecha_actualizacion": "2024-01-17T16:18:14.910Z"
+        },
+        {
+            "int_menu_id": 8,
+            "int_menu_padre_id": 1,
+            "str_menu_nombre": "Reportes",
+            "str_menu_descripcion": "Menu de reportes",
+            "str_menu_path": "reportes",
+            "str_menu_icono": "assignment_turned_in",
+            "str_menu_estado": "ACTIVO",
+            "dt_fecha_creacion": "2024-01-17T16:18:14.910Z",
+            "dt_fecha_actualizacion": "2024-01-17T16:18:14.910Z"
+        },
+        {
+            "int_menu_id": 9,
+            "int_menu_padre_id": 1,
+            "str_menu_nombre": "Incidencias",
+            "str_menu_descripcion": "Menu de incidencias",
+            "str_menu_path": "incidencias",
+            "str_menu_icono": "assignment_turned_in",
+            "str_menu_estado": "ACTIVO",
+            "dt_fecha_creacion": "2024-01-17T16:18:14.910Z",
+            "dt_fecha_actualizacion": "2024-01-17T16:18:14.910Z"
+        },
+        {
+            "int_menu_id": 10,
+            "int_menu_padre_id": 1,
+            "str_menu_nombre": "rr",
+            "str_menu_descripcion": "r",
+            "str_menu_path": "r",
+            "str_menu_icono": "3d_rotation",
+            "str_menu_estado": "ACTIVO",
+            "dt_fecha_creacion": "2024-01-17T16:19:03.548Z",
+            "dt_fecha_actualizacion": "2024-01-17T16:19:03.548Z"
+        }
+    ]
+     */
+
+    //organizar los menus y submenus en un array para dar este formato
+
+    /**
+     * export interface MenusAndSubmenusModelBody {
+  int_menu_id:           number,
+  int_menu_padre_id:     number,
+  str_menu_nombre:       string,
+  str_menu_descripcion:  string,
+  str_menu_path:         string,
+  str_menu_icono:        string,
+  str_menu_estado:      string,
+  dt_fecha_creacion:     string,
+  dt_fecha_actualizacion: string,
+  submenus:              MenusAndSubmenusModelBody[];
+}
+     */
+
+    for(let i=0; i<menus.length; i++){
+        let submenu = await menuRepository.getSubmenusPorId(menus[i].int_menu_id);
+        menus[i].submenus = submenu;
+    }
+
+    menus = organizarMenus(menus);
+
+    function organizarMenus(menus) {
+        // Crear un mapa para almacenar los menús por su ID
+        const menuMap = new Map();
+      
+        // Crear una función recursiva para organizar los menús
+        function organizar(menu) {
+          // Verificar si el menú ya está en el mapa
+          if (!menuMap.has(menu.int_menu_id)) {
+            // Si no está en el mapa, agregarlo
+            menuMap.set(menu.int_menu_id, menu);
+      
+            // Verificar si el menú tiene submenús
+            if (menu.submenus && menu.submenus.length > 0) {
+              // Organizar los submenús recursivamente
+              menu.submenus = menu.submenus.map(submenu => organizar(submenu));
+            }
+      
+            return menu;
+          } else {
+            // Si el menú ya está en el mapa, devolver null para indicar que debe ser omitido
+            return null;
+          }
+        }
+      
+        // Organizar los menús iniciales
+        const menusOrganizados = menus.map(menu => organizar(menu)).filter(menu => menu !== null);
+      
+        return menusOrganizados;
+      }
+
+    console.log(menus);
+
+
+    return {
+        status: true,
+        message: "Menus encontrados",
+        body: menus,
+        };
+
+  
+
+}
+
 export default {
     obtenerMenusService,
     obtenerMenuService,
@@ -366,5 +549,6 @@ export default {
     desactivarMenuService,
     filtrarMenusService,
     buscarMenuService,
-    obtenerMenusSinPaginacionService
+    obtenerMenusSinPaginacionService,
+    obtenerMenusAndSubmenusService
 };

@@ -68,7 +68,6 @@ export class UsuarioRolService {
       next:(data:UsuarioRolModel)=>{
         if(data.status){
           this.usuariosRoles = data.body;
-          console.log(this.usuariosRoles);
           this.setUsuariosRoles(this.usuariosRoles);
         }
       },

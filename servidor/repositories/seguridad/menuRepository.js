@@ -299,6 +299,24 @@ const obtenerTotalMenus = async() => {
     }
 }
 
+const getAllMenusAndSubmenus = async () => {
+    try {
+        //quiero hallar los menus excepto el que tenga int_menu_padre_id = null
+        const menus = await Menu.findAll({
+            where: {
+                int_menu_padre_id: {
+                    [Op.ne]: null
+                },
+                str_menu_estado: "ACTIVO"
+            },
+            raw: true
+        });
+        return menus;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
  export default {
     getAllMenus,
@@ -313,5 +331,6 @@ const obtenerTotalMenus = async() => {
     filtrarMenus,
     desactivarMenu,
     obtenerMenusConPaginacion,
-    obtenerTotalMenus
+    obtenerTotalMenus,
+    getAllMenusAndSubmenus
 }

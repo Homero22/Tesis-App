@@ -137,6 +137,21 @@ const desactivarMenu = async (req, res) => {
     }
 }
 
+const obtenerMenusAndSubmenus = async (req, res) => {
+    try {
+        console.log("MenusAndSubmenus");
+        const menus = await menusUseCase.obtenerMenusAndSubmenusService();
+        res.json(menus);
+    } catch (error) {
+        res.status(500).json({
+            status: false,
+            message: "Error en el servidor" + error,
+            body: [],
+        });
+    }
+
+}
+
 
 
 export default {
@@ -148,5 +163,6 @@ export default {
     filtrarMenus,
     actualizarMenu,
     desactivarMenu,
-    obtenerMenusSinPaginacion
+    obtenerMenusSinPaginacion,
+    obtenerMenusAndSubmenus
 };

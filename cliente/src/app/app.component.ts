@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RoutesRecognized } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Layouts } from './layout/layout';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',

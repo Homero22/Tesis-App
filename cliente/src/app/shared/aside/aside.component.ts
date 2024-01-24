@@ -9,14 +9,15 @@ import { MenusService } from 'src/app/core/services/menus.service';
 export class AsideComponent implements OnInit {
 
   isExpanded = true;
-
+  menuAjustes : any[] = [];
+  menus : any[] = [];
 
 
   constructor(
-    public srvMenus : MenusService,
+    public srvMenu : MenusService,
   ) { }
   ngOnInit(): void {
-
+    this.srvMenu.obtenerMenusAndSubmenus();
   }
   OnDestroy() {}
 
@@ -24,5 +25,6 @@ export class AsideComponent implements OnInit {
     this.isExpanded = !this.isExpanded;
 
   }
+
 
 }

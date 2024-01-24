@@ -26,28 +26,3 @@
   color: white;
 }
 
-
-
-
-/* @media (min-width: 992px) {
-
-  .icon {
-    position: relative;
-
-  }
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-}
-
-@media (max-width: 767px) {
-  .pAside {
-    width: 260px;
-    transition: width 0.3s ease;
-  }
-
-  .pAside.close {
-    width: 0;
-    transition: width 0.3s ease;
-  }
-} */

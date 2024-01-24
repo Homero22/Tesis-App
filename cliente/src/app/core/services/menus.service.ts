@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import config from "config/config";
-import { MenusModel, MenusModelBody, NuevoMenuModel } from "../models/menus";  // Import your menu-related models
+import { MenusAndSubmenusModel, MenusAndSubmenusModelBody, MenusModel, MenusModelBody, NuevoMenuModel } from "../models/menus";  // Import your menu-related models
 import { DataMetadata } from "../models/metadata";
 import { BehaviorSubject, Subject, takeUntil } from "rxjs";
 import Swal from "sweetalert2";
@@ -14,6 +14,7 @@ export class MenusService {
 
   private urlApi_menus: string = config.URL_API_BASE + "menus";
   private urlApi_all_menus: string = config.URL_API_BASE + "menus/all";
+  private urlApi_menusAndSubmenus: string = config.URL_API_BASE + "menus/menusAndSubmenus";
   private urlApi_desactivar_menu: string = config.URL_API_BASE + "menus/desactivar";
   private urlApi_buscar_menu: string = config.URL_API_BASE + "menus/buscar";
   private urlApi_filtrar_menu: string = config.URL_API_BASE + "menus/filtrar";
@@ -23,6 +24,7 @@ export class MenusService {
 
   menus!: MenusModelBody[];
   allmenus!: MenusModelBody[];
+  menusAndSubmenus!: MenusAndSubmenusModelBody[];
   metaData!: DataMetadata;
   menuSeleccionado!: MenusModelBody;
   agregarMenuPadre!: MenusModelBody[];
@@ -51,6 +53,7 @@ export class MenusService {
   private dataMetadata$ = new Subject<DataMetadata>();
   private destroy$ = new Subject<any>();
   private dataMenus$ = new Subject<MenusModelBody[]>();
+  private dataMenusAndSubmenus$ = new Subject<MenusAndSubmenusModelBody[]>();
   private dataAllMenus$ = new Subject<MenusModelBody[]>();
   private updateMenu$ = new BehaviorSubject<MenusModelBody>({
     // Update this based on your menu model
@@ -107,6 +110,13 @@ export class MenusService {
     this.dataMenus$.next(data);
   }
 
+  setMenusAndSubmenus(data: MenusAndSubmenusModelBody[]) {
+    this.dataMenusAndSubmenus$.next(data);
+  }
+  get selectMenusAndSubmenus$() {
+    return this.dataMenusAndSubmenus$.asObservable();
+  }
+
   get selectMenus$() {
     return this.dataMenus$.asObservable();
   }
@@ -136,6 +146,13 @@ export class MenusService {
   }
   getSubmenus(_id: number) {
     return this.http.get<MenusModel>(`${this.urlApi_submenus}/${_id}`, {
+      withCredentials: true,
+    });
+  }
+
+  //obtener todos los menus con sus submenus
+  getMenusAndSubmenus() {
+    return this.http.get<MenusAndSubmenusModel>(this.urlApi_menusAndSubmenus, {
       withCredentials: true,
     });
   }
@@ -313,6 +330,24 @@ export class MenusService {
           this.allmenus = data.body;
           this.setAllMenus(this.allmenus);
           console.log("all",this.allmenus)
+        },
+        error: (err) => {
+          Swal.fire({
+            icon:'error',
+            title:'Ha ocurrido un error',
+            text:err.error.message
+          })
+        },
+      });
+  }
+
+  obtenerMenusAndSubmenus() {
+    this.getMenusAndSubmenus()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data: MenusAndSubmenusModel) => {
+          this.menusAndSubmenus = data.body;
+          this.setMenusAndSubmenus(this.menusAndSubmenus);
         },
         error: (err) => {
           Swal.fire({

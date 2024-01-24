@@ -42,10 +42,9 @@ export class PerfilesComponent implements OnInit {
   }
 
   editarPermisos(id:number, _tittle:string, _form:string){
+    this.srvPermisos.obtenerTodosPermisosUsuarioRol(id);
     this.srvModal.setFormModal({formulario:_form, title:_tittle, special:false});
     this.srvModal.openModal();
-    this.srvPermisos.obtenerTodosPermisosUsuarioRol(id);
-
   }
 
   cambiarEstado(id:number){
