@@ -31,9 +31,6 @@ const obtenerRolesPorUsuarioService = async (id) => {
             const rol = await rolRepository.getRolPorId(roles[i].int_rol_id);
             roles[i].str_rol_nombre = rol.str_rol_nombre;
         }
-
-
-
         respuesta = {
         status: true,
         message: "Roles encontrados",

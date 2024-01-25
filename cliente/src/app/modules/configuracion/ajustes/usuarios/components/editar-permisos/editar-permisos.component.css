@@ -1,0 +1,75 @@
+
+
+.content-td.check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-bg);
+  border-radius: var(--bs-border-radius);
+  border: 1px solid var(--color-accent);
+  display: flex; /* Add this to make sure the icon is centered */
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+}
+
+/* Cambiar el color del checkbox cuando está activado */
+input[type="checkbox"]:checked {
+  background-color: var(--color-accent);
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f00c";
+  font-size: 14px;
+  color: var(--color-bg);
+}
+
+input[type="checkbox"]:after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f00c";
+  font-size: 14px;
+  color: var(--color-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2px;
+}
+
+.content-td{
+  margin: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-spacing: 0px;
+}
+
+th{
+  border-top: 0.5px solid;
+  align-items: center;
+}
+
+td{
+  border-top: 0.5px solid;
+  align-items: center;
+}
+
+.cont{
+  width: 100%;
+  height: 15%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center; /* Alinea el contenido del encabezado y las celdas al centro */
+}
+
+
+

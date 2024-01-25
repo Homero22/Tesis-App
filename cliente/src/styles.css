@@ -1176,10 +1176,11 @@ cuando se va a realizar busqueda por filtrado */
   transition: all 0.5s ease;
   display: flex;
   flex-direction: column;
+  width: 50px;
 }
 
 .pAside.close {
-  width: 56px;
+  width: 50px;
 }
 
 .containerNavOptions.active {

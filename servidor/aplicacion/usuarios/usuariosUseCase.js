@@ -4,6 +4,7 @@ import { serviciosExternos } from "../../configuracion/variablesGlobales.js";
 import { configVariables } from "../../configuracion/variablesGlobales.js";
 import usuarioRolRepository from "../../repositories/seguridad/usuarioRolRepository.js";
 import {sequelize} from "../../database/postgres.js";
+import permisosService from "../../aplicacion/seguridad/permisosUseCase.js";
 import fetch from "node-fetch"; //para consumir una API
 import https from "https";
 import crypto from "crypto";
@@ -144,6 +145,20 @@ const crearUsuarioService = async (cedula,telefono,idRol) => {
     await t.rollback();
   }
   await t.commit();
+
+  //luego del commit para que se cree el usuario y el usuarioRol, debo crear los permisos
+    //una vez que obtengo el in_usuario_rol_id de UsuarioRol, debo obtener todos los int_menu_id de Permisos para completar los permisos.
+  //llamo al permisosService enviandole el int_usuario_rol_id creado
+  console.log("Id del usuariorol",usuarioRol);
+  const permisosActualizados = await permisosService.crearPermisosPorIdUsuarioRolService(
+    usuarioRol
+  );
+
+  if (!permisosActualizados) {
+    await t.rollback();
+  }
+
+
 
   return {
     status: true,

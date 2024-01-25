@@ -99,7 +99,7 @@ Permiso.belongsTo(Menu, { foreignKey: 'int_menu_id'});
 
 // Modelo Menu
 Menu.hasMany(Permiso, { foreignKey: 'int_menu_id'});
-Menu.hasMany(Menu, { foreignKey: 'int_menu_padre_id' });
+Menu.hasMany(Menu, { foreignKey: 'int_menu_padre_id'});
 Menu.belongsTo(Menu, { foreignKey: 'int_menu_padre_id'});
 
 

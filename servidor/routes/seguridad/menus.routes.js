@@ -5,6 +5,7 @@ const router = Router();
 
 router.get("/", menusController.obtenerMenus);
 router.get("/all", menusController.obtenerMenusSinPaginacion);
+router.get("/menusAndSubmenus", menusController.obtenerMenusAndSubmenus);
 router.get("/buscar", menusController.buscarMenu);
 router.get("/filtrar", menusController.filtrarMenus);
 router.get("/:id", menusController.obtenerMenu);
@@ -12,6 +13,7 @@ router.post("/", menusController.crearMenu);
 router.put("/:id", menusController.actualizarMenu);
 router.put("/desactivar/:id", menusController.desactivarMenu);
 router.get("/submenus/:id", menusController.obtenerSubmenus);
+
 
 
 export default router; 
