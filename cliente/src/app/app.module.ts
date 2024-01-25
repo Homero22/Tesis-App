@@ -22,6 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from './modules/modal/modal.module';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +39,8 @@ import { ModalModule } from './modules/modal/modal.module';
     ConfiguracionModule,
     LayoutModule,
     ReactiveFormsModule,
-    ModalModule
+    ModalModule,
+
 
 
 

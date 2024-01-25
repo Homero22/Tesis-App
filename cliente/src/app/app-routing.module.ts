@@ -10,6 +10,7 @@ import { LoginModule } from './modules/login/login.module';
 import { InicioModule } from './modules/inicio/inicio.module';
 import { ConfiguracionModule } from './modules/configuracion/configuracion.module';
 
+
 const routes: Routes = [
   {
     path:config.URL_BASE_PATH,
@@ -28,7 +29,7 @@ const routes: Routes = [
     data:{layout:Layouts.full},
     children:[
       {path:'', loadChildren:()=>InicioModule},
-      {path:'ajustes', loadChildren:()=>ConfiguracionModule}
+      {path:'ajustes', loadChildren:()=>ConfiguracionModule},
     ]
   },
   { path: '**', redirectTo:'/404'}

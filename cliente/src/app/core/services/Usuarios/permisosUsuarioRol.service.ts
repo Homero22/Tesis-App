@@ -20,18 +20,19 @@ export class PermisosUsuarioRolService {
 
   private destroy$ = new Subject<any>();
 
-  private dataPermisosUsuarioRol$ = new BehaviorSubject<PermisosUsuarioRolModel[]>([]);
+  private dataPermisosUsuarioRol$ = new Subject<Permiso[]>();
 
   permisosUsuarioRol!: Permiso[];
 
 
-  setPermisosUsuarioRol(data: PermisosUsuarioRolModel[]) {
+  setPermisosUsuarioRol(data: Permiso[]) {
     this.dataPermisosUsuarioRol$.next(data);
   }
 
   get getPermisosUsuarioRol() {
     return this.dataPermisosUsuarioRol$.asObservable();
   }
+
 
   //obtener permisosUsuarioRol de un usuario por ID
   obtenerPermisosUsuarioRol(_id: number) {
@@ -42,7 +43,18 @@ export class PermisosUsuarioRolService {
     );
   }
 
-  //editar permisoss
+  //editar permisos
+
+  editarPermisosUsuarioRol(idUsuarioRol: number, permisos: Permiso[]) {
+    return this.http.put<PermisosUsuarioRolModel>(this.urlApi_permisosUsuarioRol + "/" + idUsuarioRol,
+      {
+        permisos
+      },
+      {
+        withCredentials: true
+      }
+    );
+  }
 
 
   //funcion para obtener todos los permisosUsuarioRol
@@ -51,8 +63,8 @@ export class PermisosUsuarioRolService {
     this.obtenerPermisosUsuarioRol(idUsuarioRol).subscribe({
       next: (data: any) => {
         this.permisosUsuarioRol = data.body;
-        console.log("=?=",this.permisosUsuarioRol);
-
+        console.log(this.permisosUsuarioRol);
+        this.setPermisosUsuarioRol(this.permisosUsuarioRol);
       },
       error: (error) => {
         console.log(error);

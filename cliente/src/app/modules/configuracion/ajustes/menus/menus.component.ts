@@ -144,6 +144,7 @@ export class MenusComponent implements OnInit {
                   page: 1,
                   limit: 10,
                 });
+                this.srvMenus.obtenerMenusAndSubmenus();
               } else {
                 Swal.fire({
                   icon: 'error',

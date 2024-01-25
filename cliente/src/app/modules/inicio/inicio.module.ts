@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 
+
 const routes: Routes =[
   {
     path: '',
@@ -12,15 +13,23 @@ const routes: Routes =[
       {
         path:'welcome',
         loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule)
+      },
+      {
+        path:'incidencias',
+        loadChildren: () => import('./incidencias/incidencias.module').then(m => m.IncidenciasModule)
       }
+
+
     ]
-  }
+  },
 ]
 @NgModule({
   declarations: [InicioComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+
+
   ],
   exports: [
     RouterModule
