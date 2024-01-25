@@ -1,4 +1,5 @@
 import usuarioRepository from "../../repositories/seguridad/usuarioRepository.js";
+import usuarioRolRepository from "../../repositories/seguridad/usuarioRolRepository.js";
 import { jwtVariables } from "../../configuracion/variablesGlobales.js";
 import jwt from "jsonwebtoken";
 
@@ -45,12 +46,8 @@ const validarUsuarioDeXml = async (xmlDatosCas) => {
 const extraerDatosDelXml = (xmlDatosCas) => {
   try {
 
-    /**
-     * <cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>    <cas:authenticationFailure code="INVALID_TICKET">Ticket &#39;ST-3744687--nKHsXJH2E8EghX6kreIDlg57Ls-aplicativos&#39; not recognized</cas:authenticationFailure></cas:serviceResponse>
-     */
-    //antes de extraer los datos del xml, validar que sea distinto de INVALID_TICKET
     const esInvalidTicket = xmlDatosCas.includes("INVALID_TICKET");
-    console.log("esInvalidTicket: ", esInvalidTicket);
+
     if (esInvalidTicket) {
       return false;
     }

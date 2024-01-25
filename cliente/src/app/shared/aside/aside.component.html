@@ -7,13 +7,13 @@
   <div class="sidebar close">
     <ul class="nav-links">
       <div class="link-opcion">
-        <li *ngFor="let item of srvMenu.menusAndSubmenus" class="link-opcion">
+        <li *ngFor="let item of srvMenu.menusPermisos" class="link-opcion">
           <div class="icon-link">
-            <a [routerLink]="item.str_menu_path">
+            <a [routerLink]="item.str_menu_path" *ngIf="item.bln_permiso_ver== true">
               <i d="toggle-sidebar" class="material-icons icon-opcion">{{
                 item.str_menu_icono
               }}</i>
-              <span class="link_name">{{ item.str_menu_nombre }}</span>
+              <span  class="link_name">{{ item.str_menu_nombre }}</span>
             </a>
             <i
               *ngIf="item.submenus && item.submenus.length > 0"
@@ -27,30 +27,13 @@
               </a>
             </li>
             <li *ngFor="let child of item.submenus" >
-              <a class="sub-opcions" [routerLink]="child.str_menu_path"> {{ child.str_menu_nombre }} </a>
+              <a *ngIf="child.bln_permiso_ver" class="sub-opcions" [routerLink]="child.str_menu_path"> {{ child.str_menu_nombre }} </a>
             </li>
           </ul>
         </li>
       </div>
     </ul>
 
-    <!-- <ul class="nav-links">
-      <div class="link-opcion">
-        <li class="link-opcion" >
-          <div class="icon-link">
-            <a [routerLink]="'/ajustes'">
-              <i d="toggle-sidebar" class="material-icons icon-opcion">{{
-               ""
-              }}</i>
-              <span class="link_name">{{ srvMenu }}</span>
-            </a>
-          </div>
-          <ul class="sub-menu">
-            <li><a class="link_name" [routerLink]=""> Ajustes </a></li>
-          </ul>
-        </li>
-      </div>
-    </ul> -->
   </div>
 
 </div>

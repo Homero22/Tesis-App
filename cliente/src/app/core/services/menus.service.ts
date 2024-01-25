@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import config from "config/config";
-import { MenusAndSubmenusModel, MenusAndSubmenusModelBody, MenusModel, MenusModelBody, NuevoMenuModel } from "../models/menus";  // Import your menu-related models
+import { MenusAndSubmenusModel, MenusAndSubmenusModelBody, MenusModel, MenusModelBody, MenusPermisosModel, MenusPermisosModelBody, NuevoMenuModel } from "../models/menus";  // Import your menu-related models
 import { DataMetadata } from "../models/metadata";
 import { BehaviorSubject, Subject, takeUntil } from "rxjs";
 import Swal from "sweetalert2";
@@ -25,6 +25,7 @@ export class MenusService {
   menus!: MenusModelBody[];
   allmenus!: MenusModelBody[];
   menusAndSubmenus!: MenusAndSubmenusModelBody[];
+  menusPermisos!: MenusPermisosModelBody[];
   metaData!: DataMetadata;
   menuSeleccionado!: MenusModelBody;
   agregarMenuPadre!: MenusModelBody[];
@@ -54,6 +55,7 @@ export class MenusService {
   private destroy$ = new Subject<any>();
   private dataMenus$ = new Subject<MenusModelBody[]>();
   private dataMenusAndSubmenus$ = new Subject<MenusAndSubmenusModelBody[]>();
+  private dataMenusPermisos$ = new Subject<MenusPermisosModelBody[]>();
   private dataAllMenus$ = new Subject<MenusModelBody[]>();
   private updateMenu$ = new BehaviorSubject<MenusModelBody>({
     // Update this based on your menu model
@@ -113,6 +115,10 @@ export class MenusService {
   setMenusAndSubmenus(data: MenusAndSubmenusModelBody[]) {
     this.dataMenusAndSubmenus$.next(data);
   }
+  setMenusPermisos(data: MenusPermisosModelBody[]) {
+    this.dataMenusPermisos$.next(data);
+  }
+
   get selectMenusAndSubmenus$() {
     return this.dataMenusAndSubmenus$.asObservable();
   }
@@ -156,6 +162,15 @@ export class MenusService {
       withCredentials: true,
     });
   }
+
+
+  //obtener todos los menus con sus submenus dado un nombre de rol
+  getMenusAndSubmenusByRol(_rol: string) {
+    return this.http.get<MenusPermisosModel>(`${this.urlApi_menusAndSubmenus}/${_rol}`, {
+      withCredentials: true,
+    });
+  }
+
 
 
   editarMenu(menu: MenusModelBody) {
@@ -358,4 +373,27 @@ export class MenusService {
         },
       });
   }
+
+
+  obtenerMenusAndSubmenusByRol(_rol: string) {
+
+    this.getMenusAndSubmenusByRol(_rol)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data: MenusPermisosModel) => {
+          this.menusPermisos = data.body;
+          this.setMenusPermisos(this.menusPermisos);
+        },
+        error: (err) => {
+          Swal.fire({
+            icon:'error',
+            title:'Ha ocurrido un error en la obtencion de los menus por rol',
+            text:err.error.message
+          })
+        },
+      });
+  }
+
+
+
 }

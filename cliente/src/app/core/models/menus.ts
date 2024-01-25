@@ -58,6 +58,28 @@ export interface MenusAndSubmenusModelBody {
   submenus:              MenusAndSubmenusModelBody[];
 }
 
+export interface MenusPermisosModel {
+  status: boolean;
+  message: string;
+  body: MenusPermisosModelBody[];
+}
+
+
+export interface MenusPermisosModelBody {
+  int_menu_id: number;
+  str_menu_estado: string;
+  int_menu_padre_id: number;
+  str_menu_nombre: string;
+  str_menu_descripcion: string;
+  str_menu_path: string;
+  str_menu_icono: string;
+  bln_permiso_ver: boolean;
+  bln_permiso_crear: boolean;
+  bln_permiso_editar: boolean;
+  bln_permiso_eliminar: boolean;
+  submenus: MenusPermisosModelBody[];
+}
+
 
 
 

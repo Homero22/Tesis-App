@@ -17,6 +17,7 @@ export class UsuarioRolService {
   private urlApi_usuarioRol: string = config.URL_API_BASE + "usuarioRol";
   private urlApi_buscar_usuarioRol: string = config.URL_API_BASE + "usuarioRol/buscar";
   private urlApi_filtrar_usuarioRol: string = config.URL_API_BASE + "usuarioRol/filtrar";
+  private urlApi_logueado_usuarioRol: string = config.URL_API_BASE + "usuarioRol/usuarioLogueado";
 
   constructor(private http: HttpClient) { }
 
@@ -37,6 +38,14 @@ export class UsuarioRolService {
   //obtener usuarioRoles de un usuario por ID
   getUsuarioRoles(_id: number) {
     return this.http.get<UsuarioRolModel>(this.urlApi_usuarioRol + "/" + _id,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  getUsuarioLogueadoRoles() {
+    return this.http.get<UsuarioRolModel>(this.urlApi_logueado_usuarioRol,
       {
         withCredentials: true
       }

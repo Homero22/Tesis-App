@@ -2,8 +2,46 @@ import { NgModule } from "@angular/core";
 import { IncidenciasComponent } from "./incidencias.component";
 import { CommonModule } from "@angular/common";
 import { IncidenciasRoutingModule } from "./incidencias-routing.module";
+import { RouterModule, Routes } from "@angular/router";
 
-
+const routes: Routes = [
+  {
+    path:'',
+    children:[
+      {
+        path:'subirArchivo',
+        loadChildren:()=>
+        import('./incidencias-routing.module').then(
+          (m)=>m.IncidenciasRoutingModule
+        )
+      },
+      {
+        path:'vulnerabilidades',
+        loadChildren:()=>
+        import('./incidencias-routing.module').then(
+          (m)=>m.IncidenciasRoutingModule
+        )
+      },
+      {
+        path:'tickets',
+        loadChildren:()=>
+        import('./incidencias-routing.module').then(
+          (m)=>m.IncidenciasRoutingModule
+        )
+      },
+      {
+        path:'seguimiento',
+        loadChildren:()=>
+        import('./incidencias-routing.module').then(
+          (m)=>m.IncidenciasRoutingModule
+        )
+      }
+    ]
+  },
+  {
+    path:'**', redirectTo:''
+  }
+];
 
 @NgModule({
     declarations: [
@@ -11,7 +49,8 @@ import { IncidenciasRoutingModule } from "./incidencias-routing.module";
     ],
     imports: [
       CommonModule,
-      IncidenciasRoutingModule
+      IncidenciasRoutingModule,
+      RouterModule.forChild(routes)
 
     ],
     exports: [

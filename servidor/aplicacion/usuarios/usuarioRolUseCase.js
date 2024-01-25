@@ -141,9 +141,31 @@ const cambiarEstadoUsuarioRolService = async (id) => {
         body: usuarioRolDesactivado,
     };
 }
+
+ //obtener el int_usuario_rol_id del usuario logueado dado el str_rol_nombre y el int_usuario_id
+const obtenerIdUsuarioRolService = async (rol, idUsuario) => {
+    const usuarioRol = await usuarioRolRepository.getUsuarioRolByIdUsuarioAndRol(idUsuario, rol);
+    if (!usuarioRol) {
+        return {
+        status: false,
+        message: "No se encontró el usuario rol con el rol y el id del usuario",
+        body: [],
+        };
+    }
+    return {
+        status: true,
+        message: "Usuario rol encontrado",
+        body: usuarioRol,
+    };
+}
+
+
+
 export default {
     obtenerRolesPorUsuarioService,
     crearUsuarioRolService,
     cambiarEstadoUsuarioRolService,
+    obtenerIdUsuarioRolService,
+
     
 }

@@ -17,7 +17,8 @@ export class AsideComponent implements OnInit {
     public srvMenu : MenusService,
   ) { }
   ngOnInit(): void {
-    this.srvMenu.obtenerMenusAndSubmenus();
+    let rol = localStorage.getItem('selectedRole');
+    this.srvMenu.obtenerMenusAndSubmenusByRol(rol!);
   }
   OnDestroy() {}
 

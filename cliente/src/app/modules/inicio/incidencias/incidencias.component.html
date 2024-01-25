@@ -1,3 +1,128 @@
-<p>
-  incidencias works!
-</p>
+
+<div class="father">
+  <div class="containerBody">
+
+      <!-- Seccion Titulo 'Pantalla de Configuracion' -->
+      <div class="set">
+        <div class="titleConfiguration">
+          <h1>Pantalla de
+            <span style="color:#B41A12 ;">
+              Incidencias
+            </span>
+          </h1>
+          <span style="color:rgb(160, 160, 160);
+            font-family: 'Roboto', Arial, sans-serif;
+            font-size: 14px;">
+            Proceso de registro y seguimiento de incidencias
+          </span>
+        </div>
+        <!-- <div class="buttonSettings">
+          <div class="btn-agg" *ngIf="this.menuTabsSelected ===1  ">
+            <app-button-modal
+            [tipoModal]="'nuevoMenu'"
+            [titleModal]="'Agregar Menú'"
+            [contenido]="'Nuevo menú  '"
+            [conIcono]="true"
+            [icono]="'add'"
+            [color]="'#1c1917'"
+            >
+            </app-button-modal>
+
+          </div>
+          <div class="btn-agg" *ngIf="this.menuTabsSelected ===2 && permiso('ajustes/usuarios','bln_permiso_crear') ">
+            <app-button-modal
+            [tipoModal]="'nuevoUsuario'"
+            [titleModal]="'Agregar Usuario'"
+            [contenido]="'Nuevo Usuario '"
+            [conIcono]="true"
+            [icono]="'add'"
+            [color]="'#1c1917'"
+            >
+            </app-button-modal>
+
+          </div>
+          <div class="btn-agg" *ngIf="this.menuTabsSelected ===3 && permiso('ajustes/roles','bln_permiso_crear') ">
+            <app-button-modal
+            [tipoModal]="'nuevoRol'"
+            [titleModal]="'Agregar Rol'"
+            [contenido]="'Nuevo Rol '"
+            [conIcono]="true"
+            [icono]="'add'"
+            [color]="'#1c1917'"
+            >
+            </app-button-modal>
+
+          </div>
+
+        </div> -->
+
+      </div>
+
+
+      <nav class="navSection">
+
+        <div class="containerNavOptions" id="menu"  >
+
+          <div class="container-button" id="nav-home-tab">
+            <button class="nav-link {{this.menuTabsSelected === 0 ? 'active' : isValue == 1  }} " id="nav-home-tab"
+              [routerLink]="'/incidencias/'+ baseUrl + 'subirArchivo'" type="button">
+              Subir
+            </button>
+          </div>
+
+            <div class="container-button" id="nav-profile-tab" *ngIf="permiso('incidencias/incidencias','bln_permiso_ver')">
+              <button button class="nav-link {{this.menuTabsSelected === 1 ? 'active' : isValue == 2 }}" id="nav-profile-tab"
+              [routerLink]="'/incidencias/'+ baseUrl + 'vulnerabilidades'"
+              type="button" >
+                Incidencias
+              </button>
+            </div>
+
+            <div class="container-button" id="nav-contact-tab" *ngIf="permiso('incidencias/tickets','bln_permiso_ver')">
+              <button class="nav-link {{this.menuTabsSelected === 2 ? 'active' : isValue == 3}}" id="nav-contact-tab"
+                [routerLink]="'/incidencias/'+baseUrl+'tickets'" type="button">
+                Tickets
+              </button>
+            </div>
+
+            <div class="container-button" id="nav-contact-tab" *ngIf="permiso('incidencias/seguimiento','bln_permiso_ver')">
+              <button class="nav-link {{this.menuTabsSelected === 3 ? 'active' : isValue == 4}}" id="nav-contact-tab"
+                [routerLink]="'/incidencias/'+baseUrl+'seguimiento'" type="button">
+                Seguimiento
+              </button>
+            </div>
+
+        </div>
+      </nav>
+
+
+      <div class="containerContent">
+
+
+        <div class="tab-pane fade" id="nav-home" *ngIf=" this.menuTabsSelected === 0  ">
+          <h1>archivo</h1>
+        </div>
+
+
+        <div class="tab-pane fade" id="nav-profile" *ngIf=" this.menuTabsSelected === 1  && permiso('incidencias/incidencias','bln_permiso_ver')">
+          <h1>incidencias</h1>
+        </div>
+
+
+        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected === 2  && permiso('incidencias/tickets','bln_permiso_ver') ">
+          <h1>tickets</h1>
+        </div>
+
+
+        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===3 && permiso('incidencias/seguimiento','bln_permiso_ver') " >
+          <h1>seguimiento</h1>
+        </div>
+
+
+
+
+
+
+      </div>
+
+</div>

@@ -1,5 +1,14 @@
 import menusUseCase from "../../aplicacion/seguridad/menusUseCase.js";
 
+import jwt from "jsonwebtoken";
+import { jwtVariables } from "../../configuracion/variablesGlobales.js";
+
+import permisosUseCase from "../../aplicacion/seguridad/permisosUseCase.js";
+
+import usuarioRolUseCase from "../../aplicacion/usuarios/usuarioRolUseCase.js";
+
+import rolesUseCase from "../../aplicacion/seguridad/rolesUseCase.js";
+
 const obtenerMenus = async (req, res) => {
     try {
         const query = req.query;
@@ -139,8 +148,19 @@ const desactivarMenu = async (req, res) => {
 
 const obtenerMenusAndSubmenus = async (req, res) => {
     try {
-        console.log("MenusAndSubmenus");
-        const menus = await menusUseCase.obtenerMenusAndSubmenusService();
+        const { rol } = req.params;
+        const {token} = req.cookies;
+        const dataCookie = jwt.verify(token, jwtVariables.jwtSecret);
+
+        //obtengo el int_rol_id dado un rol
+        const idRol = await rolesUseCase.obtenerIdRolByNameService(rol);
+
+        //obtener el int_usuario_rol_id del usuario logueado dado el rol
+        const usuario = await usuarioRolUseCase.obtenerIdUsuarioRolService(idRol, dataCookie.int_usuario_id);
+
+        const permisosMenus = await permisosUseCase.obtenerPermisosPorIdUsuarioRolService(usuario.body.int_usuario_rol_id);
+
+        const menus = await menusUseCase.obtenerMenusAndSubmenusService2(permisosMenus);
         res.json(menus);
     } catch (error) {
         res.status(500).json({

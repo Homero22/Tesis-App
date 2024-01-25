@@ -1,5 +1,6 @@
 import usuarioRol from "../../aplicacion/usuarios/usuarioRolUseCase.js";
-
+import { jwtVariables } from "../../configuracion/variablesGlobales.js";
+import jwt from "jsonwebtoken";
 const obtenerRolesPorUsuario = async (req, res) => {
     try {
         const { id } = req.params;
@@ -13,6 +14,25 @@ const obtenerRolesPorUsuario = async (req, res) => {
         });
     }
 };
+
+const obtenerRolesUsuarioLogueado = async (req, res) => {
+    try{
+        const {token} = req.cookies;
+        const dataCookie = jwt.verify(token, jwtVariables.jwtSecret);
+
+        const roles = await usuarioRol.obtenerRolesPorUsuarioService(dataCookie.int_usuario_id);
+        
+        res.json(roles);
+
+    }catch(error){
+        res.status(500).json({
+        status: false,
+        message: "Error en el servidor" + error,
+        body: [],
+        });
+    }
+
+}
 
 const crearUsuarioRol = async (req, res) => {
     try {
@@ -51,4 +71,5 @@ export default {
     obtenerRolesPorUsuario,
     crearUsuarioRol,
     cambiarEstadoUsuarioRol,
+    obtenerRolesUsuarioLogueado,
 }
