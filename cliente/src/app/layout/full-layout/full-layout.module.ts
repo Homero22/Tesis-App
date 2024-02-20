@@ -14,4 +14,7 @@ import { FullLayoutRoutingModule } from "./full-layout-routing.module";
 
   })
 
-export class FullLayoutModule { }
+export class FullLayoutModule {
+
+
+}

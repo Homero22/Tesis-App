@@ -3,6 +3,8 @@ import { IncidenciasComponent } from "./incidencias.component";
 import { CommonModule } from "@angular/common";
 import { IncidenciasRoutingModule } from "./incidencias-routing.module";
 import { RouterModule, Routes } from "@angular/router";
+import { ComponentsModule } from "../../components/components.module";
+import { ProcesoIncidenciasModule } from "./procesoIncidencias/procesoIncidencias.module";
 
 const routes: Routes = [
   {
@@ -50,11 +52,12 @@ const routes: Routes = [
     imports: [
       CommonModule,
       IncidenciasRoutingModule,
-      RouterModule.forChild(routes)
-
+      RouterModule.forChild(routes),
+      ComponentsModule,
+      ProcesoIncidenciasModule
     ],
     exports: [
-      IncidenciasComponent
+      RouterModule
     ],
 })
 export class IncidenciasModule { }

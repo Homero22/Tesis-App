@@ -23,6 +23,8 @@ export class DesplegableComponent implements OnInit {
   showDropdownRoles = false;
   showDropdownResponsive = false;
 
+  initRol! : string;
+
   rolesUsuario: any[] = [];
   selectedRole: any;
 
@@ -32,41 +34,49 @@ export class DesplegableComponent implements OnInit {
     public casCliente: CasClient) { }
 
   ngOnInit():void {
-    this.srvUsuario
-    .getMe()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (_me) => {
-        this.srvUsuario.dataMiCuenta = _me.body;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
 
-    this.srvUsuarioRol
-      .getUsuarioLogueadoRoles()
+
+
+
+
+
+      this.srvUsuario
+      .getMe()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data: any) => {
-          if (data.status) {
-            this.rolesUsuario = data.body;
-            this.selectedRole = this.rolesUsuario[0];
-            const storedRole = localStorage.getItem('selectedRole');
-            if(storedRole){
-              this.nameRol = storedRole;
-            }else{
-              this.nameRol = this.rolesUsuario[0].str_rol_nombre;
-            }
-
-
-          }
+        next: (_me) => {
+          this.srvUsuario.dataMiCuenta = _me.body;
         },
-        error: (err: any) => {
+        error: (err) => {
           console.log(err);
         },
       });
+      this.srvUsuarioRol
+        .getUsuarioLogueadoRoles()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (data: any) => {
+            if (data.status) {
+              this.rolesUsuario = data.body;
+              this.selectedRole = this.rolesUsuario[0];
+              const storedRole = localStorage.getItem('selectedRole');
+              if(storedRole){
+                this.nameRol = storedRole;
+                localStorage.setItem('selectedRole', this.nameRol);
+              }else{
+                this.nameRol = this.rolesUsuario[0].str_rol_nombre;
+                localStorage.setItem('selectedRole', this.nameRol);
+              }
+              this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
 
+
+
+            }
+          },
+          error: (err: any) => {
+            console.log(err);
+          },
+        });
 
 
 
@@ -80,7 +90,7 @@ export class DesplegableComponent implements OnInit {
     this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
 
     //refrescar la pagina y dirigir a la pagina de inicio /welcome
-    window.location.reload();
+    // window.location.reload();
     // Redirigir a la página de inicio
   window.location.assign('/welcome');
 
@@ -91,7 +101,7 @@ export class DesplegableComponent implements OnInit {
   }
 
   ajustes(){
-    window.location.assign('/ajustes');
+    window.location.href = '/ajustes';
   }
 
 

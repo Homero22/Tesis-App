@@ -31,6 +31,7 @@ export class MenusService {
   agregarMenuPadre!: MenusModelBody[];
   nombreMenuPadre!: string;
   idMenuPadre!: number;
+  request = false;
   icons: string[] = [
     '3d_rotation', 'ac_unit','access_alarm','access_time','accessibility','accessible','account_balance',
     'account_balance_wallet','account_box','account_circle','account_circle','adb', 'assignment',
@@ -117,6 +118,9 @@ export class MenusService {
   }
   setMenusPermisos(data: MenusPermisosModelBody[]) {
     this.dataMenusPermisos$.next(data);
+  }
+  get selectMenusPermisos$() {
+    return this.dataMenusPermisos$.asObservable();
   }
 
   get selectMenusAndSubmenus$() {
@@ -376,7 +380,7 @@ export class MenusService {
 
 
   obtenerMenusAndSubmenusByRol(_rol: string) {
-
+    this.request = true;
     this.getMenusAndSubmenusByRol(_rol)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -393,6 +397,15 @@ export class MenusService {
         },
       });
   }
+  setRequest(request: boolean) {
+    this.request = request;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
 
 
 

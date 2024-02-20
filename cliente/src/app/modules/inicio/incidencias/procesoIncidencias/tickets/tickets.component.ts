@@ -8,8 +8,21 @@ import { Component, OnInit } from '@angular/core';
 export class TicketsComponent implements OnInit {
 
   constructor() { }
+  mostrar!:boolean;
 
   ngOnInit() {
+    this.mostrar=true;
   }
+
+  crearTickets(){
+    console.log('crear ticket');
+    this.mostrar=false;
+  }
+
+  guardar(){
+    console.log('guardar');
+    this.mostrar=true;
+  }
+
 
 }

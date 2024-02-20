@@ -7,7 +7,7 @@
   <div class="sidebar close">
     <ul class="nav-links">
       <div class="link-opcion">
-        <li *ngFor="let item of srvMenu.menusPermisos" class="link-opcion">
+        <li *ngFor="let item of menus" class="link-opcion">
           <div class="icon-link">
             <a [routerLink]="item.str_menu_path" *ngIf="item.bln_permiso_ver== true">
               <i d="toggle-sidebar" class="material-icons icon-opcion">{{

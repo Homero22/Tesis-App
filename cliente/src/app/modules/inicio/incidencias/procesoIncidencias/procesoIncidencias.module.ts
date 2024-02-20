@@ -7,6 +7,8 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PaginationAndFilterModule } from "src/app/shared/paginationAndFilter/paginationAndFilter.module";
+import { InfoIncidenciaComponent } from "./vulnerabilidades/components/infoIncidencia/infoIncidencia.component";
+import { CrearTicketComponent } from "./tickets/components/crearTicket/crearTicket.component";
 
 
 
@@ -17,6 +19,8 @@ import { PaginationAndFilterModule } from "src/app/shared/paginationAndFilter/pa
       SeguimientoComponent,
       TicketsComponent,
       VulnerabilidadesComponent,
+      InfoIncidenciaComponent,
+      CrearTicketComponent
     ],
     imports: [
       CommonModule,
@@ -30,6 +34,8 @@ import { PaginationAndFilterModule } from "src/app/shared/paginationAndFilter/pa
       SeguimientoComponent,
       TicketsComponent,
       VulnerabilidadesComponent,
+      InfoIncidenciaComponent,
+      CrearTicketComponent
     ]
 })
 export class ProcesoIncidenciasModule { }

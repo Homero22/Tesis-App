@@ -1,4 +1,4 @@
-import { UsuarioRol } from "../../models/esquemaSeguridad/usuarioRoles.model.js";
+import { UsuarioRol } from "../../models/seguridad/usuarioRoles.model.js";
 
 const getAllUsuarioRoles = async () => {
     try {

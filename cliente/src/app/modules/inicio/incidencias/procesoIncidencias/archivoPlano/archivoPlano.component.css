@@ -1,0 +1,51 @@
+
+/* Estilos para los encabezados de la tabla */
+th {
+  background-color: #f2f2f2; /* Color de fondo */
+  border: 1px solid #ddd; /* Borde */
+  padding: 8px; /* Espaciado interno */
+  text-align: left; /* Alineación del texto */
+}
+
+/* Estilos para los encabezados de la tabla cuando se pasa el mouse sobre ellos */
+th:hover {
+  background-color: #ddd; /* Cambio de color de fondo */
+}
+.table-Fill tbody tr:nth-child(even) {
+  background-color: #9e9696; /* Color de fondo para filas pares */
+}
+/* Estilo para las celdas de la tabla */
+.table-Fill td {
+  font-size: 12px; /* Tamaño de letra deseado */
+}
+
+/* Estilo para los encabezados de columna */
+.table-Fill th {
+  font-size: 12px; /* Tamaño de letra deseado */
+}
+
+
+.table-Fill tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* Color de fondo para filas impares */
+}
+/* Estilo para la tabla */
+.table-Fill {
+  border-collapse: collapse; /* Combina los bordes de las celdas */
+}
+
+/* Estilo para las celdas de la tabla */
+.table-Fill td, .table-Fill th {
+  border: 1px solid #000; /* Establece un borde sólido de 1px y color negro */
+  padding: 8px; /* Añade espacio interno alrededor del contenido de la celda */
+}
+
+
+
+/* Estilos para los encabezados de la tabla en dispositivos móviles */
+@media only screen and (max-width: 600px) {
+  th {
+    font-size: 14px; /* Tamaño de fuente reducido */
+  }
+}
+
+

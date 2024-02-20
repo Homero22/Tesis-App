@@ -7,6 +7,7 @@ const obtenerRolesPorUsuario = async (req, res) => {
         const roles = await usuarioRol.obtenerRolesPorUsuarioService(id);
         res.json(roles);
     } catch (error) {
+        console.log(error);
         res.status(500).json({
         status: false,
         message: "Error en el servidor" + error,
@@ -25,6 +26,7 @@ const obtenerRolesUsuarioLogueado = async (req, res) => {
         res.json(roles);
 
     }catch(error){
+        console.log(error);
         res.status(500).json({
         status: false,
         message: "Error en el servidor" + error,

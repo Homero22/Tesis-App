@@ -1,6 +1,6 @@
-import {Permiso} from '../../models/esquemaSeguridad/permisos.model.js';
-import {Menu} from '../../models/esquemaSeguridad/menus.model.js';
-import {UsuarioRol} from '../../models/esquemaSeguridad/usuarioRoles.model.js';
+import {Permiso} from '../../models/seguridad/permisos.model.js';
+import {Menu} from '../../models/seguridad/menus.model.js';
+import {UsuarioRol} from '../../models/seguridad/usuarioRoles.model.js';
 
 
 const getAllPermisos = async () => {

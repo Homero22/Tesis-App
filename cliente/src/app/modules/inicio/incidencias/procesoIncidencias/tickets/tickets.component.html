@@ -1,3 +1,15 @@
-<p>
-  tickets works!
-</p>
+
+<div *ngIf="mostrar; else crearTemplate">
+  <h1>Mostrar incidencias</h1>
+  <div>
+    <button class="btn btn-primary" (click)="crearTickets()">Crear Incidencia</button>
+  </div>
+</div>
+
+<ng-template #crearTemplate>
+  <h1>Crear Tickets</h1>
+  <div>
+    <button class="btn btn-primary" (click)="guardar()">Crear Incidencia</button>
+  </div>
+</ng-template>
+

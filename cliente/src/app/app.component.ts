@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, RoutesRecognized } from '@angular/router';
+import { NavigationStart, Router, RoutesRecognized } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Layouts } from './layout/layout';
-import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-root',
@@ -27,6 +27,7 @@ export class AppComponent implements  OnInit, OnDestroy {
         if (data instanceof RoutesRecognized) {
           this.layout = data.state.root.firstChild?.data['layout']
         }
+
       },
       error: (err) => {
         console.log('error', err);

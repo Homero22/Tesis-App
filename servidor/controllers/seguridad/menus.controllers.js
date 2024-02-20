@@ -147,22 +147,25 @@ const desactivarMenu = async (req, res) => {
 }
 
 const obtenerMenusAndSubmenus = async (req, res) => {
+    //corregir error en la obtencion de los menus por rol ( int_rol_id)
     try {
         const { rol } = req.params;
         const {token} = req.cookies;
         const dataCookie = jwt.verify(token, jwtVariables.jwtSecret);
-
         //obtengo el int_rol_id dado un rol
         const idRol = await rolesUseCase.obtenerIdRolByNameService(rol);
-
+        console.log(idRol);
         //obtener el int_usuario_rol_id del usuario logueado dado el rol
         const usuario = await usuarioRolUseCase.obtenerIdUsuarioRolService(idRol, dataCookie.int_usuario_id);
+
+        
 
         const permisosMenus = await permisosUseCase.obtenerPermisosPorIdUsuarioRolService(usuario.body.int_usuario_rol_id);
 
         const menus = await menusUseCase.obtenerMenusAndSubmenusService2(permisosMenus);
         res.json(menus);
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             status: false,
             message: "Error en el servidor" + error,

@@ -70,7 +70,7 @@
             </button>
           </div>
 
-            <div class="container-button" id="nav-profile-tab" *ngIf="permiso('incidencias/incidencias','bln_permiso_ver')">
+            <div class="container-button" id="nav-profile-tab" *ngIf="permiso('incidencias/vulnerabilidades','bln_permiso_ver')">
               <button button class="nav-link {{this.menuTabsSelected === 1 ? 'active' : isValue == 2 }}" id="nav-profile-tab"
               [routerLink]="'/incidencias/'+ baseUrl + 'vulnerabilidades'"
               type="button" >
@@ -100,22 +100,22 @@
 
 
         <div class="tab-pane fade" id="nav-home" *ngIf=" this.menuTabsSelected === 0  ">
-          <h1>archivo</h1>
+          <app-archivoPlano></app-archivoPlano>
         </div>
 
 
-        <div class="tab-pane fade" id="nav-profile" *ngIf=" this.menuTabsSelected === 1  && permiso('incidencias/incidencias','bln_permiso_ver')">
-          <h1>incidencias</h1>
+        <div class="tab-pane fade" id="nav-profile" *ngIf=" this.menuTabsSelected === 1  && permiso('incidencias/vulnerabilidades','bln_permiso_ver')">
+          <app-vulnerabilidades></app-vulnerabilidades>
         </div>
 
 
         <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected === 2  && permiso('incidencias/tickets','bln_permiso_ver') ">
-          <h1>tickets</h1>
+          <app-tickets></app-tickets>
         </div>
 
 
         <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===3 && permiso('incidencias/seguimiento','bln_permiso_ver') " >
-          <h1>seguimiento</h1>
+          <app-seguimiento></app-seguimiento>
         </div>
 
 
