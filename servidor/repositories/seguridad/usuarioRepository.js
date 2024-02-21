@@ -1,4 +1,4 @@
-import { Usuario } from "../../models/esquemaSeguridad/usuario.model.js";
+import { Usuario } from "../../models/seguridad/usuario.model.js";
 import { Op } from "sequelize";
 
 

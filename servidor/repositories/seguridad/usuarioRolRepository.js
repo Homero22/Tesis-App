@@ -1,4 +1,4 @@
-import { UsuarioRol } from "../../models/esquemaSeguridad/usuarioRoles.model.js";
+import { UsuarioRol } from "../../models/seguridad/usuarioRoles.model.js";
 
 const getAllUsuarioRoles = async () => {
     try {
@@ -98,11 +98,27 @@ const getUsuarioRolPorIdUsuario = async (idUsuario) => {
     }
 }
 
+const getUsuarioRolByIdUsuarioAndRol = async (idUsuario, rol) => {
+    try {
+        const usuarioRol = await UsuarioRol.findOne({
+            where: {
+                int_usuario_id: idUsuario,
+                int_rol_id: rol
+            },
+            raw: true
+        });
+        return usuarioRol;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const getUsuarioRolesPorIdUsuario = async (idUsuario) => {
     try {
         const usuarioRoles = await UsuarioRol.findAll({
             where: {
-                int_usuario_id: idUsuario
+                int_usuario_id: idUsuario,
+                str_usuario_rol_estado: "ACTIVO"
             },
             raw: true
         });
@@ -137,5 +153,6 @@ export default {
     getUsuarioRolPorIdUsuario,
     getUsuarioRolesPorIdUsuario,
     comprobarUsuarioRol,
-    createUsuarioRolT
+    createUsuarioRolT,
+    getUsuarioRolByIdUsuarioAndRol
 }

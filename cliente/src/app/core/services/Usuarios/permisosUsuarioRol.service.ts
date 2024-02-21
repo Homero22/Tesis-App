@@ -63,7 +63,6 @@ export class PermisosUsuarioRolService {
     this.obtenerPermisosUsuarioRol(idUsuarioRol).subscribe({
       next: (data: any) => {
         this.permisosUsuarioRol = data.body;
-        console.log(this.permisosUsuarioRol);
         this.setPermisosUsuarioRol(this.permisosUsuarioRol);
       },
       error: (error) => {
