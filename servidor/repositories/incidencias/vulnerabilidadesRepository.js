@@ -11,6 +11,15 @@ const importarVulnerabilidadesRepository = async (data) => {
     return error.message;
   }
 };
+const obtenerAllVulnerabilidadesRepository = async () => {
+  try {
+    const vulnerabilidades = await Vulnerabilidades.findAll({raw:true});
+    return vulnerabilidades;
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
+};
 const obtenerVulnerabilidadesPaginationRepository = async (page, cantidad) => {
   try {
     const skip = (page - 1) * cantidad;
@@ -40,5 +49,6 @@ const obtenerTotalVulnerabilidadesRepository = async () => {
 export default {
   importarVulnerabilidadesRepository,
   obtenerVulnerabilidadesPaginationRepository,
-  obtenerTotalVulnerabilidadesRepository
+  obtenerTotalVulnerabilidadesRepository,
+  obtenerAllVulnerabilidadesRepository
 };
