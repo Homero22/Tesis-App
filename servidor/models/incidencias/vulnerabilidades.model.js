@@ -1,36 +1,5 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../../database/postgres.js';
-
-
-/**
- * Plugin ID
-CVE
-CVSS v2.0 Base Score
-Risk
-Host
-Protocol
-Port
-Name
-Synopsis
-Description
-Solution
-See Also
-Plugin Output
-STIG Severity
-CVSS v3.0 Base Score
-CVSS v2.0 Temporal Score
-CVSS v3.0 Temporal Score
-Risk Factor
-BID
-XREF
-MSKB
-Plugin Publication Date
-Plugin Modification Date
-Metasploit
-Core Impact
-CANVAS
-
- */
 export const Vulnerabilidades = sequelize.define(
     "tb_vulnerabilidades",
     {
@@ -121,9 +90,11 @@ export const Vulnerabilidades = sequelize.define(
         },
         dt_fecha_creacion:{
             type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
         },
         dt_fecha_actualizacion:{
             type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
         },
     },
     {

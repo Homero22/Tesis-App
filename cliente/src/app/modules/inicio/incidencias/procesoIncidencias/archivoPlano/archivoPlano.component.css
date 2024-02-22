@@ -17,11 +17,14 @@ th:hover {
 /* Estilo para las celdas de la tabla */
 .table-Fill td {
   font-size: 12px; /* Tamaño de letra deseado */
+  text-align: center; /* Alineación del texto */
+
 }
 
 /* Estilo para los encabezados de columna */
 .table-Fill th {
   font-size: 12px; /* Tamaño de letra deseado */
+  text-align: center; /* Alineación del texto */
 }
 
 
@@ -37,6 +40,7 @@ th:hover {
 .table-Fill td, .table-Fill th {
   border: 1px solid #000; /* Establece un borde sólido de 1px y color negro */
   padding: 8px; /* Añade espacio interno alrededor del contenido de la celda */
+  max-width: 400px;
 }
 
 
@@ -46,6 +50,22 @@ th:hover {
   th {
     font-size: 14px; /* Tamaño de fuente reducido */
   }
+}
+
+.btn-usuario{
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  color: #eee6e6;
+  background-color: black;
+}
+
+.btn-agg{
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  color: #eee6e6;
+  background-color: black;
 }
 
 

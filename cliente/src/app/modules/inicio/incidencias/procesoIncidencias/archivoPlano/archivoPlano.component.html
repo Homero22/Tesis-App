@@ -3,14 +3,14 @@
   <form [formGroup]="myForm" #FileUpload enctype="multipart/form-data" *ngIf="tablaInfo===false">
 
 
-      <button class="btn-archivo" (click)="fileInput.click()">
+      <button class="btn-usuario" (click)="fileInput.click()">
         Seleccionar Archivo
       </button>
 
-      <input type="file" formControlName="archivo" required (change)="selectFile($event)" accept=".csv" #fileInput
+      <input  type="file" formControlName="archivo" required (change)="selectFile($event)" accept=".csv" #fileInput
         style="display:none">
   </form>
-  <button  (click)="importData()" [disabled]="myForm.invalid">Importar</button>
+  <button class="btn-agg" (click)="importData()" [disabled]="myForm.invalid">Importar</button>
 
   <div class="previsualizar">
     <label *ngIf="dataLength > 0">Cantidad de Registros: {{dataLength}}</label>
