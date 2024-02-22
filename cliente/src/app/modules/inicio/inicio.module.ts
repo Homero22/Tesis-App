@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { InicioComponent } from './inicio.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -28,6 +29,8 @@ const routes: Routes =[
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule
 
 
   ],

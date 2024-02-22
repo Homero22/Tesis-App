@@ -1,6 +1,7 @@
-import {Permiso} from '../../models/esquemaSeguridad/permisos.model.js';
-import {Menu} from '../../models/esquemaSeguridad/menus.model.js';
-import {UsuarioRol} from '../../models/esquemaSeguridad/usuarioRoles.model.js';
+import {Permiso} from '../../models/seguridad/permisos.model.js';
+import {Menu} from '../../models/seguridad/menus.model.js';
+import {UsuarioRol} from '../../models/seguridad/usuarioRoles.model.js';
+
 
 const getAllPermisos = async () => {
     try {
@@ -86,16 +87,31 @@ const getMenusPermisosPorIdUsuarioRol = async (idUsuarioRol) => {
         // Uno los modelos Permisos y Menus para obtener los menus y permisos dado el idUsuarioRol
         const permisos = await Permiso.findAll({
             where: {
-                int_usuario_rol_id: idUsuarioRol
+                int_usuario_rol_id: idUsuarioRol,
             },
             include: [{
                 model: Menu,
                 attributes: ['int_menu_id', 'str_menu_nombre', 'str_menu_descripcion', 'str_menu_icono', 'str_menu_path', 'int_menu_padre_id', 'str_menu_estado'],
                 required: true
             }],
-            nest: true // Anida las columnas de las tablas relacionadas en la misma estructura de objetos
+            nest: true, // Anida las columnas de las tablas relacionadas en la misma estructura de objetos
+            raw: true // Devuelve solo los datos de las tablas sin incluir los metadatos
         });
 
+        return permisos;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const PermisosPorIdUsuarioRol = async (idUsuarioRol) => {
+    try {
+        const permisos = await Permiso.findAll({
+            where: {
+                int_usuario_rol_id: idUsuarioRol
+            },
+            raw: true
+        });
         return permisos;
     } catch (error) {
         console.log(error);
@@ -114,6 +130,7 @@ export default {
     actualizarPermiso,
     createPermisos,
     comprobarPermisos,
-    getMenusPermisosPorIdUsuarioRol
+    getMenusPermisosPorIdUsuarioRol,
+    PermisosPorIdUsuarioRol
 
 }

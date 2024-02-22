@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { AjustesModule } from "../configuracion/ajustes/ajustes.module";
 import { UsuariosModule } from "../configuracion/ajustes/usuarios/usuarios.module";
 import { RouterModule } from "@angular/router";
+import { ProcesoIncidenciasModule } from "../inicio/incidencias/procesoIncidencias/procesoIncidencias.module";
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { RouterModule } from "@angular/router";
       CommonModule,
       RouterModule.forChild([]),
       AjustesModule,
+      ProcesoIncidenciasModule,
 
     ],
     exports: [

@@ -17,6 +17,7 @@ const obtenerDatosMiCuenta = async (req, res) => {
       body: datosMiCuenta,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: false,
       message: "Error en el servidor" + error,
@@ -31,6 +32,7 @@ const obtenerUsuarios = async (req, res) => {
     const usuarios = await UsuariosService.obtenerUsuariosService(query);
     res.json(usuarios);
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: false,
       message: "Error en el servidor" + error,

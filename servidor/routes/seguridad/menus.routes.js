@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", menusController.obtenerMenus);
 router.get("/all", menusController.obtenerMenusSinPaginacion);
-router.get("/menusAndSubmenus", menusController.obtenerMenusAndSubmenus);
+router.get("/menusAndSubmenus/:rol", menusController.obtenerMenusAndSubmenus);
 router.get("/buscar", menusController.buscarMenu);
 router.get("/filtrar", menusController.filtrarMenus);
 router.get("/:id", menusController.obtenerMenu);

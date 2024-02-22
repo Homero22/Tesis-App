@@ -3,7 +3,6 @@ import authUseCase from "../../aplicacion/auth/validarUsuarioUseCase.js";
 const validarAuth = async (req, res) => {
   try {
     //Recibe los datos del Cas
-
     const { xmlDatosCas } = req.body;
 
     //enviar los datos al caso de uso

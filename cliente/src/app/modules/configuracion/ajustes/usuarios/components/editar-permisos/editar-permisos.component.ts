@@ -2,6 +2,7 @@
 import { SafeCall } from '@angular/compiler';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PermisosUsuarioRolService } from 'src/app/core/services/Usuarios/permisosUsuarioRol.service';
+import { MenusService } from 'src/app/core/services/menus.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import Swal from 'sweetalert2';
 
@@ -17,7 +18,8 @@ export class EditarPermisosComponent implements OnInit {
 
   constructor(
     public srvModal: ModalService,
-    public srvPermisos: PermisosUsuarioRolService
+    public srvPermisos: PermisosUsuarioRolService,
+    public srvMenusPermisos: MenusService,
   ) {}
 
   ngOnInit() {
@@ -68,6 +70,7 @@ export class EditarPermisosComponent implements OnInit {
                   confirmButtonText: 'Aceptar',
                 });
                 this.srvModal.closeModal();
+                this.srvMenusPermisos.obtenerMenusAndSubmenusByRol(localStorage.getItem('selectedRole')!);
               } else {
                 Swal.fire({
                   title: 'Ha ocurrido un error',

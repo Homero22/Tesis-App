@@ -289,6 +289,11 @@ const filtrarRolesService = async (texto,page) => {
 
 }
 
+const obtenerIdRolByNameService = async (nombre) => {
+    const rol = await rolRepository.getRolPorNombre(nombre);
+    return rol.int_rol_id;
+}
+
 export default {
     obtenerRolesService,
     obtenerRolService,
@@ -297,5 +302,6 @@ export default {
     desactivarRolService,
     buscarRolService,
     filtrarRolesService,
-    obtenerTodosRolesService
+    obtenerTodosRolesService,
+    obtenerIdRolByNameService
 };

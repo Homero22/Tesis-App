@@ -5,14 +5,14 @@ import menuRepository from "../../repositories/seguridad/menuRepository.js";
 const obtenerPermisosPorIdUsuarioRolService = async (idUsuarioRol) => {
     let respuesta = {};
     //comprobar que el id sea un numero y no sea decimal
-    if (isNaN(idUsuarioRol) || idUsuarioRol % 1 != 0) {
-        respuesta = {
-            status: false,
-            message: "El id debe ser un número entero",
-            body: [],
-        };
-        return respuesta;
-    }
+    // if (isNaN(idUsuarioRol) || idUsuarioRol % 1 != 0) {
+    //     respuesta = {
+    //         status: false,
+    //         message: "El id debe ser un número entero",
+    //         body: [],
+    //     };
+    //     return respuesta;
+    // }
     //comprobar que el idUsuarioRol exista
     const usuarioRol = await usuarioRolRepository.getUsuarioRolPorId(idUsuarioRol);
     if (!usuarioRol) {

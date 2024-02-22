@@ -1,4 +1,4 @@
-import {Rol} from '../../models/esquemaSeguridad/rol.model.js';
+import {Rol} from '../../models/seguridad/rol.model.js';
 import { Op } from "sequelize";
 
 const getAllRoles = async () => {

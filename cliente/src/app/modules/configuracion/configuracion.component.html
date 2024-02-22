@@ -17,7 +17,7 @@
           </span>
         </div>
         <div class="buttonSettings">
-          <div class="btn-agg" *ngIf="this.menuTabsSelected ===1 ">
+          <div class="btn-agg" *ngIf="this.menuTabsSelected ===1 && permiso('ajustes/menus','bln_permiso_crear') ">
             <app-button-modal
             [tipoModal]="'nuevoMenu'"
             [titleModal]="'Agregar Menú'"
@@ -29,7 +29,7 @@
             </app-button-modal>
 
           </div>
-          <div class="btn-agg" *ngIf="this.menuTabsSelected ===2 ">
+          <div class="btn-agg" *ngIf="this.menuTabsSelected ===2 && permiso('ajustes/usuarios','bln_permiso_crear') ">
             <app-button-modal
             [tipoModal]="'nuevoUsuario'"
             [titleModal]="'Agregar Usuario'"
@@ -41,7 +41,7 @@
             </app-button-modal>
 
           </div>
-          <div class="btn-agg" *ngIf="this.menuTabsSelected ===3 ">
+          <div class="btn-agg" *ngIf="this.menuTabsSelected ===3 && permiso('ajustes/roles','bln_permiso_crear') ">
             <app-button-modal
             [tipoModal]="'nuevoRol'"
             [titleModal]="'Agregar Rol'"
@@ -70,7 +70,7 @@
             </button>
           </div>
             <!--Opción Menú-->
-            <div class="container-button" id="nav-profile-tab">
+            <div class="container-button" id="nav-profile-tab" *ngIf="permiso('ajustes/menus','bln_permiso_ver')">
               <button button class="nav-link {{this.menuTabsSelected === 1 ? 'active' : isValue == 2 }}" id="nav-profile-tab"
               [routerLink]="'/ajustes/'+ baseUrl + 'menus'"
               type="button" >
@@ -78,14 +78,14 @@
               </button>
             </div>
             <!--Usuarios-->
-            <div class="container-button" id="nav-contact-tab">
+            <div class="container-button" id="nav-contact-tab" *ngIf="permiso('ajustes/usuarios','bln_permiso_ver')">
               <button class="nav-link {{this.menuTabsSelected === 2 ? 'active' : isValue == 3}}" id="nav-contact-tab"
                 [routerLink]="'/ajustes/'+baseUrl+'usuarios'" type="button">
                 Usuarios
               </button>
             </div>
             <!--Roles-->
-            <div class="container-button" id="nav-contact-tab">
+            <div class="container-button" id="nav-contact-tab" *ngIf="permiso('ajustes/roles','bln_permiso_ver')">
               <button class="nav-link {{this.menuTabsSelected === 3 ? 'active' : isValue == 4}}" id="nav-contact-tab"
                 [routerLink]="'/ajustes/'+baseUrl+'roles'" type="button">
                 Roles
@@ -99,23 +99,23 @@
       <div class="containerContent">
 
         <!--Contenido de Cuenta-->
-        <div class="tab-pane fade" id="nav-home" *ngIf=" this.menuTabsSelected === 0">
+        <div class="tab-pane fade" id="nav-home" *ngIf=" this.menuTabsSelected === 0  ">
             <app-cuenta2></app-cuenta2>
         </div>
 
         <!--Contenido de Menus-->
-        <div class="tab-pane fade" id="nav-profile" *ngIf=" this.menuTabsSelected === 1">
+        <div class="tab-pane fade" id="nav-profile" *ngIf=" this.menuTabsSelected === 1  && permiso('ajustes/menus','bln_permiso_ver')">
           <app-menus></app-menus>
         </div>
 
         <!-- Usuarios-->
-        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected === 2 ">
+        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected === 2  && permiso('ajustes/usuarios','bln_permiso_ver') ">
             <app-usuarios *ngIf="!open"></app-usuarios>
             <app-perfiles *ngIf="open"></app-perfiles>
         </div>
 
         <!-- Roles-->
-        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===3 " >
+        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===3 && permiso('ajustes/roles','bln_permiso_ver') " >
             <app-roles></app-roles>
 
       </div>

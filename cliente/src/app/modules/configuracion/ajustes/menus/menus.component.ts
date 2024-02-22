@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 export class MenusComponent implements OnInit {
 
   isData: boolean = false;
+  rol! : string;
   request = false;
   isLoading: boolean = true;
   currentPage: number = 1;
@@ -144,7 +145,8 @@ export class MenusComponent implements OnInit {
                   page: 1,
                   limit: 10,
                 });
-                this.srvMenus.obtenerMenusAndSubmenus();
+                //this.rol= localStorage.getItem('selectedRole');
+                //this.srvMenus.obtenerMenusAndSubmenusByRol(rol); //
               } else {
                 Swal.fire({
                   icon: 'error',

@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MenusPermisosModelBody } from 'src/app/core/models/menus';
 import { MenusService } from 'src/app/core/services/menus.service';
 
 @Component({
@@ -10,14 +11,16 @@ export class AsideComponent implements OnInit {
 
   isExpanded = true;
   menuAjustes : any[] = [];
-  menus : any[] = [];
+  menus :MenusPermisosModelBody[] = [];
 
 
   constructor(
     public srvMenu : MenusService,
   ) { }
   ngOnInit(): void {
-    this.srvMenu.obtenerMenusAndSubmenus();
+    this.srvMenu.selectMenusPermisos$.subscribe((data) => {
+      this.menus = data;
+    });
   }
   OnDestroy() {}
 
