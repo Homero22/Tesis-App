@@ -6,6 +6,8 @@ import menusRoutes from "./seguridad/menus.routes.js";
 import usuarioRol from "./seguridad/usuarioRol.routes.js";
 import permisosRoutes from "./seguridad/permisos.routes.js";
 import vulnerabilidadesRoutes from "./incidencias/vulnerabilidades.routes.js";
+import ticketRoutes from "./incidencias/ticket.routes.js";
+import notificacionesRoutes from "./notificaciones/notificaciones.routes.js";
 
 const router = Router();
 
@@ -33,6 +35,9 @@ router.use("/menus", menusRoutes);
 router.use("/usuarioRol", usuarioRol);
 router.use("/permisos", permisosRoutes);
 router.use("/vulnerabilidades", vulnerabilidadesRoutes);
+router.use("/tickets", ticketRoutes);
+router.use("/notificaciones", notificacionesRoutes);
+
 
 
 

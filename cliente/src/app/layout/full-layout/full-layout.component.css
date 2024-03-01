@@ -17,6 +17,7 @@
   overflow: hidden;
   height: 100vh;
   display: flex;
+
 }
 
 .pFooter{
@@ -24,5 +25,12 @@
   width: 100%;
   background-color: rgb(180, 26, 18);
   color: white;
+}
+
+.notisFlotante{
+  position: fixed; /* Cambiamos la posición a fija */
+  top: 60px; /* Ajustamos la posición desde la parte superior */
+  right: 20px; /* Ajustamos la posición desde la parte derecha */
+  z-index: 2;
 }
 

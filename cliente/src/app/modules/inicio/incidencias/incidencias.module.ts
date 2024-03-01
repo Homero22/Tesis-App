@@ -5,6 +5,8 @@ import { IncidenciasRoutingModule } from "./incidencias-routing.module";
 import { RouterModule, Routes } from "@angular/router";
 import { ComponentsModule } from "../../components/components.module";
 import { ProcesoIncidenciasModule } from "./procesoIncidencias/procesoIncidencias.module";
+import { NotificacionesComponent } from "../../notificaciones/notificaciones.component";
+import { NotificacionesModule } from "../../notificaciones/notificaciones.module";
 
 const routes: Routes = [
   {
@@ -47,14 +49,15 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-      IncidenciasComponent
+      IncidenciasComponent,
     ],
     imports: [
       CommonModule,
       IncidenciasRoutingModule,
       RouterModule.forChild(routes),
       ComponentsModule,
-      ProcesoIncidenciasModule
+      ProcesoIncidenciasModule,
+
     ],
     exports: [
       RouterModule

@@ -4,11 +4,15 @@ import { FullLayoutRoutingModule } from "./full-layout-routing.module";
 
 
 
+
 @NgModule({
+      declarations: [
+
+      ],
 
       imports: [
         CommonModule,
-        FullLayoutRoutingModule
+        FullLayoutRoutingModule,
       ],
       exports: [],
 

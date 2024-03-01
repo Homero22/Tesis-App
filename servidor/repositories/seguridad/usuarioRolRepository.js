@@ -118,7 +118,6 @@ const getUsuarioRolesPorIdUsuario = async (idUsuario) => {
         const usuarioRoles = await UsuarioRol.findAll({
             where: {
                 int_usuario_id: idUsuario,
-                str_usuario_rol_estado: "ACTIVO"
             },
             raw: true
         });

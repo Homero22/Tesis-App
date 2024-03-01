@@ -81,6 +81,9 @@ export class DesplegableComponent implements OnInit {
 
 
   }
+  openNotis(){
+    console.log('Notificaciones');
+  }
 
   permisos(rol: UsuarioRolModelBody){
     this.nameRol = rol.str_rol_nombre;

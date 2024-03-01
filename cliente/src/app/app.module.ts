@@ -20,6 +20,7 @@ import { UsuariosService } from './core/services/Usuarios/usuarios.service';
 import { LayoutModule } from './layout/layout.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from './modules/modal/modal.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -40,6 +41,7 @@ import { ModalModule } from './modules/modal/modal.module';
     LayoutModule,
     ReactiveFormsModule,
     ModalModule,
+    BrowserAnimationsModule,
 
 
 

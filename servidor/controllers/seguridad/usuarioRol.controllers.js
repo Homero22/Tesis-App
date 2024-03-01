@@ -1,6 +1,7 @@
 import usuarioRol from "../../aplicacion/usuarios/usuarioRolUseCase.js";
 import { jwtVariables } from "../../configuracion/variablesGlobales.js";
 import jwt from "jsonwebtoken";
+import { eventEmitter } from "../notificaciones/notificaciones.controller.js";
 const obtenerRolesPorUsuario = async (req, res) => {
     try {
         const { id } = req.params;
@@ -58,7 +59,8 @@ const cambiarEstadoUsuarioRol = async (req, res) => {
     try {
         const { id } = req.params;
         const usuarioRolDesactivado = await usuarioRol.cambiarEstadoUsuarioRolService(id);
-        res.json(usuarioRolDesactivado);
+        res.json(usuarioRolDesactivado); 
+        eventEmitter.emit('notificacion', {tipo: 'success', mensaje: "Se ha cambiado el estado de un perfil de un usuario"});
     } catch (error) {
         res.status(500).json({
         status: false,

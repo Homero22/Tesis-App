@@ -1,0 +1,14 @@
+.card{
+  width: fit-content;
+  background-color: #b3d8b7;
+}
+.moverDerecha {
+  transform: translateX(100%); /* Mueve la notificación 100% hacia la derecha */
+  transition: transform 1s ease; /* Aplica una transición suave */
+}
+
+
+
+
+
+

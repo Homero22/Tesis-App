@@ -143,8 +143,20 @@ const buscarUsuario = async (req, res) => {
 
     const {texto,page} = req.query;
     const usuario = await UsuariosService.buscarUsuarioService(texto,page);
-    console.log(usuario)
     res.json(usuario);
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error en el servidor" + error,
+      body: [],
+    });
+  }
+}
+const buscarUsuariosRegistrados = async (req, res) => {
+  try {
+    const { texto } = req.query;
+    const usuarios = await UsuariosService.buscarUsuariosRegistradosService(texto);
+    res.json(usuarios);
   } catch (error) {
     res.status(500).json({
       status: false,
@@ -192,5 +204,6 @@ export default {
   desactivarUsuario,
   buscarUsuario,
   filtrarUsuarios,
-  obtenerUsuariosCentralizada
+  obtenerUsuariosCentralizada,
+  buscarUsuariosRegistrados
 };
