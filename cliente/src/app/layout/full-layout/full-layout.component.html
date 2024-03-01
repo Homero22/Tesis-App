@@ -1,21 +1,25 @@
 <div class="pFather">
+
   <div class="pHeader">
     <app-header></app-header>
   </div>
-  <div class="pAside-body">
-    <div class="pAside" id="idAside">
-      <app-aside></app-aside>
-    </div>
 
-    <div class="pBody" >
+  <mat-drawer-container class="mat-drawer-container" autosize>
+    <mat-drawer #drawer class="mat-drawer-container asi" mode="side">
+      <app-aside></app-aside>
+    </mat-drawer>
+    <button type="button" mat-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="bodyApp">
       <router-outlet></router-outlet>
     </div>
-
-  </div>
+  </mat-drawer-container>
 
   <div class="pFooter">
     <app-footer></app-footer>
   </div>
+
 </div>
 <div class="notisFlotante">
   <app-notificaciones></app-notificaciones>

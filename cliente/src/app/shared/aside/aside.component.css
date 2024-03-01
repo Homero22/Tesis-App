@@ -33,12 +33,17 @@ button {
   padding: 10px 0 7px 15px;
 }
 
+
 .sidebar .nav-links li .sub-menu .sub-opcions:hover{
   background-color: var(--color-accent);
   color: var(--color-bg);
   margin-left: -10px;
   border-radius: var(--border-radius-sm);
 
+}
+span {
+  font-size: 14px;
+  color: var(--bs-black);
 }
 
 .material-icons.icon-opcion {
@@ -100,5 +105,4 @@ button {
     bottom: 10px;
   }
 }
-
 

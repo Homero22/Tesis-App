@@ -13,6 +13,7 @@ import { FullLayoutRoutingModule } from "./full-layout-routing.module";
       imports: [
         CommonModule,
         FullLayoutRoutingModule,
+
       ],
       exports: [],
 

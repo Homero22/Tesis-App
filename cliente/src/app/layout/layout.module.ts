@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { NotificacionesModule } from '../modules/notificaciones/notificaciones.module';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { NotificacionesModule } from '../modules/notificaciones/notificaciones.m
     CommonModule,
     SharedModule,
     RouterModule.forChild([]),
-    NotificacionesModule
+    NotificacionesModule,
+    MatSidenavModule,
   ],
   exports: [
     FullLayoutComponent,

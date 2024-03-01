@@ -59,6 +59,7 @@ export class NotificacionesComponent implements OnInit, OnDestroy {
 
     };
   }
+
   eliminarNotificacion() {
     console.log('index');
     this.notifications.shift(); // Elimina el primer elemento del array

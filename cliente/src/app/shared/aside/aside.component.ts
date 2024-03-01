@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenusPermisosModelBody } from 'src/app/core/models/menus';
+import { MenusPermisosModel, MenusPermisosModelBody } from 'src/app/core/models/menus';
 import { MenusService } from 'src/app/core/services/menus.service';
 
 @Component({
@@ -12,6 +12,8 @@ export class AsideComponent implements OnInit {
   isExpanded = true;
   menuAjustes : any[] = [];
   menus :MenusPermisosModelBody[] = [];
+  clickSubmenus = false;
+  isLoad = false;
 
 
   constructor(
@@ -20,14 +22,54 @@ export class AsideComponent implements OnInit {
   ngOnInit(): void {
     this.srvMenu.selectMenusPermisos$.subscribe((data) => {
       this.menus = data;
+      this.ordenarMenus(this.menus);
+
     });
   }
-  OnDestroy() {}
+  //ordenar menus
+  ordenarMenus( menus : MenusPermisosModelBody[]){
+    //formato del menú
+    /*
+     Inicio
+     Incidencias
+     Reportes
+     Ajustes
+    */
 
-  toggleSidebar(){
-    this.isExpanded = !this.isExpanded;
+    //ordenar el menú
+    let menuInicio = menus.filter((menu) => menu.str_menu_nombre === 'Inicio');
+    let menuIncidencias = menus.filter((menu) => menu.str_menu_nombre === 'Incidencias');
+    let menuReportes = menus.filter((menu) => menu.str_menu_nombre === 'Reportes');
+    let menuAjustes = menus.filter((menu) => menu.str_menu_nombre === 'Ajustes');
+    this.menuAjustes = menuAjustes;
+    //actualizo el menú
+
+    this.menus = [
+      ...menuInicio,
+      ...menuIncidencias,
+      ...menuReportes,
+    ];
+
+    //si existen mas menus añaadirlos
+    let otrosMenus = menus.filter((menu) => menu.str_menu_nombre !== 'Inicio' && menu.str_menu_nombre !== 'Incidencias' && menu.str_menu_nombre !== 'Reportes' && menu.str_menu_nombre !== 'Ajustes');
+    this.menus = [
+      ...this.menus,
+      ...otrosMenus
+    ];
+    console.log(this.menus);
+    this.isLoad = true;
 
   }
+
+  verSubMenus(menu : MenusPermisosModelBody){
+    this.clickSubmenus = !this.clickSubmenus;
+    console.log("Click ver submenus",menu);
+
+  }
+
+  OnDestroy() {}
+
+
 
 
 }
