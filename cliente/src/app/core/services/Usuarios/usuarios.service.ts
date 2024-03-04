@@ -8,7 +8,7 @@ import { MiCuentaModel, MiCuentaModelBody } from "../../models/usuarios/miCuenta
 import { UsuarioEditadoModel, UsuarioModel, UsuariosModel, UsuariosModelBody } from "../../models/usuarios/usuariosModel";
 import { DataCentralizada, UsuarioCentralizadaModel } from "../../models/usuarios/usuarioCentralizadaModel";
 import { DataMetadata } from "../../models/metadata";
-import { BehaviorSubject, Subject, takeUntil } from "rxjs";
+import { BehaviorSubject, Observable, Subject, takeUntil } from "rxjs";
 import Swal from "sweetalert2";
 
 @Injectable({
@@ -24,6 +24,7 @@ export class UsuariosService{
     private urlApi_usuarios: string = config.URL_API_BASE + "usuarios";
     private urlApi_desactivar_usuario: string = config.URL_API_BASE + "usuarios/desactivar";
     private urlApi_buscar_usuario: string = config.URL_API_BASE + "usuarios/buscar";
+    private urlApi_buscar_usuario_registrado: string = config.URL_API_BASE + "usuarios/buscar/registrado";
     private urlApi_filtrar_usuario: string = config.URL_API_BASE + "usuarios/filtrar";
 
     constructor(private http: HttpClient){}
@@ -165,6 +166,19 @@ export class UsuariosService{
         }
       );
 
+    }
+
+    //obtener las 10 primeras coincidencias de la busqueda
+    searchUsuario(_search: any): Observable<any> {
+      console.log("????",_search);
+      let httpParams = new HttpParams()
+      .set("texto",_search)
+      return this.http.get<UsuariosModel>(`${this.urlApi_buscar_usuario_registrado}`,
+        {
+          params: httpParams,
+          withCredentials: true
+        }
+      );
     }
 
     //Filtrar usuarios

@@ -17,6 +17,7 @@
   overflow: hidden;
   height: 100vh;
   display: flex;
+
 }
 
 .pFooter{
@@ -25,4 +26,30 @@
   background-color: rgb(180, 26, 18);
   color: white;
 }
+
+.notisFlotante{
+  position: fixed; /* Cambiamos la posición a fija */
+  top: 60px; /* Ajustamos la posición desde la parte superior */
+  right: 20px; /* Ajustamos la posición desde la parte derecha */
+  z-index: 2;
+}
+.mat-drawer-container{
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+.mat-drawer-container .asi{
+  height: 100vh !important;
+  overflow: hidden !important;
+  max-width: 200px;
+  min-width: 150px;
+}
+
+
+.bodyApp{
+  overflow: hidden !important;
+}
+
+
+
+
 

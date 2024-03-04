@@ -272,6 +272,25 @@ const buscarUsuarioService = async (texto,page) => {
 
 }
 
+const buscarUsuariosRegistradosService = async (texto) => {
+  //llamo a repositorio para buscar el usuario dado el texto
+  const usuarios = await usuarioRepository.buscarUsuariosRegistrados(texto);
+  if (usuarios.length > 0) {
+    return {
+      status: true,
+      message: "Usuarios encontrados",
+      body: usuarios,
+    }
+  }else{
+    return {
+      status: false,
+      message: "No se encontraron usuarios",
+      body: [],
+    }
+  }
+
+}
+
 const filtrarUsuariosService = async (texto,page) => {
   //convierto page en numero
   page = parseInt(page);
@@ -337,5 +356,6 @@ export default {
   desactivarUsuarioService,
   buscarUsuarioService,
   filtrarUsuariosService,
-  obtenerUsuariosCentralizadaService
+  obtenerUsuariosCentralizadaService,
+  buscarUsuariosRegistradosService
 };

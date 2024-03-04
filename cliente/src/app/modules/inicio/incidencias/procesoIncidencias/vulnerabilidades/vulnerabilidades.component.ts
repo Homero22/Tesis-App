@@ -63,7 +63,7 @@ export class VulnerabilidadesComponent implements OnInit {
   //usuarios : UsuariosModelBody []=[];
   loading : boolean = false;
   filtros: any[] = [
-  "Ver  activos",
+  "Protocolo TCP",
   "Ver  inactivos",
   ]
   filtroActual: string = 'Ver todo';
@@ -89,7 +89,7 @@ export class VulnerabilidadesComponent implements OnInit {
       })
       this.verificarData();
     }else{
-      //this.srvIncidencias.buscarUsuariosGeneral(search,1)
+      this.srvIncidencias.buscarIncidenciasGeneral(search,1)
       this.verificarData();
     }
 
@@ -99,7 +99,6 @@ export class VulnerabilidadesComponent implements OnInit {
   verificarData(){
 
     if(this.srvIncidencias.metaData.pagination.total === 0){
-      console.log(this.srvIncidencias.metaData.pagination.total)
       this.isData = false;
     }else{
       this.isData = true;
@@ -143,10 +142,10 @@ export class VulnerabilidadesComponent implements OnInit {
       },
     });
     switch (filtro) {
-      case "Ver activos":
-        this.filtroActual = "Ver activos";
+      case "Protocolo TCP":
+        this.filtroActual = "Protocolo TCP";
         this.filtrando = true;
-        this.srvIncidencias.filtrarIncidenciasGeneral("ACTIVO",1)
+        this.srvIncidencias.filtrarIncidenciasGeneral("tcp",1)
         this.verificarData();
         break;
       case "Ver inactivos":
@@ -168,18 +167,23 @@ export class VulnerabilidadesComponent implements OnInit {
 
   changePage(page: number) {
     this.request = true;
+    console.log("cambiando pagina", page , this.currentPage)
     this.currentPage = page;
     //comprobar si se esta filtrando para cambiar la pagina
-    if(this.filtroActual === 'Ver usuarios activos'){
-      this.srvIncidencias.filtrarIncidenciasGeneral('ACTIVO',page)
+    if(this.filtroActual === 'Protocolo TCP'){
+      console.log("buscando 0")
+      this.srvIncidencias.filtrarIncidenciasGeneral('tcp',page)
     }
     if(this.filtroActual === 'Ver usuarios inactivos'){
+      console.log("buscando 3")
       this.srvIncidencias.filtrarIncidenciasGeneral('INACTIVO',page)
     }
     if(this.searchText !== ''){
+      console.log("buscando 1", this.searchText, page)
       this.srvIncidencias.buscarIncidenciasGeneral(this.searchText,page)
     }
     if(this.filtroActual === 'Ver todo' && this.searchText === ''){
+      console.log("buscando 2")
       this.srvIncidencias.obtenerIncidencias({
         page: page,
         limit: 10,

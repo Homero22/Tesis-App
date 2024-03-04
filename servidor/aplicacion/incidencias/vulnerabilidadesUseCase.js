@@ -217,7 +217,76 @@ const obtenerVulnerabilidadesPaginationService = async (query) => {
   };
 };
 
+const buscarVulnerabilidadesService = async (texto, page) => {
+  //convierto page en numero
+  page = parseInt(page);
+  const { vulnerabilidades , totalVulnerabilidades } = await vulnerabilidadesRepository.buscarIncidenciasRepository(texto, page);
+  if(vulnerabilidades.length > 0){
+    const metadata = paginacion(page, 10, totalVulnerabilidades);
+    return {
+      status: true,
+      message: "Vulnerabilidades encontradas",
+      body: vulnerabilidades,
+      metadata: {
+        pagination: metadata,
+      },
+    };
+  }else{
+    return {
+      status: false,
+      message: "No se encontraron vulnerabilidades",
+      body: [],
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: vulnerabilidades.length,
+          limit: vulnerabilidades.length,
+        }
+      },
+    }
+  }
+
+};
+
+const filtrarVulnerabilidadesService = async (texto, page) => {
+  //convierto page en numero
+  page = parseInt(page);
+  const { vulnerabilidades, totalVulnerabilidades } = await vulnerabilidadesRepository.filtrarVulnerabilidadesRepository(texto, page);
+  if(vulnerabilidades.length > 0){
+    const metadata = paginacion(page, 10, totalVulnerabilidades);
+    return {
+      status: true,
+      message: "Vulnerabilidades encontradas",
+      body: vulnerabilidades,
+      metadata: {
+        pagination: metadata,
+      },
+    };
+  }else{
+    return {
+      status: false,
+      message: "No se encontraron vulnerabilidades",
+      body: [],
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: vulnerabilidades.length,
+          limit: vulnerabilidades.length,
+        }
+      },
+    }
+  }
+};
+
+
+
 export default {
   importarVulnerabilidadesService,
   obtenerVulnerabilidadesPaginationService,
+  buscarVulnerabilidadesService,
+  filtrarVulnerabilidadesService,
 };

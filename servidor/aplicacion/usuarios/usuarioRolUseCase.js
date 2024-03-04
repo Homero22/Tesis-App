@@ -115,7 +115,7 @@ const cambiarEstadoUsuarioRolService = async (id) => {
         status: false,
         message: "No se encontró el usuario rol con el id enviado",
         body: [],
-        };
+        }
     }
     //extraigo el estado actual del usuario rol
     let estadoActual = usuarioRol.str_usuario_rol_estado;
@@ -137,7 +137,7 @@ const cambiarEstadoUsuarioRolService = async (id) => {
 
     return {
         status: true,
-        message: "Usuario rol desactivado correctamente",
+        message: "Se ha cambiado el estado correctamente",
         body: usuarioRolDesactivado,
     };
 }
@@ -158,6 +158,7 @@ const obtenerIdUsuarioRolService = async (rol, idUsuario) => {
         body: usuarioRol,
     };
 }
+const sum = (a,b)=> a+b;
 
 
 
@@ -165,7 +166,5 @@ export default {
     obtenerRolesPorUsuarioService,
     crearUsuarioRolService,
     cambiarEstadoUsuarioRolService,
-    obtenerIdUsuarioRolService,
-
-    
+    obtenerIdUsuarioRolService,  
 }

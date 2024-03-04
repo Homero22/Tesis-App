@@ -1,15 +1,15 @@
 
-<div *ngIf="mostrar; else crearTemplate">
-  <h1>Mostrar incidencias</h1>
+<div *ngIf="mostrar">
+  <h1>Mostrar tickets</h1>
   <div>
-    <button class="btn btn-primary" (click)="crearTickets()">Crear Incidencia</button>
+    <button class="btn btn-primary" (click)="crearTickets()">Crear Ticket</button>
   </div>
+
+</div>
+<div>
+  <button (click)="regresar()">Regresar</button>
 </div>
 
-<ng-template #crearTemplate>
-  <h1>Crear Tickets</h1>
-  <div>
-    <button class="btn btn-primary" (click)="guardar()">Crear Incidencia</button>
-  </div>
-</ng-template>
+<app-crearTicket *ngIf="!mostrar" (cerrar)="guardar()"></app-crearTicket>
+
 

@@ -19,10 +19,16 @@ export class UsuarioRolService {
   private urlApi_filtrar_usuarioRol: string = config.URL_API_BASE + "usuarioRol/filtrar";
   private urlApi_logueado_usuarioRol: string = config.URL_API_BASE + "usuarioRol/usuarioLogueado";
 
+
   constructor(private http: HttpClient) { }
 
   private destroy$ = new Subject<any>();
-  private dataUsuariosRoles$ = new Subject<UsuarioRolModelBody[]>();
+  private dataUsuariosRoles$ = new BehaviorSubject<UsuarioRolModelBody[
+  ]>(
+    [] as UsuarioRolModelBody[]
+  );
+
+
 
   usuariosRoles!: UsuarioRolModelBody[];
 
@@ -30,8 +36,9 @@ export class UsuarioRolService {
     this.dataUsuariosRoles$.next(data);
   }
 
-  get getUsuariosRoles() {
+  get getUsuariosRoles$() {
     return this.dataUsuariosRoles$.asObservable();
+    
   }
 
 
@@ -67,6 +74,15 @@ export class UsuarioRolService {
     );
   }
 
+  //cambiar estado de un usuarioRol
+  cambiarEstadoUsuarioRol(id: number) {
+    return this.http.put<UsuarioRolModel>(this.urlApi_usuarioRol + "/" + id,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
 
   //funcion para obtener los roles de un usuario
 
@@ -89,6 +105,35 @@ export class UsuarioRolService {
       }
     })
   }
+
+  //funcion general para cambiar el estado de un usuarioRol
+  cambiarEstadoUsuarioRolGeneral(id: number) {
+    this.cambiarEstadoUsuarioRol(id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next:(data:UsuarioRolModel)=>{
+        if(data.status){
+          Swal.fire({
+            title: 'Estado cambiado',
+            text: data.message,
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false
+          })
+        }
+      },
+      error:(err:any)=>{
+        Swal.fire({
+          title: 'Ha ocurrido un error',
+          text: err.error.message,
+          icon: 'error',
+        })
+      }
+    })
+  }
+
+
+
 
 
 

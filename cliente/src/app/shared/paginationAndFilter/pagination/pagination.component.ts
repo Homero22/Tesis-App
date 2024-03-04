@@ -11,7 +11,7 @@ export class PaginationComponent  {
 
   @Input() dataLength: any =[];
   @Input() metadata: any = [];
-  @Input() currentPage: any = 0;
+  @Input() currentPage: number = 0;
 
   //Eventos
   @Output() changePage: EventEmitter<any> = new EventEmitter();

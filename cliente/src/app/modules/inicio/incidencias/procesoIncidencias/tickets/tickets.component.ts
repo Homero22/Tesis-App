@@ -24,5 +24,10 @@ export class TicketsComponent implements OnInit {
     this.mostrar=true;
   }
 
+  regresar(){
+    console.log('regresar');
+    this.mostrar=true;
+  }
+
 
 }

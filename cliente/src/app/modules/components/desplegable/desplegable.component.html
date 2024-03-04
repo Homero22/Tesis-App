@@ -1,4 +1,8 @@
 <div class="containerRolUser">
+  <button (click)="openNotis()" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+    <mat-icon>notifications</mat-icon>
+  </button>
+
   <div class="dropdown-Roles" (click)="toggleDropdownRoles()">
     <div class="container-btn">
       <button class="dropbtn">
@@ -16,7 +20,6 @@
       </ul>
     </div>
   </div>
-
   <div class="dropdown" (click)="toggleDropdown()">
     <div class="container-btn">
       <button class="dropbtn">
@@ -55,7 +58,7 @@
           <div class="container-items">
             <button class="btn-logOut" (click)="salirDelSistema()">
               <i class="material-icons">transfer_within_a_station</i>
-              Log Out
+              Salir
             </button>
           </div>
         </li>

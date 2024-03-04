@@ -2,40 +2,36 @@
   href="https://fonts.googleapis.com/icon?family=Material+Icons"
   rel="stylesheet"
 />
-<div class="father">
-
+<div class="father" *ngIf="isLoad">
   <div class="sidebar close">
     <ul class="nav-links">
       <div class="link-opcion">
         <li *ngFor="let item of menus" class="link-opcion">
           <div class="icon-link">
-            <a [routerLink]="item.str_menu_path" *ngIf="item.bln_permiso_ver== true">
+            <a
+              [routerLink]="item.str_menu_path"
+              *ngIf="item.bln_permiso_ver == true"
+            >
               <i d="toggle-sidebar" class="material-icons icon-opcion">{{
                 item.str_menu_icono
               }}</i>
-              <span  class="link_name">{{ item.str_menu_nombre }}</span>
+              <span class="link-name">{{ item.str_menu_nombre }}</span>
             </a>
-            <i
-              *ngIf="item.submenus && item.submenus.length > 0"
-              class="material-icons bxs-down arrow"
-              >expand_more</i            >
           </div>
-          <ul class="sub-menu">
-            <li>
-              <a class="link_name" [routerLink]="item.str_menu_path">
-                {{ item.str_menu_nombre }}
-              </a>
-            </li>
-            <li *ngFor="let child of item.submenus" >
-              <a *ngIf="child.bln_permiso_ver" class="sub-opcions" [routerLink]="child.str_menu_path"> {{ child.str_menu_nombre }} </a>
-            </li>
-          </ul>
         </li>
       </div>
     </ul>
-
+    <ul class="nav-links">
+      <li class="link-opcion" >
+        <div class="icon-link">
+            <a [routerLink]="menuAjustes[0].str_menu_path">
+              <i class="material-icons icon-opcion">
+                {{ menuAjustes[0].str_menu_icono }}
+              </i>
+              <span class="link-name">{{ menuAjustes[0].str_menu_nombre }}</span>
+            </a>
+        </div>
+      </li>
+    </ul>
   </div>
-
 </div>
-
-

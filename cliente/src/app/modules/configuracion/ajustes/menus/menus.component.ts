@@ -145,8 +145,15 @@ export class MenusComponent implements OnInit {
                   page: 1,
                   limit: 10,
                 });
-                //this.rol= localStorage.getItem('selectedRole');
-                //this.srvMenus.obtenerMenusAndSubmenusByRol(rol); //
+                Swal.fire({
+                  title: 'Cargando...',
+                  allowOutsideClick: false, // no se puede cerrar con click fuera
+                  allowEscapeKey: false, // no se puede cerrar con escape
+                  didOpen: () => {
+                    Swal.showLoading();
+                  },
+                });
+                  window.location.reload();
               } else {
                 Swal.fire({
                   icon: 'error',

@@ -44,6 +44,7 @@ const obtenerPermisosPorIdUsuarioRolService = async (idUsuarioRol) => {
 
 const actualizarPermisosPorIdUsuarioRolService = async (idUsuarioRol, permisos) => {
     let respuesta = {};
+    
     //comprobar que el idUsuarioRol exista
     const usuarioRol = await usuarioRolRepository.getUsuarioRolPorId(idUsuarioRol);
     if (!usuarioRol) {
@@ -128,7 +129,7 @@ const actualizarPermisosPorIdUsuarioRolService = async (idUsuarioRol, permisos) 
 
 const crearPermisosPorIdUsuarioRolService = async (idUsuarioRol) => {
    //con el int_usuario_rol_id debo darle permisos de todos los menus
-
+   let permisos = [];
 
    //obtengo todos los menus que existen
    const menus = await menuRepository.getAllMenus();
@@ -139,34 +140,61 @@ const crearPermisosPorIdUsuarioRolService = async (idUsuarioRol) => {
               body: [],
          };
     }
+
+        //compruebo que rol tiene para darle ciertos permisos
+        const rol = await usuarioRolRepository.getUsuarioRolPorId(idUsuarioRol);
+        if (!rol) {
+            return {
+                status: false,
+                message: "No se encontró el rol",
+                body: [],
+            };
+        }
+        //si el rol es administrador, le doy todos los permisos
+        if(rol.int_rol_id===1){
+            for (let i = 0; i < menus.length; i++) {
+                const menu = menus[i];
+                const permiso = {
+                    int_usuario_rol_id: idUsuarioRol,
+                    int_menu_id: menu.int_menu_id,
+                    bln_permiso_crear: true,
+                    bln_permiso_editar: true,
+                    bln_permiso_eliminar: true,
+                    bln_permiso_ver: true,
+                };
+                permisos.push(permiso);
+            }
+        }else{
+            for (let i = 0; i < menus.length; i++) {
+                const menu = menus[i];
+                const permiso = {
+                     int_usuario_rol_id: idUsuarioRol,
+                     int_menu_id: menu.int_menu_id,
+                     bln_permiso_crear: false,
+                     bln_permiso_editar: false,
+                     bln_permiso_eliminar: false,
+                     bln_permiso_ver: false,
+                };
+                permisos.push(permiso);
+           }
+        }
+
     //recorro el arreglo de menus y creo un permiso por cada menu  por defecto todos los permisos son false
     //añado el int_usuario_rol_id y el int_menu_id y los permisos por defecto en el arreglo de permisos
 
-    const permisos = [];
-
-    for (let i = 0; i < menus.length; i++) {
-         const menu = menus[i];
-         const permiso = {
-              int_usuario_rol_id: idUsuarioRol,
-              int_menu_id: menu.int_menu_id,
-              bln_permiso_crear: false,
-              bln_permiso_editar: false,
-              bln_permiso_eliminar: false,
-              bln_permiso_ver: false,
-         };
-         permisos.push(permiso);
-    }
 
     //comprobar que los permisos no existan
     const permisosEncontrado = await permisosRepository.comprobarPermisos(permisos);
     
     if(permisosEncontrado.length===0){
-            console.log("Creando permisos");
             const permisosCreados = await permisosRepository.createPermisos(permisos);
             if (permisosCreados) {
-                console.log("Permisos creados");
+                console.log("Permisos creados", new Date());
             }
     }
+
+
+
 
     return {
         status: true,

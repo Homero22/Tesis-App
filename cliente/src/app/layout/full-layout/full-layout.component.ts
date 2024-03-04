@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./full-layout.component.css']
 })
 export class FullLayoutComponent implements OnInit {
+  showFiller = false;
 
   constructor() { }
 

@@ -1166,6 +1166,7 @@ cuando se va a realizar busqueda por filtrado */
 .pBody {
   width: 100%;
   overflow-y:auto;
+  background-color: #0a58ca;
 }
 
 .pAside {
@@ -1188,6 +1189,11 @@ cuando se va a realizar busqueda por filtrado */
   border: solid 2px #b41a12;
   position: relative;
 }
+.sidebar .nav-links li a .link_name {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--bs-black);
+}
 
 .btn-usuario {
   border: none;
@@ -1202,6 +1208,29 @@ cuando se va a realizar busqueda por filtrado */
   box-shadow: 0px 0px 3px #00000025;
   cursor: pointer;
   opacity: 0.75;
+}
+.sidebar .nav-links li a .link_name {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--bs-black);
+}
+
+.sidebar.close .nav-links li a .link_name {
+  opacity: 0;
+  pointer-events: none;
+}
+.sidebar .nav-links li a .link_name {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--bs-black);
+}
+.sidebar .nav-links li .sub-menu .link_name {
+  display: none;
+}
+.sidebar.close .nav-links li .sub-menu .link_name {
+  font-size: 15px;
+  opacity: 1;
+  display: block;
 }
 
 /*---------------------------Menú lateral Sidebar------------------------------*/
@@ -1267,9 +1296,9 @@ cuando se va a realizar busqueda por filtrado */
   justify-content: space-between;
 }
 
-.sidebar.close .nav-links li .icon-link {
+/* .sidebar.close .nav-links li .icon-link {
   display: block;
-}
+} */
 
 .sidebar .nav-links li a {
   display: flex;
@@ -1500,6 +1529,9 @@ cuando se va a realizar busqueda por filtrado */
   font-size: 24px !important;
 }
 
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }

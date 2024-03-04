@@ -9,4 +9,7 @@ const router = Router();
 
 router.post("/", upload.single("file"), vulnerabilidadesControllers.importarVulnerabilidades);
 router.get("/", vulnerabilidadesControllers.obtenerVulnerabilidadesPagination);
+router.get("/buscar", vulnerabilidadesControllers.buscarVulnerabilidades);
+router.get("/filtrar", vulnerabilidadesControllers.filtrarVulnerabilidades);
+
 export default router;
