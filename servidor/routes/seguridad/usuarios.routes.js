@@ -7,6 +7,7 @@ const router = Router();
 router.get("/miCuenta", usuariosController.obtenerDatosMiCuenta);
 router.get("/", usuariosController.obtenerUsuarios);
 router.get("/buscar", usuariosController.buscarUsuario);
+router.get("/buscar/registrado", usuariosController.buscarUsuariosRegistrados);
 router.get("/filtrar", usuariosController.filtrarUsuarios);
 router.get("/centralizada/:cedula", usuariosController.obtenerUsuariosCentralizada);
 router.post("/", usuariosController.crearUsuario);

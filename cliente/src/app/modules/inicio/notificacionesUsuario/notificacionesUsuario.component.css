@@ -1,0 +1,54 @@
+.container{
+  display: flex ;
+  align-items: center;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 1%;
+  margin-bottom: 5%;
+}
+.containerNotificaciones{
+  width: 100%;
+}
+
+.listadoNotificaciones{
+  width: 100%;
+}
+
+/* .card{
+  background-color: rgb(234, 229, 229);
+} */
+
+
+.notificacion{
+  margin : 1%;
+}
+.notificacionInfo{
+  display: grid;
+  gap: 5px;
+  grid-template-areas:
+  "titulo cerrar"
+  "mensaje mensaje"
+  "fecha fecha";
+  ;
+}
+.notificacionDescripcion{
+  grid-area: mensaje;
+  padding: 5px;
+  border-radius: 5px;
+}
+.cerrar{
+  grid-area: cerrar;
+  justify-self: end;
+  cursor: pointer;
+}
+.notificacionTitulo{
+  grid-area: titulo;
+  font-size: large;
+  font-weight: bold;
+}
+
+.notificacionFecha{
+  grid-area: fecha;
+  font-size: small;
+  color: gray;
+}

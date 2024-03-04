@@ -18,6 +18,8 @@ export class IncidenciasService{
   constructor(private http:HttpClient) {}
 
   private urlApi_incidencias: string = config.URL_API_BASE + 'vulnerabilidades';
+  private urlApi_buscar_incidencias: string = config.URL_API_BASE + 'vulnerabilidades/buscar';
+  private urlApi_filtrar_incidencias: string = config.URL_API_BASE + 'vulnerabilidades/filtrar';
 
 
   private destroy$ = new Subject<any>();
@@ -32,6 +34,9 @@ export class IncidenciasService{
 
   setDataMetadata(data:DataMetadata){
     this.dataMetadata$.next(data);
+  }
+  setIncidencias(data:IncidenciasModelBody[]){
+    this.incidencias = data;
   }
 
   get selectMetadata$(){
@@ -66,6 +71,36 @@ export class IncidenciasService{
     );
   }
 
+  //buscar incidencias
+  buscarIncidencias(_texto:string, page:number){
+    let httpParams = new HttpParams()
+    .set('texto', _texto)
+    .set('page', page);
+    return this.http.get<IncidenciasModel>( this.urlApi_buscar_incidencias,
+      {
+        params: httpParams,
+        withCredentials: true,
+      }
+    );
+  }
+
+  //filtrar incidencias
+
+  filtrarIncidencias(filtro:string, page:number){
+    let httpParams = new HttpParams()
+    .set('filtro', filtro)
+    .set('page', page);
+
+    return this.http.get<IncidenciasModel>( this.urlApi_filtrar_incidencias,
+      {
+        params: httpParams,
+        withCredentials: true,
+      }
+
+    );
+  }
+
+
 
 
       //funcion general de obtener incidencias
@@ -91,11 +126,47 @@ export class IncidenciasService{
         })
       }
 
-      buscarIncidenciasGeneral(search:string, page:number){
+      buscarIncidenciasGeneral(_texto:string, page:number){
+        this.buscarIncidencias(_texto, page)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next:(data: IncidenciasModel)=>{
+            console.log("llega inci", data.metadata)
+            this.incidencias = data.body;
+            this.metaData = data.metadata;
+            this.setDataMetadata(this.metaData)
+            // this.setIncidencias(this.incidencias)
+          },
+          error:(err)=>{
+            Swal.fire({
+              icon:'error',
+              title:'Ha ocurrido un error',
+              text:err.error.message
+            })
+          }
+        })
 
       }
-      filtrarIncidenciasGeneral(filtro:string, page:number){
 
+
+
+      filtrarIncidenciasGeneral(filtro:string, page:number){
+        this.filtrarIncidencias(filtro, page)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next:(data: IncidenciasModel)=>{
+            this.incidencias = data.body;
+            this.metaData = data.metadata;
+            this.setDataMetadata(this.metaData)
+          },
+          error:(err)=>{
+            Swal.fire({
+              icon:'error',
+              title:'Ha ocurrido un error',
+              text:err.error.message
+            })
+          }
+        })
       }
 
 }

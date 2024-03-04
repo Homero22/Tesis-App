@@ -1,3 +1,68 @@
-<p>
-  reportes works!
-</p>
+
+<div class="father">
+  <div class="containerBody">
+
+      <!-- Seccion Titulo 'Pantalla de Reportes' -->
+      <div class="set">
+        <div class="titleConfiguration">
+          <h1>Pantalla de
+            <span style="color:#B41A12 ;">
+              Reportes
+            </span>
+          </h1>
+          <span style="color:rgb(160, 160, 160);
+            font-family: 'Roboto', Arial, sans-serif;
+            font-size: 14px;">
+            Reportes y gráficos de incidencias
+          </span>
+        </div>
+
+      </div>
+
+
+      <nav class="navSection">
+
+        <div class="containerNavOptions" id="menu"  >
+
+          <div class="container-button" id="nav-home-tab">
+            <button class="nav-link {{this.menuTabsSelected === 0 ? 'active' : isValue == 1  }} " id="nav-home-tab"
+              [routerLink]="'/reportes/'+ baseUrl + 'reporte'" type="button">
+              Reportes
+            </button>
+          </div>
+
+            <div class="container-button" id="nav-profile-tab">
+              <button button class="nav-link {{this.menuTabsSelected === 1 ? 'active' : isValue == 2 }}" id="nav-profile-tab"
+              [routerLink]="'/reportes/'+ baseUrl + 'graficos'"
+              type="button" >
+                Gráficos
+              </button>
+            </div>
+
+        </div>
+      </nav>
+
+
+      <div class="containerContent">
+
+
+        <div class="tab-pane fade" id="nav-home" *ngIf=" this.menuTabsSelected === 0  ">
+          <app-reporte></app-reporte>
+
+        </div>
+
+
+        <div class="tab-pane fade" id="nav-profile" *ngIf=" this.menuTabsSelected === 1" >
+          <app-graficos></app-graficos>
+        </div>
+
+
+
+
+
+
+
+
+      </div>
+
+</div>

@@ -29,8 +29,38 @@ export const obtenerVulnerabilidadesPagination = async (req, res) => {
     }
 }
 
+const buscarVulnerabilidades = async (req, res) => {
+    try {
+        const {texto,page} = req.query;
+        const vulnerabilidades = await vulnerabilidadesUseCase.buscarVulnerabilidadesService(texto,page);
+        res.json(vulnerabilidades);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Error en el servidor" + error,
+            body: [],
+        });
+    }
+}
+const filtrarVulnerabilidades = async (req, res) => {
+    try {
+        const { filtro,page } = req.query;
+        const vulnerabilidades = await vulnerabilidadesUseCase.filtrarVulnerabilidadesService(filtro,page);
+        res.json(vulnerabilidades);
+    } catch (error) {
+        res.status(500).json({
+            status: false,
+            message: "Error en el servidor" + error,
+            body: [],
+        });
+    }
+}
+
 
 export default {
     importarVulnerabilidades,
-    obtenerVulnerabilidadesPagination
+    obtenerVulnerabilidadesPagination,
+    buscarVulnerabilidades,
+    filtrarVulnerabilidades
 }

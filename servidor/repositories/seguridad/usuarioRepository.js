@@ -315,6 +315,54 @@ const filtrarUsuarios = async (texto,page) => {
         console.log(error);
     }
 }
+const buscarUsuariosRegistrados = async (texto) => {
+    try {
+        //debo buscar o por nombre o por apellido o por cedula o por correo o por telefono o estado con  like
+        const usuarios = await Usuario.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        str_usuario_nombres: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_apellidos: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_cedula: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_email: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_telefono: {
+                            [Op.iLike]: `%${texto}%`
+                        }
+                    },
+                    {
+                        str_usuario_estado: {
+                            [Op.iLike]: `${texto}`
+                        }
+                    }
+                ],
+            },
+            limit: 10,
+            order:[
+                ['dt_fecha_actualizacion','DESC']
+            ]
+        });
+        return usuarios;
+    } catch (error) {
+        console.log(error);
+    }
+}
 export default {
     getAllUsers,
     createUser,
@@ -326,5 +374,6 @@ export default {
     getUsuarioPorCorreo,
     obtenerTotalUsuarios,
     buscarUsuario,
-    filtrarUsuarios
+    filtrarUsuarios,
+    buscarUsuariosRegistrados
 }

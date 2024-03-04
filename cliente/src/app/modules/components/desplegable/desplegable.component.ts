@@ -22,6 +22,7 @@ export class DesplegableComponent implements OnInit {
   showDropdown = false;
   showDropdownRoles = false;
   showDropdownResponsive = false;
+  isLoad = false;
 
   initRol! : string;
 
@@ -34,11 +35,6 @@ export class DesplegableComponent implements OnInit {
     public casCliente: CasClient) { }
 
   ngOnInit():void {
-
-
-
-
-
 
       this.srvUsuario
       .getMe()
@@ -63,6 +59,7 @@ export class DesplegableComponent implements OnInit {
               if(storedRole){
                 this.nameRol = storedRole;
                 localStorage.setItem('selectedRole', this.nameRol);
+                this.isLoad = true;
               }else{
                 this.nameRol = this.rolesUsuario[0].str_rol_nombre;
                 localStorage.setItem('selectedRole', this.nameRol);
@@ -81,23 +78,15 @@ export class DesplegableComponent implements OnInit {
 
 
   }
+  openNotis(){
+    window.location.assign('/notificacionesUsuario');
+  }
 
   permisos(rol: UsuarioRolModelBody){
     this.nameRol = rol.str_rol_nombre;
-
     localStorage.setItem('selectedRole',this.nameRol);
-
     this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
-
-    //refrescar la pagina y dirigir a la pagina de inicio /welcome
-    // window.location.reload();
-    // Redirigir a la página de inicio
-  window.location.assign('/welcome');
-
-
-
-
-
+    window.location.assign('/welcome');
   }
 
   ajustes(){

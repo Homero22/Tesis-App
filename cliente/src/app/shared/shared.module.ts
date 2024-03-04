@@ -8,6 +8,7 @@ import { MainComponent } from "./main/main.component";
 import { BodyComponent } from "./body/body.component";
 import { ConfiguracionModule } from "../modules/configuracion/configuracion.module";
 import { ComponentsModule } from "../modules/components/components.module";
+import { MaterialModule } from "./material.module";
 
 @NgModule({
     declarations: [
@@ -21,14 +22,16 @@ import { ComponentsModule } from "../modules/components/components.module";
     imports: [
       CommonModule,
       RouterModule.forChild([]),
-      ComponentsModule
+      ComponentsModule,
+      MaterialModule
     ],
     exports: [
       FooterComponent,
       AsideComponent,
       HeaderComponent,
       MainComponent,
-      BodyComponent
+      BodyComponent,
+      MaterialModule
     ],
 })
 

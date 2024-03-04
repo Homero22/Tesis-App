@@ -1,0 +1,50 @@
+.results ol{
+  margin:0;
+  padding: 0;
+}
+.results li{
+  list-style: none;
+  padding: 10px;
+  /* margin: 10px; */
+  /* border: 1px solid #000; */
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.results ol li:hover {
+  background-color: #474545;
+  color: #fff;
+}
+
+p{
+  font-size: 12px;
+}
+
+.listaResponsables{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 12px;
+}
+.listaResponsables li{
+  list-style: none;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.eliminarUsuario{
+  width: fit-content;
+}
+.eliminarUsuario:hover{
+  background-color: #a56666;
+  color: #fff;
+}
+
+

@@ -1,0 +1,21 @@
+<div *ngFor="let notificacion of notifications; let i = index" [ngClass]="{'moverDerecha': moverDerecha[i]}">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Nueva Notificación</mat-card-title>
+      <mat-card-subtitle>{{ notificacion }}</mat-card-subtitle>
+      <mat-icon>notifications</mat-icon>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-button (click)="cerrarCard(i)">Cerrar</button>
+    </mat-card-actions>
+  </mat-card>
+  <br>
+</div>
+
+
+
+
+
+
+
+
