@@ -3,6 +3,7 @@ import { InicioComponent } from './inicio.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NotificacionesUsuarioComponent } from './notificacionesUsuario/notificacionesUsuario.component';
 
 
 
@@ -18,7 +19,16 @@ const routes: Routes =[
       {
         path:'incidencias',
         loadChildren: () => import('./incidencias/incidencias.module').then(m => m.IncidenciasModule)
+      },
+      {
+        path:'reportes',
+        loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule)
+      },
+      {
+        path:'notificacionesUsuario',
+        loadChildren: () => import('./notificacionesUsuario/notificacionesUsuario.module').then(m => m.NotificacionesUsuarioModule)
       }
+
 
 
     ]

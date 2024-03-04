@@ -79,7 +79,7 @@ export class DesplegableComponent implements OnInit {
 
   }
   openNotis(){
-    console.log('Notificaciones');
+    window.location.assign('/notificacionesUsuario');
   }
 
   permisos(rol: UsuarioRolModelBody){
