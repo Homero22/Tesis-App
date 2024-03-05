@@ -76,6 +76,16 @@ th:hover {
 .clase-valido {
   background-color: green;
   color: white;
+  border-radius: 3px;
+}
+.clase-invalido{
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  color: #eee6e6;
+  background-color: gray;
+  margin: 5px;
+  border-radius: 3px;
 }
 
 
