@@ -44,7 +44,6 @@ export class ArchivoPlanoComponent implements OnInit {
     this.fil = event.target.files[0];
     this.filName = this.fil.name;
 
-
     if (this.fil) {
       Swal.fire({
         title: 'Cargando Archivo',
@@ -76,79 +75,73 @@ export class ArchivoPlanoComponent implements OnInit {
       },
     });
   }
+  comprobarArchivo() {
+    console.log('comprobando archivo');
+    //verificar que el archivo tenga las columnas necesarias
+    let columns = [
+      'Plugin ID',
+      'CVE',
+      'CVSS v2.0 Base Score',
+      'Risk',
+      'Host',
+      'Protocol',
+      'Port',
+      'Name',
+      'Synopsis',
+      'Description',
+      'Solution',
+      'See Also',
+      'Plugin Output',
+      'STIG Severity',
+      'CVSS v3.0 Base Score',
+      'CVSS v2.0 Temporal Score',
+      'CVSS v3.0 Temporal Score',
+      'Risk Factor',
+      'BID',
+      'XREF',
+      'MSKB',
+      'Plugin Publication Date',
+      'Plugin Modification Date',
+      'Metasploit',
+      'Core Impact',
+      'CANVAS',
+    ];
 
-  importData( ) {
-
-    // if(this.myForm.invalid){
-    //   console.log('Formulario Invalido');
-    //   return;
-    // }
+    let columnsOk = true;
 
 
+    //si el archivo no tiene todas las columnas requeridas se muestra un mensaje de error
+    for (let i = 0; i < columns.length; i++) {
+      if (!this.columns.includes(columns[i])) {
+        columnsOk = false;
+        break;
+      }
+    }
 
-    // //verificar que el archivo tenga las columnas necesarias
-    // let columns = [
-    //   'Plugin ID',
-    //   'CVE',
-    //   'CVSS v2.0 Base Score',
-    //   'Risk',
-    //   'Host',
-    //   'Protocol',
-    //   'Port',
-    //   'Name',
-    //   'Synopsis',
-    //   'Description',
-    //   'Solution',
-    //   'See Also',
-    //   'Plugin Output',
-    //   'STIG Severity',
-    //   'CVSS v3.0 Base Score',
-    //   'CVSS v2.0 Temporal Score',
-    //   'CVSS v3.0 Temporal Score',
-    //   'Risk Factor',
-    //   'BID',
-    //   'XREF',
-    //   'MSKB',
-    //   'Plugin Publication Date',
-    //   'Plugin Modification Date',
-    //   'Metasploit',
-    //   'Core Impact',
-    //   'CANVAS',
-    // ];
+    if (columnsOk && this.data.length > 0) {
+      this.tablaInfo = true;
+    } else {
+      this.tablaInfo = false;
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'El archivo no contiene las columnas necesarias',
+      });
+    }
+    return columnsOk;
+  }
 
-    // let columnsOk = true;
-    // columns.forEach((col) => {
-    //   if (!this.columns.includes(col)) {
-    //     columnsOk = false;
-    //   }
-    // });
+  importData() {
 
-    // if (!columnsOk) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Error',
-    //     text: 'El archivo no tiene las columnas requeridas',
-    //   });
-    // }
+    let archivoIsValid = this.comprobarArchivo();
+    if(!archivoIsValid){
+      return;
+    }
 
-    // //verificar que el archivo tenga datos
-    // if (this.data.length === 0) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Error',
-    //     text: 'El archivo no tiene datos',
-    //   });
-    // }
-
-    // if (columnsOk && this.data.length > 0) {
-    //   this.tablaInfo = true;
-    // }
 
     const formData = new FormData();
-    console.log(this.fil);
-    console.log(this.fil.name);
-    formData.append('file', this.fil , this.fil.name);
-    console.log(formData);
+    formData.append('file', this.fil, this.fil.name);
+
     Swal.fire({
       title: 'Importando Datos de Usuarios',
       didOpen: () => {
@@ -156,53 +149,45 @@ export class ArchivoPlanoComponent implements OnInit {
       },
     });
     this.srvIncidencias
-          .postFileData(formData)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-            next: (res) => {
-                console.log(res);
-              if (res.status) {
-                Swal.close();
-                console.log(res);
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Datos Cargados Exitosamente',
-                  text: res.message,
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    window.location.href = '/incidencias/vulnerabilidades';
-                  }
-                });
-                //redirigir a la pagina de incidencias  /incidencias/vulnerabilidades
-
-                //window.location.href = '/incidencias/vulnerabilidades';
-                //window.location.reload();
-
-
-
-
-
-              } else {
-                Swal.close();
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Error',
-                  text: res.message,
-                });
-
+      .postFileData(formData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          if (res.status) {
+            Swal.close();
+            console.log(res);
+            Swal.fire({
+              icon: 'success',
+              title: 'Datos Cargados Exitosamente',
+              text: res.message,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = '/incidencias/vulnerabilidades';
               }
-            },
-            error: (err) => {
-              Swal.close();
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: err.error.message,
-              });
+            });
+            //redirigir a la pagina de incidencias  /incidencias/vulnerabilidades
 
-            },
+            //window.location.href = '/incidencias/vulnerabilidades';
+            //window.location.reload();
+          } else {
+            Swal.close();
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: res.message,
+            });
+          }
+        },
+        error: (err) => {
+          Swal.close();
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: err.error.message,
           });
-
+        },
+      });
   }
 
   ngOnDestroy(): void {
