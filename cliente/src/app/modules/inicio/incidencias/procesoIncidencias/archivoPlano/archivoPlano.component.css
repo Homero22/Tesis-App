@@ -1,6 +1,16 @@
 .subirArchivoContainer{
-  display:grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 10px;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 #000;
+  max-width: 90%;
+  max-height: 90%;
 }
 /* Estilos para los encabezados de la tabla */
 th {
@@ -21,7 +31,6 @@ th:hover {
 .table-Fill td {
   font-size: 12px; /* Tamaño de letra deseado */
   text-align: center; /* Alineación del texto */
-
 }
 
 /* Estilo para los encabezados de columna */
@@ -44,6 +53,7 @@ th:hover {
   border: 1px solid #000; /* Establece un borde sólido de 1px y color negro */
   padding: 8px; /* Añade espacio interno alrededor del contenido de la celda */
   max-width: 400px;
+  max-height: 10px;
 }
 
 
@@ -61,7 +71,13 @@ th:hover {
   margin-top: 25px;
   color: #eee6e6;
   background-color: black;
+  margin: 5px;
 }
+.clase-valido {
+  background-color: green;
+  color: white;
+}
+
 
 .btn-agg{
   display: flex;
@@ -70,5 +86,42 @@ th:hover {
   color: #eee6e6;
   background-color: black;
 }
+
+.previsualizar{
+  /* max-height: 300px;
+  max-width: 800px; */
+  /* overflow-y: scroll; */
+  overflow: auto;
+  max-height: 310px;
+  max-width: 90%;
+}
+
+/* Cambia el color del scrollbar */
+.previsualizar::-webkit-scrollbar {
+  width: 10px; /* Ancho del scrollbar */
+}
+
+/* Cambia el color del scrollbar en el área deslizante */
+.previsualizar::-webkit-scrollbar-thumb {
+   background: #838181;
+    border-radius: 4px;
+}
+
+/* Cambia el color del scrollbar cuando se está desplazando */
+.previsualizar::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color del thumb al pasar el cursor sobre él */
+}
+
+/* Cambia el color del scrollbar track (pista) */
+.previsualizar::-webkit-scrollbar-track {
+  background-color: transparent;
+  background: #e1e1e1;
+    border-radius: 4px;
+}
+.container::-webkit-scrollbar-track:hover,
+.container::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+
 
 

@@ -12,7 +12,9 @@
         <input  type="file" formControlName="archivo" required (change)="selectFile($event)" accept=".csv" #fileInput
           style="display:none">
     </form>
-    <button class="btn-usuario" (click)="importData()" [disabled]="myForm.invalid">Importar</button>
+    <button ngClass="" (click)="importData()" [disabled]="myForm.invalid">Importar</button>
+    <button [ngClass]="{'clase-valido': myForm.valid}" (click)="importData()" [disabled]="myForm.invalid">Importar</button>
+
 
     <div class="previsualizar">
       <label *ngIf="dataLength > 0">Cantidad de Registros: {{dataLength}}</label>
@@ -20,13 +22,13 @@
         <thead>
           <tr>
             <th *ngIf="fileLoaded">#</th> <!-- Agregar encabezado para el número de fila -->
-            <th *ngFor="let column of columns">
+            <th *ngFor="let column of columns" mostrar>
               {{column.toUpperCase()}}
             </th>
           </tr>
         </thead>
-        <tbody class="tablo-Hover">
-          <ng-container *ngIf="data && data.length > 1"> <!-- Asegúrate de que data esté definido y tenga más de una fila -->
+        <tbody>
+          <ng-container *ngIf="data && data.length > 1">
             <tr *ngFor="let row of data.slice(0, 5); let i = index">
               <ng-container *ngIf="fileLoaded"> <!-- Condición para mostrar el número de fila -->
                 <td>{{i + 1}}</td>
