@@ -1,0 +1,32 @@
+
+<div class="body-Form">
+  <form [formGroup]="myForm" action="formRolAdd">
+
+  <div class="container-DataInfoFind">
+
+      <div class="containerInfo">
+          <label class="lbl-info" for="nombre">Nombre Estado:</label>
+        <div class="container-Input">
+          <input type="text" name="nombre" id="nombre" placeholder="Nombre del Estado" formControlName="estado_nombre" required="">
+        </div>
+      </div>
+
+
+    <!-- <div class="containerInfo">
+        <label class="lbl-info" for="nombre">Descripción:</label>
+      <div class="container-Input">
+        <input type="text" name="nombre" id="nombre" placeholder="Descripción del Rol" formControlName="rol_descripcion" required>
+      </div>
+    </div> -->
+
+  </div>
+
+  <div class="cont">
+
+  <button  class="btn-primary-add" type="submit" [disabled]="!myForm.valid"
+  (click)="addEstado()"
+  >Guardar</button>
+  </div>
+
+  </form>
+</div>

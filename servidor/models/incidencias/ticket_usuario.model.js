@@ -19,12 +19,23 @@ export const TicketUsuario = sequelize.define(
                 key: 'int_ticket_id'
             }
         },
-        str_usuario_id:{
-            type: DataTypes.STRING(50),
+        int_usuario_id:{
+            type: DataTypes.INTEGER,
             references: {
                 model: Usuario,
-                key: 'str_usuario_id'
+                key: 'int_usuario_id'
             }
+        },
+        dt_fecha_creacion:{
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
+        },
+        dt_fecha_actualizacion:{
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
+        },
+        txt_ticket_usuario_solucion:{
+            type: DataTypes.TEXT,
         }
     },
     {

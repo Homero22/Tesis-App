@@ -1,0 +1,83 @@
+
+<div class="body">
+  <div class="container-Nav">
+    <nav class="navTickets">
+      <div class="container-NavOptions">
+        <!-- Opcion Estados -->
+        <div class="container-Btn">
+          <button
+            class="nav-link {{
+              this.menuTabSelected === 5 ? 'active' : isValue === 3
+            }}"
+            (click)="mostrarEstados()"
+            type="button"
+          >
+            Estados
+          </button>
+        </div>
+
+        <!-- Opcion Servicios -->
+        <div class="container-Btn">
+          <button
+            class="nav-link {{
+              this.menuTabSelected === 6 ? 'active' : isValue === 4
+            }}"
+            (click)="mostrarServicios()"
+            type="button"
+          >
+            Servicios
+          </button>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container-Body">
+    <!-- Vistas de Botones -->
+
+    <!-- Apartado Vista Mostrar Estados -->
+    <div
+      class="tab-pane fade"
+      *ngIf="this.menuTabSelected === 5"
+      typeView="true;"
+    >
+      <app-estados></app-estados>
+    </div>
+    <!-- Apartado Vista Mostrar Servicios -->
+    <div
+      class="tab-pane fade"
+      *ngIf="this.menuTabSelected === 6"
+      typeView="true;"
+    >
+      <app-servicios></app-servicios>
+    </div>
+
+
+    <!-- Informacion del Contenido -->
+    <div class="container-Welcome" *ngIf="this.menuTabSelected === 0">
+      <div class="container-Left">
+        <h1>
+          Características de
+          <span>Tickets</span>
+        </h1>
+        <p>
+          Apartado donde podrá gestionar las características de los tickets
+        </p>
+      </div>
+
+      <!-- Contenedor de Logos/Imagenes_SVG -->
+      <div class="container-Right">
+        <img
+          class="logo-Espoch"
+          src="../../../../assets/img/logo-espoch.svg"
+          alt="logo-espoch"
+        />
+        <img
+          class="logo-Inventory"
+          src="../../../../assets/img/characteristics.svg"
+          alt="logo-characteristics"
+        />
+      </div>
+    </div>
+  </div>
+</div>

@@ -17,6 +17,7 @@ import { ProcesoIncidenciasModule } from "../inicio/incidencias/procesoIncidenci
       AjustesModule,
       ProcesoIncidenciasModule,
 
+
     ],
     exports: [
       ModalComponent

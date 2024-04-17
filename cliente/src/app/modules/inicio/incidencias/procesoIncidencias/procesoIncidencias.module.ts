@@ -9,6 +9,13 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PaginationAndFilterModule } from "src/app/shared/paginationAndFilter/paginationAndFilter.module";
 import { InfoIncidenciaComponent } from "./vulnerabilidades/components/infoIncidencia/infoIncidencia.component";
 import { CrearTicketComponent } from "./tickets/components/crearTicket/crearTicket.component";
+import { CaracteristicasComponent } from "./caracteristicas/caracteristicas.component";
+import { EstadosComponent } from "./caracteristicas/estados/estados.component";
+import { ServiciosComponent } from "./caracteristicas/servicios/servicios.component";
+import { AgregarEstadoComponent } from "./caracteristicas/estados/agregar-estado/agregar-estado.component";
+import { AgregarServicioComponent } from "./caracteristicas/servicios/agregar-servicio/agregar-servicio.component";
+import { EditarServicioComponent } from "./caracteristicas/servicios/editar-servicio/editar-servicio.component";
+import { EditarEstadoComponent } from "./caracteristicas/estados/editar-estado/editar-estado.component";
 
 
 
@@ -20,7 +27,14 @@ import { CrearTicketComponent } from "./tickets/components/crearTicket/crearTick
       TicketsComponent,
       VulnerabilidadesComponent,
       InfoIncidenciaComponent,
-      CrearTicketComponent
+      CrearTicketComponent,
+      CaracteristicasComponent,
+      EstadosComponent,
+      ServiciosComponent,
+      AgregarEstadoComponent,
+      AgregarServicioComponent,
+      EditarServicioComponent,
+      EditarEstadoComponent
     ],
     imports: [
       CommonModule,
@@ -35,7 +49,14 @@ import { CrearTicketComponent } from "./tickets/components/crearTicket/crearTick
       TicketsComponent,
       VulnerabilidadesComponent,
       InfoIncidenciaComponent,
-      CrearTicketComponent
+      CrearTicketComponent,
+      CaracteristicasComponent,
+      EstadosComponent,
+      ServiciosComponent,
+      AgregarEstadoComponent,
+      AgregarServicioComponent,
+      EditarServicioComponent,
+      EditarEstadoComponent
     ]
 })
 export class ProcesoIncidenciasModule { }
