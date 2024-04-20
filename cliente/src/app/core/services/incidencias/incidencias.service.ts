@@ -26,9 +26,21 @@ export class IncidenciasService{
   private dataMetadata$ = new Subject<DataMetadata>();
   private verIncidencia$ = new Subject<IncidenciasModelBody>();
 
+  private tabSelected$ = new Subject<number>();
+
   metaData!: DataMetadata;
   incidencias! : IncidenciasModelBody [];
   verIncidencia! : IncidenciasModelBody;
+
+  setTabSelected(data:number){
+    this.tabSelected$.next(data);
+  }
+
+  get selectTabSelected$(){
+    return this.tabSelected$.asObservable();
+  }
+
+
 
 
 

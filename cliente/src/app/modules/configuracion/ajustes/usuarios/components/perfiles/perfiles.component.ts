@@ -74,7 +74,7 @@ export class PerfilesComponent implements OnInit {
     setTimeout(()=>{
       this.UsuarioRolService.obtenerUsuarioRoles(this.UsuariosService.usuario.int_usuario_id);
     } , 1000);
-    
+
   }
 
 
