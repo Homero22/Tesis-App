@@ -55,7 +55,11 @@ const actualizarEstadoRepository = async (id, data) => {
 
 const cambiarEstadoRepository = async (id, data) => {
   try {
-    const dataUpdate = await Estado.update(data, {
+    const dataUpdate = await Estado.update({
+      dt_fecha_actualizacion: new Date(),
+      str_estado_estado: data.estado,
+    
+    }, {
       where: {
         int_estado_id: id,
       },
@@ -117,7 +121,7 @@ const filtrarEstadoRepository = async (texto, page) => {
       where: {
         [Op.or]: [
           {
-            str_estado_nombre: {
+            str_estado_estado: {
               [Op.like]: `${texto}`,
             },
           },
@@ -136,7 +140,7 @@ const filtrarEstadoRepository = async (texto, page) => {
       where: {
         [Op.or]: [
           {
-            str_estado_nombre: {
+            str_estado_estado: {
               [Op.like]: `${texto}`,
             },
           },

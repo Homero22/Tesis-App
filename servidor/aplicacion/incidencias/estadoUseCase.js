@@ -171,8 +171,7 @@ const buscarEstadoService = async (texto, page) => {
 
 const filtrarEstadosService = async (texto, page) => {
     page = parseInt(page);
-    const { limit, offset } = obtenerDataQueryPaginacion(page, 10);
-    const { estados, totalEstados } = await estadoRepository.filtrarEstadoRepository(texto, limit, offset);
+    const { estados, totalEstados } = await estadoRepository.filtrarEstadoRepository(texto, page);
     if (estados.length > 0) {
         const metadata = paginacion(page, 10, totalEstados);
         return {

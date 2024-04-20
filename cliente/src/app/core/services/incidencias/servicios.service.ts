@@ -138,7 +138,7 @@ export class ServiciosService{
 
   filtrarServicio(_filtro: string, page: number){
     let httpParams = new HttpParams()
-    .set('filtro', _filtro)
+    .set('texto', _filtro)
     .set('page', page);
 
     return this.http.get<ServiciosModel>(this.urlApi_filtrar_servicio, {

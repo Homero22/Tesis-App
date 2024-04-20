@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { DataMetadata } from 'src/app/core/models/metadata';
 import { EstadosService } from 'src/app/core/services/incidencias/estados.service';
 import { ModalService } from 'src/app/core/services/modal.service';
@@ -72,8 +72,57 @@ export class EstadosComponent implements OnInit {
 
 
   }
-  cambiarEstado(id: number, estado: string){
-    console.log("cambiar estado")
+  txtMensaje: string = '';
+  txtTitulo: string = '';
+  estado: string = '';
+  cambiarEstado(id: number, nuevoEstado: string){
+    if(nuevoEstado === 'ACTIVO'){
+      this.estado = 'INACTIVO';
+      this.txtMensaje = 'Al desactivar este estado, no podrá ser seleccionado en futuras incidencias';
+      this.txtTitulo = '¿Está seguro de desactivar este estado?';
+    }else if(nuevoEstado === 'INACTIVO'){
+      this.estado = 'ACTIVO';
+      this.txtMensaje = 'Al activar este estado, podrá ser seleccionado en futuras incidencias';
+      this.txtTitulo = '¿Está seguro de activar este estado?';
+    }
+    Swal.fire({
+      title: this.txtTitulo,
+      text: this.txtMensaje,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cambiar estado',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.srvEstados.cambiarEstadoEstado(id, this.estado)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (data) => {
+            if(data.status){
+              Swal.fire({
+                icon: 'success',
+                title: data.message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              this.srvEstados.obtenerEstados({
+                page: 1,
+                limit: 10,
+              });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: data.message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          }
+        })
+      }
+    })
 
   }
   editarEstado(estado:any, tittle: string, form: string){
@@ -90,7 +139,36 @@ export class EstadosComponent implements OnInit {
     this.srvModal.openModal();
   }
   buscarEstado(search : string){
+    this.searchText = search;
+    this.buscando = true;
+    if(search !== ''){
+      Swal.fire({
+        title: 'Buscando...',
+        icon: 'question',
+        timer: 900,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    }
+
+    if(search === ''){
+      this.srvEstados.obtenerEstados({
+        page: 1,
+        limit: 10,
+      });
+      this.verificarData();
+    }else{
+      this.srvEstados.buscarEstados({
+        texto: search,
+        page: 1,
+      });
+      this.verificarData();
+    }
   }
+
+
+
   filtrarEstado(filtro: string){
     this.filtrando = true;
     Swal.fire({
@@ -151,10 +229,18 @@ export class EstadosComponent implements OnInit {
 
     //comprobar si se esta buscando o filtrando
     if(this.filtroActual === 'Ver estados activos'){
-      this.srvEstados.filtrarEstado('activo', page);
+      this.srvEstados.filtrarEstados({
+        filtro: 'ACTIVO',
+        page: page
+      
+      });
     }
     if(this.filtroActual === 'Ver estados inactivos'){
-      this.srvEstados.filtrarEstado('inactivo', page);
+      this.srvEstados.filtrarEstados({
+        filtro: 'INACTIVO',
+        page: page
+      
+      });
     }
     if(this.searchText !== ''){
       this.srvEstados.buscarEstado(this.searchText, page);

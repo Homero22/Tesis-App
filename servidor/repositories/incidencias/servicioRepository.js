@@ -126,7 +126,7 @@ const filtrarServicioRepository = async (texto, page) => {
       where: {
         [Op.or]: [
           {
-            str_servicio_nombre: {
+            str_servicio_estado: {
               [Op.like]: `${texto}`,
             },
           },
@@ -142,7 +142,7 @@ const filtrarServicioRepository = async (texto, page) => {
       where: {
         [Op.or]: [
           {
-            str_servicio_nombre: {
+            str_servicio_estado: {
               [Op.like]: `${texto}`,
             },
           },

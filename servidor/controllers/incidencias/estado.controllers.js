@@ -2,6 +2,7 @@ import EstadosService from '../../aplicacion/incidencias/estadoUseCase.js'
 
 const crearEstado = async (req, res) => {
     try {
+        console.log("Crear Estado")
         const data = req.body;
         console.log(data);
         const estadoCreado = await EstadosService.crearEstadoService(data);
@@ -18,6 +19,7 @@ const crearEstado = async (req, res) => {
 
 const obtenerEstadosConPaginacion = async (req, res) => {
     try {
+        console.log("Obtener Estados con paginacion")
         const query = req.query;
         const estados = await EstadosService.obtenerEstadosConPaginacionService(query);
         res.json(estados);
@@ -32,6 +34,7 @@ const obtenerEstadosConPaginacion = async (req, res) => {
 
 const obtenerEstado = async (req, res) => {
     try {
+        console.log("Obtener Estado")
         const { id } = req.params;
         const estado = await EstadosService.obtenerEstadoByIdService(id);
         res.json(estado);
@@ -46,6 +49,7 @@ const obtenerEstado = async (req, res) => {
 
 const actualizarEstado = async (req, res) => {
     try {
+        console.log("Actualizar Estado")
         const { id } = req.params;
         const data = req.body;
         console.log(data);
@@ -63,6 +67,7 @@ const actualizarEstado = async (req, res) => {
 
 const cambiarEstadoEstado = async (req, res) => {
     try {
+        console.log("Cambiar Estado")
         const { id } = req.params;
         const data = req.body;
         console.log(data);
@@ -80,7 +85,10 @@ const cambiarEstadoEstado = async (req, res) => {
 
 const buscarEstados = async (req, res) => {
     try {
+        console.log("Buscar Estados")
         const { texto, page } = req.query;
+        console.log(texto);
+        console.log(page);
         const estados = await EstadosService.buscarEstadoService(texto, page);
         res.json(estados);
     } catch (error) {
@@ -94,7 +102,11 @@ const buscarEstados = async (req, res) => {
 
 const filtrarEstados = async (req, res) => {
     try {
+        console.log("Filtrar Estados")
         const { texto, page } = req.query;
+        console.log(req.params)
+        console.log(texto);
+        console.log(page);
         const estados = await EstadosService.filtrarEstadosService(texto, page);
         res.json(estados);
     } catch (error) {
