@@ -3,6 +3,7 @@ import fs from "fs";
 import parser from "csv-parser";
 import multer from "multer";
 import { eliminarFichero } from "../utils/eliminarFichero.utils.js";
+import archivoUseCase from "./archivoUseCase.js";
 import {
   paginacion,
   validarPaginacion,
@@ -11,14 +12,33 @@ import {
 
 import md5 from "md5";
 
-const importarVulnerabilidadesService = async (path) => {
+const importarVulnerabilidadesService = async (path, name) => {
   try {
     // leo el archivo .csv de /uploads
     const vulnerabilidades = [];
     const hashesDB = new Set();
     let vulnerabilidadesDBFormateadas = [];
 
+     const dataArchivo = await archivoUseCase.crearArchivoUseCase(name);
+     
+     if(!dataArchivo.status){
+       return {
+         status: false,
+         message: dataArchivo.message,
+         body: [],
+       };
+     }
+
+     const int_archivo_id = dataArchivo.body.int_archivo_id;
+
+
+
+
     const data = await obtenerData(path);
+
+   
+
+
 
     //obtengo las vulnerabilidades de la base de datos para comparar si ya existen
     const vulnerabilidadesDB =
@@ -36,6 +56,7 @@ const importarVulnerabilidadesService = async (path) => {
 
     data.forEach((vulnerabilidad) => {
       const vulnerabilidadObj = {
+        int_archivo_id: int_archivo_id,
         str_vulnerabilidades_plugin_id: vulnerabilidad["Plugin ID"],
         str_vulnerabilidades_cve: vulnerabilidad["CVE"],
         str_vulnerabilidades_cvss_v2_0_base_score:
@@ -118,6 +139,7 @@ const importarVulnerabilidadesService = async (path) => {
     };
   }
 };
+
 
 //funcion para formatear la data que se obtiene de la base de datos
 function formatearData(data) {

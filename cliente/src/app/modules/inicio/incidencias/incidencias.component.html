@@ -1,129 +1,191 @@
-
 <div class="father">
   <div class="containerBody">
-
-      <!-- Seccion Titulo 'Pantalla de Configuracion' -->
-      <div class="set">
-        <div class="titleConfiguration">
-          <h1>Pantalla de
-            <span style="color:#B41A12 ;">
-              Incidencias
-            </span>
-          </h1>
-          <span style="color:rgb(160, 160, 160);
+    <!-- Seccion Titulo 'Pantalla de Configuracion' -->
+    <div class="set">
+      <div class="titleConfiguration">
+        <h1>
+          Pantalla de
+          <span style="color: #b41a12"> Incidencias </span>
+        </h1>
+        <span
+          style="
+            color: rgb(160, 160, 160);
             font-family: 'Roboto', Arial, sans-serif;
-            font-size: 14px;">
-            Proceso de registro y seguimiento de incidencias
-          </span>
-        </div>
-        <!-- <div class="buttonSettings">
-          <div class="btn-agg" *ngIf="this.menuTabsSelected ===1  ">
-            <app-button-modal
-            [tipoModal]="'nuevoMenu'"
-            [titleModal]="'Agregar Menú'"
-            [contenido]="'Nuevo menú  '"
-            [conIcono]="true"
-            [icono]="'add'"
-            [color]="'#1c1917'"
-            >
-            </app-button-modal>
-
-          </div>
-          <div class="btn-agg" *ngIf="this.menuTabsSelected ===2 && permiso('ajustes/usuarios','bln_permiso_crear') ">
-            <app-button-modal
-            [tipoModal]="'nuevoUsuario'"
-            [titleModal]="'Agregar Usuario'"
-            [contenido]="'Nuevo Usuario '"
-            [conIcono]="true"
-            [icono]="'add'"
-            [color]="'#1c1917'"
-            >
-            </app-button-modal>
-
-          </div>
-          <div class="btn-agg" *ngIf="this.menuTabsSelected ===3 && permiso('ajustes/roles','bln_permiso_crear') ">
-            <app-button-modal
-            [tipoModal]="'nuevoRol'"
-            [titleModal]="'Agregar Rol'"
-            [contenido]="'Nuevo Rol '"
-            [conIcono]="true"
-            [icono]="'add'"
-            [color]="'#1c1917'"
-            >
-            </app-button-modal>
-
-          </div>
-
-        </div> -->
-
+            font-size: 14px;
+          "
+        >
+          Proceso de registro y seguimiento de incidencias
+        </span>
       </div>
 
-
-      <nav class="navSection">
-
-        <div class="containerNavOptions" id="menu"  >
-
-          <div class="container-button" id="nav-home-tab">
-            <button class="nav-link {{this.menuTabsSelected === 0 ? 'active' : isValue == 1  }} " id="nav-home-tab"
-              [routerLink]="'/incidencias/'+ baseUrl + 'subirArchivo'" type="button">
-              Subir
-            </button>
-          </div>
-
-            <div class="container-button" id="nav-profile-tab" *ngIf="permiso('incidencias/vulnerabilidades','bln_permiso_ver')">
-              <button button class="nav-link {{this.menuTabsSelected === 1 ? 'active' : isValue == 2 }}" id="nav-profile-tab"
-              [routerLink]="'/incidencias/'+ baseUrl + 'vulnerabilidades'"
-              type="button" >
-                Incidencias
-              </button>
-            </div>
-
-            <div class="container-button" id="nav-contact-tab" *ngIf="permiso('incidencias/tickets','bln_permiso_ver')">
-              <button class="nav-link {{this.menuTabsSelected === 2 ? 'active' : isValue == 3}}" id="nav-contact-tab"
-                [routerLink]="'/incidencias/'+baseUrl+'tickets'" type="button">
-                Tickets
-              </button>
-            </div>
-
-            <div class="container-button" id="nav-contact-tab" *ngIf="permiso('incidencias/seguimiento','bln_permiso_ver')">
-              <button class="nav-link {{this.menuTabsSelected === 3 ? 'active' : isValue == 4}}" id="nav-contact-tab"
-                [routerLink]="'/incidencias/'+baseUrl+'seguimiento'" type="button">
-                Seguimiento
-              </button>
-            </div>
-
+      <!-- <div class="buttonSettings">
+        <div class="btn-agg" *ngIf="this.menuTabsSelected === 5">
+          <app-button-modal
+            [tipoModal]="'nuevoEstado'"
+            [titleModal]="'Agregar Estado'"
+            [contenido]="'Nuevo estado  '"
+            [conIcono]="true"
+            [icono]="'add'"
+            [color]="'#1c1917'"
+          >
+          </app-button-modal>
         </div>
-      </nav>
-
-
-      <div class="containerContent">
-
-
-        <div class="tab-pane fade" id="nav-home" *ngIf=" this.menuTabsSelected === 0  ">
-          <app-archivoPlano></app-archivoPlano>
-
+        <div
+          class="btn-agg"
+          *ngIf="
+            this.menuTabsSelected === 6">
+          <app-button-modal
+            [tipoModal]="'nuevoServicio'"
+            [titleModal]="'Agregar Servicio'"
+            [contenido]="'Nuevo servicio  '"
+            [conIcono]="true"
+            [icono]="'add'"
+            [color]="'#1c1917'"
+          >
+          </app-button-modal>
         </div>
+      </div> -->
 
 
-        <div class="tab-pane fade" id="nav-profile" *ngIf=" this.menuTabsSelected === 1  && permiso('incidencias/vulnerabilidades','bln_permiso_ver')">
-          <app-vulnerabilidades></app-vulnerabilidades>
+    </div>
+
+    <nav class="navSection">
+      <div class="containerNavOptions" id="menu">
+        <div class="container-button" id="nav-home-tab">
+          <button
+            class="nav-link {{
+              this.menuTabsSelected === 0 ? 'active' : isValue == 1
+            }} "
+            id="nav-home-tab"
+            [routerLink]="'/incidencias/' + baseUrl + 'subirArchivo'"
+            type="button"
+          >
+            Subir
+          </button>
         </div>
 
-
-        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected === 2  && permiso('incidencias/tickets','bln_permiso_ver') ">
-          <app-tickets></app-tickets>
+        <div
+          class="container-button"
+          id="nav-profile-tab"
+          *ngIf="permiso('incidencias/vulnerabilidades', 'bln_permiso_ver')"
+        >
+          <button
+            class="nav-link {{
+              this.menuTabsSelected === 1 ? 'active' : isValue == 2
+            }}"
+            id="nav-profile-tab"
+            [routerLink]="'/incidencias/' + baseUrl + 'vulnerabilidades'"
+            type="button"
+          >
+            Incidencias
+          </button>
         </div>
 
-
-        <div class="tab-pane fade" id="nav-contact" *ngIf=" this.menuTabsSelected ===3 && permiso('incidencias/seguimiento','bln_permiso_ver') " >
-          <app-seguimiento></app-seguimiento>
+        <div
+          class="container-button"
+          id="nav-contact-tab"
+          *ngIf="permiso('incidencias/tickets', 'bln_permiso_ver')"
+        >
+          <button
+            class="nav-link {{
+              this.menuTabsSelected === 2 ? 'active' : isValue == 3
+            }}"
+            id="nav-contact-tab"
+            [routerLink]="'/incidencias/' + baseUrl + 'tickets'"
+            type="button"
+          >
+            Tickets
+          </button>
         </div>
 
+        <div
+          class="container-button"
+          id="nav-contact-tab"
+          *ngIf="permiso('incidencias/seguimiento', 'bln_permiso_ver')"
+        >
+          <button
+            class="nav-link {{
+              this.menuTabsSelected === 3 ? 'active' : isValue == 4
+            }}"
+            id="nav-contact-tab"
+            [routerLink]="'/incidencias/' + baseUrl + 'seguimiento'"
+            type="button"
+          >
+            Seguimiento
+          </button>
+        </div>
 
+        <div
+          class="container-button"
+          id="nav-contact-tab"
+          *ngIf="permiso('incidencias/caracteristicas', 'bln_permiso_ver')"
+        >
+          <button
+            class="nav-link {{
+              this.menuTabsSelected === 4 ? 'active' : isValue == 5
+            }}"
+            id="nav-contact-tab"
+            [routerLink]="'/incidencias/' + baseUrl + 'caracteristicas'"
+            type="button"
+          >
+            Características
+          </button>
+        </div>
+      </div>
+    </nav>
 
-
-
-
+    <div class="containerContent">
+      <div
+        class="tab-pane fade"
+        id="nav-home"
+        *ngIf="this.menuTabsSelected === 0"
+      >
+        <app-archivoPlano></app-archivoPlano>
       </div>
 
+      <div
+        class="tab-pane fade"
+        id="nav-profile"
+        *ngIf="
+          this.menuTabsSelected === 1 &&
+          permiso('incidencias/vulnerabilidades', 'bln_permiso_ver')
+        "
+      >
+        <app-vulnerabilidades></app-vulnerabilidades>
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="nav-contact"
+        *ngIf="
+          this.menuTabsSelected === 2 &&
+          permiso('incidencias/tickets', 'bln_permiso_ver')
+        "
+      >
+        <app-tickets></app-tickets>
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="nav-contact"
+        *ngIf="
+          this.menuTabsSelected === 3 &&
+          permiso('incidencias/seguimiento', 'bln_permiso_ver')
+        "
+      >
+        <app-seguimiento></app-seguimiento>
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="nav-contact"
+        *ngIf="
+          this.menuTabsSelected === 4 &&
+          permiso('incidencias/caracteristicas', 'bln_permiso_ver')
+        "
+      >
+        <app-caracteristicas></app-caracteristicas>
+      </div>
+    </div>
+  </div>
 </div>

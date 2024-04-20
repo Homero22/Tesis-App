@@ -260,7 +260,7 @@ const filtrarRolesService = async (texto,page) => {
     const {roles, totalRoles}= await rolRepository.filtrarRoles(texto,page);
     if (roles.length > 0) {
         const metadata = paginacion(page, 10, totalRoles);
-        console.log(metadata);
+        
         return {
             status:true,
             message:"Roles encontrados",

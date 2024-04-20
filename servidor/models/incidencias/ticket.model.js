@@ -1,5 +1,9 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../../database/postgres.js';
+import { Estado } from './estado.model.js';
+import { Servicio } from './servicio.model.js';
+import { Vulnerabilidades } from './vulnerabilidades.model.js';
+
 
 export const Ticket = sequelize.define(
     "tb_ticket",
@@ -10,49 +14,42 @@ export const Ticket = sequelize.define(
             autoIncrement: true,
             allowNull: false
         },
-        str_ticket_titulo:{
-            type: DataTypes.STRING(100),
+        int_servicio_id:{
+            type: DataTypes.INTEGER,
+            references: {
+                model: Servicio,
+                key: 'int_servicio_id'
+            }
         },
-        str_ticket_descripcion:{
+        int_vulnerabilidades_id:{
+            type: DataTypes.INTEGER,
+            references: {
+                model: Vulnerabilidades,
+                key: 'int_vulnerabilidades_id'
+            }
+        },
+        int_estado_id:{
+            type: DataTypes.INTEGER,
+            references: {
+                model: Estado,
+                key: 'int_estado_id'
+            }
+        },
+        str_ticket_observacion:{
             type: DataTypes.TEXT,
         },
-        str_ticket_estado:{
-            type: DataTypes.STRING(50),
-        },
-        str_ticket_prioridad:{
-            type: DataTypes.STRING(50),
-        },
-        str_ticket_tipo:{
-            type: DataTypes.STRING(50),
-        },
-        str_ticket_categoria:{
-            type: DataTypes.STRING(50),
-        },
-        str_ticket_subcategoria:{
-            type: DataTypes.STRING(50),
-        },
-        str_ticket_responsable:{
-            type: DataTypes.STRING(50),
-        },
-        str_ticket_usuario:{
-            type: DataTypes.STRING(50),
-        },
-        str_ticket_fecha_creacion:{
+        dt_fecha_creacion:{
             type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
         },
-        str_ticket_fecha_modificacion:{
+        dt_fecha_actualizacion:{
             type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
         },
-        str_ticket_fecha_cierre:{
-            type: DataTypes.DATE,
-        },
-        str_ticket_comentario:{
-            type: DataTypes.TEXT,
-        }
     },
     {
         schema: "incidencias",
         timestamps: false,
         freezeTableName: true
     }
-);
+); 

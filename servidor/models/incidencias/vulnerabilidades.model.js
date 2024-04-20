@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../../database/postgres.js';
+import { Archivo } from './archivo.model.js';
 export const Vulnerabilidades = sequelize.define(
     "tb_vulnerabilidades",
     {
@@ -9,6 +10,13 @@ export const Vulnerabilidades = sequelize.define(
             autoIncrement: true,
             allowNull: false
         
+        },
+        int_archivo_id:{
+            type: DataTypes.INTEGER,
+            references: {
+                model: Archivo,
+                key: 'int_archivo_id'
+            }
         },
         str_vulnerabilidades_plugin_id:{
             type: DataTypes.STRING(50),

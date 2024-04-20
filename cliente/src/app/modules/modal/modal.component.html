@@ -57,6 +57,22 @@
             <app-crearTicket></app-crearTicket>
           </div>
 
+          <div *ngSwitchCase="'nuevoEstado'">
+            <app-agregar-estado></app-agregar-estado>
+          </div>
+          <div *ngSwitchCase="'editarEstado'">
+            <app-editar-estado></app-editar-estado>
+          </div>
+
+          <div *ngSwitchCase="'nuevoServicio'">
+            <app-agregar-servicio></app-agregar-servicio>
+          </div>
+
+          <div *ngSwitchCase="'editarServicio'">
+            <app-editar-servicio></app-editar-servicio>
+          </div>
+
+
 
 
 

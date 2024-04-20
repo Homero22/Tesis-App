@@ -40,6 +40,13 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         )
+      },
+      {
+        path:'caracteristicas',
+        loadChildren:()=>
+        import('./incidencias-routing.module').then(
+          (m)=>m.IncidenciasRoutingModule
+        )
       }
     ]
   },

@@ -2,7 +2,9 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../../database/postgres.js';
 import { Vulnerabilidades } from './vulnerabilidades.model.js';
 import { Ticket } from './ticket.model.js';
-
+/**
+ * NO SE USA
+ */
 export const VulnerabilidadTicket = sequelize.define(
     "tb_vulnerabilidad_ticket",
     {

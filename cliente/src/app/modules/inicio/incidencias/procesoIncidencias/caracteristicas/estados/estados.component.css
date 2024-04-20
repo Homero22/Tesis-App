@@ -1,0 +1,7 @@
+.btn-usuario{
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  color: #eee6e6;
+  background-color: black;
+}

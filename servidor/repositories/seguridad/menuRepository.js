@@ -1,5 +1,6 @@
 import {Menu} from "../../models/seguridad/menus.model.js";
 import { Op } from "sequelize";
+
  const getAllMenus = async () => {
     try {
         const menus = await Menu.findAll({});
