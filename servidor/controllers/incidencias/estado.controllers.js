@@ -49,7 +49,7 @@ const actualizarEstado = async (req, res) => {
         const { id } = req.params;
         const data = req.body;
         console.log(data);
-        
+
         const estadoActualizado = await EstadosService.actualizarEstadoService(id, data);
         res.json(estadoActualizado);
     } catch (error) {
@@ -65,7 +65,7 @@ const cambiarEstadoEstado = async (req, res) => {
     try {
         const { id } = req.params;
         const data = req.body;
-        console.log(data);
+        console.log("estado",data);
         const estadoActualizado = await EstadosService.cambiarEstadoService(id, data);
         res.json(estadoActualizado);
     } catch (error) {

@@ -73,7 +73,33 @@ export class EstadosComponent implements OnInit {
 
   }
   cambiarEstado(id: number, estado: string){
-    console.log("cambiar estado")
+    if(estado === 'ACTIVO'){
+      estado = 'INACTIVO';
+    }
+    if(estado === 'INACTIVO'){
+      estado = 'ACTIVO';
+    }
+    this.srvEstados.editarEstado(id,estado)
+    .subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        Swal.fire({
+          title: 'Estado actualizado',
+          icon: 'success',
+          timer: 900,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+        this.srvEstados.obtenerEstados({
+          page: 1,
+          limit: 10,
+        });
+      },
+      error:(err:any)=>{
+        console.log(err);
+      }
+    });
 
   }
   editarEstado(estado:any, tittle: string, form: string){

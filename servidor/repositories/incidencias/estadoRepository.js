@@ -55,7 +55,10 @@ const actualizarEstadoRepository = async (id, data) => {
 
 const cambiarEstadoRepository = async (id, data) => {
   try {
-    const dataUpdate = await Estado.update(data, {
+    const dataUpdate = await Estado.update({
+      str_estado_estado: data.estado,
+      dt_fecha_actualizacion: new Date(),
+    }, {
       where: {
         int_estado_id: id,
       },
