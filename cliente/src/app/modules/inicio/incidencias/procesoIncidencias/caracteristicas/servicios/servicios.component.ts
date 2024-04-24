@@ -138,10 +138,10 @@ export class ServiciosComponent implements OnInit {
     this.currentPage = page;
     //comprobar si se esta filtrando para cambiar de pagina
     if (this.filtroActual === 'Ver servicios activos') {
-      this.srvServicios.filtrarServicio('ACTIVO', page);
+      this.srvServicios.filtrarServicios('ACTIVO', page);
     }
     if (this.filtroActual === 'Ver servicios inactivos') {
-      this.srvServicios.filtrarServicio('INACTIVO', page);
+      this.srvServicios.filtrarServicios('INACTIVO', page);
     }
     if (this.searchText !== '') {
       this.srvServicios.buscarServicio(this.searchText, page);

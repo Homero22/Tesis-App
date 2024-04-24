@@ -108,10 +108,22 @@ export class EstadosService {
   }
 
   // Cambiar estado del estado
-  cambiarEstadoEstado(_id: number, estadoId: number){
+  // cambiarEstadoEstado(_id: number, estadoId: number){
+  //   return this.http.put<EstadosModel>(
+  //     `${this.urlApi_estados}/${_id}/estado`,
+  //     { estadoId },
+  //     {
+  //       withCredentials: true
+  //     }
+  //   );
+  // }
+  //urlApi_desactivar_estado
+  cambiarEstadoEstado(_id: number, _estado: string){
     return this.http.put<EstadosModel>(
-      `${this.urlApi_estados}/${_id}/estado`,
-      { estadoId },
+      `${this.urlApi_desactivar_estado}/${_id}`,
+      {
+        estado: _estado
+      },
       {
         withCredentials: true
       }
@@ -134,8 +146,9 @@ export class EstadosService {
   // Filtrar estado
 
   filtrarEstado(_filtro: string, page: number){
+    console.log("filtro", _filtro, page);
     let httpParams = new HttpParams()
-    .set('filtro', _filtro)
+    .set('texto', _filtro)
     .set('page', page);
 
     return this.http.get<EstadosModel>(this.urlApi_filtrar_estado, {
