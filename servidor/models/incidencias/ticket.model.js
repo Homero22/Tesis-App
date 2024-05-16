@@ -5,6 +5,9 @@ import { Servicio } from './servicio.model.js';
 import { Vulnerabilidades } from './vulnerabilidades.model.js';
 
 
+
+
+
 export const Ticket = sequelize.define(
     "tb_ticket",
     {
@@ -52,4 +55,7 @@ export const Ticket = sequelize.define(
         timestamps: false,
         freezeTableName: true
     }
-); 
+);
+
+
+

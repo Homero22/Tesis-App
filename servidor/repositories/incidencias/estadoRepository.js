@@ -13,7 +13,11 @@ const crearEstadoRepository = async (data) => {
 
 const obtenerAllEstadosRepository = async () => {
   try {
-    const data = await Estado.findAll({});
+    const data = await Estado.findAll({
+      where: {
+        str_estado_estado: "ACTIVO",
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);

@@ -117,6 +117,19 @@ const filtrarEstados = async (req, res) => {
         });
     }
 }
+const obtenerTodosEstados = async (req, res) => {
+    try {
+        console.log("Obtener Todos los Estados")
+        const estados = await EstadosService.obtenerEstadosService();
+        res.json(estados);
+    } catch (error) {
+        res.status(500).json({
+            status: false,
+            message: "Error en el servidor" + error,
+            body: [],
+        });
+    }
+}
 
 export default {
     crearEstado,
@@ -125,5 +138,6 @@ export default {
     actualizarEstado,
     cambiarEstadoEstado,
     buscarEstados,
-    filtrarEstados
+    filtrarEstados,
+    obtenerTodosEstados
 }

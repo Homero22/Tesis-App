@@ -35,7 +35,7 @@ export class DesplegableComponent implements OnInit {
     public casCliente: CasClient) { }
 
   ngOnInit():void {
-
+    console.log("Cargando DesplegableComponent");
       this.srvUsuario
       .getMe()
       .pipe(takeUntil(this.destroy$))
@@ -65,9 +65,6 @@ export class DesplegableComponent implements OnInit {
                 localStorage.setItem('selectedRole', this.nameRol);
               }
               this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
-
-
-
             }
           },
           error: (err: any) => {

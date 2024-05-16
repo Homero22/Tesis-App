@@ -13,7 +13,12 @@ const crearServicioRepository = async (data) => {
 
 const obtenerAllServiciosRepository = async () => {
   try {
-    const data = await Servicio.findAll({});
+    //obtener servicios activos
+    const data = await Servicio.findAll({
+      where: {
+        str_servicio_estado: "ACTIVO",
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);

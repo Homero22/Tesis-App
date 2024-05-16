@@ -4,6 +4,8 @@ import { sequelize } from "./database/postgres.js";
 import { configuracionInicial } from "./aplicacion/configuracion/configuracionInicialUseCase.js";
 import https from "https";
 import fs from "fs";
+import { TicketUsuario } from "./models/incidencias/ticket_usuario.model.js";
+
 
 
 
@@ -13,7 +15,7 @@ async function main(port) {
     await sequelize.authenticate();
 
     //Sincronizar la base de datos
-    await sequelize.sync({ force: false, logging: false });
+    await sequelize.sync({ force: false, logging: true });
 
     if (configVariables.env == "production") {
       //Iniciar el servidor

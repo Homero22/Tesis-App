@@ -2,6 +2,7 @@ import ticketUseCase from "../../aplicacion/incidencias/ticketUseCase.js";
 
 export const crearTicket = async (req, res) => {
     try {
+        console.log("Crear Ticket");
         const data = req.body;
         const ticket = await ticketUseCase.crearTicketUseCase(data);
         res.json(ticket);
@@ -29,8 +30,24 @@ export const obtenerTickets = async (req, res) => {
     }
 }
 
+const obtenerTicketsConPaginacion = async (req, res) => {
+    try {
+        const query = req.query;
+        const tickets = await ticketUseCase.obtenerTicketsConPaginacionUseCase(query);
+        res.json(tickets);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Error al obtener los tickets con paginacion " + error.message,
+            body: [],
+          });
+    }
+}
+
 export default {
     crearTicket,
-    obtenerTickets
+    obtenerTickets,
+    obtenerTicketsConPaginacion
 }
 

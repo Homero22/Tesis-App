@@ -20,6 +20,7 @@ export class AsideComponent implements OnInit {
     public srvMenu : MenusService,
   ) { }
   ngOnInit(): void {
+    console.log("Cargando AsideComponent");
     this.srvMenu.selectMenusPermisos$.subscribe((data) => {
       this.menus = data;
       this.ordenarMenus(this.menus);

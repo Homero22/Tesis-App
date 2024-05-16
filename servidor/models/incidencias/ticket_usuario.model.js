@@ -2,6 +2,10 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../../database/postgres.js';
 import { Usuario } from  '../seguridad/usuario.model.js';
 import { Ticket } from './ticket.model.js';
+import { Estado } from './estado.model.js';
+import { Servicio } from './servicio.model.js';
+import { Vulnerabilidades } from './vulnerabilidades.model.js';
+
 
 export const TicketUsuario = sequelize.define(
     "tb_ticket_usuario",
@@ -44,3 +48,12 @@ export const TicketUsuario = sequelize.define(
         freezeTableName: true
     }
 );
+
+//Relaciones
+Ticket.belongsTo(Servicio, {foreignKey: 'int_servicio_id'});
+Ticket.belongsTo(Estado, {foreignKey: 'int_estado_id'});
+Ticket.belongsTo(Vulnerabilidades, {foreignKey: 'int_vulnerabilidades_id'});
+Ticket.hasMany(TicketUsuario, {foreignKey: 'int_ticket_id'});
+Usuario.hasMany(TicketUsuario, {foreignKey: 'int_usuario_id'});
+TicketUsuario.belongsTo(Ticket, {foreignKey: 'int_ticket_id'});
+TicketUsuario.belongsTo(Usuario, {foreignKey: 'int_usuario_id'});
