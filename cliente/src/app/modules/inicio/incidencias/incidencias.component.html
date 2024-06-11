@@ -51,7 +51,7 @@
 
     <nav class="navSection">
       <div class="containerNavOptions" id="menu">
-        <div class="container-button" id="nav-home-tab">
+        <div class="container-button" id="nav-home-tab" *ngIf="this.rol==='Administrador'">
           <button
             class="nav-link {{
               this.menuTabsSelected === 0 ? 'active' : isValue == 1
@@ -98,7 +98,7 @@
           </button>
         </div>
 
-        <div
+        <!-- <div
           class="container-button"
           id="nav-contact-tab"
           *ngIf="permiso('incidencias/seguimiento', 'bln_permiso_ver')"
@@ -113,7 +113,7 @@
           >
             Seguimiento
           </button>
-        </div>
+        </div> -->
 
         <div
           class="container-button"

@@ -321,6 +321,15 @@ const filtrarVulnerabilidadesRepository = async (texto, page) => {
   }
 }
 
+export const obtenerVulnerabilidadByIdRepository = async (id) => {
+  try {
+    const vulnerabilidad = await Vulnerabilidades.findByPk(id);
+    return vulnerabilidad;
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
+};
 
 export default {
   importarVulnerabilidadesRepository,

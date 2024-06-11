@@ -16,6 +16,8 @@ export class ModalComponent implements OnInit{
     public srvModal: ModalService
   ) { }
 
+
+
   ngOnInit():void {
     this.srvModal.selectFormModal$
     .pipe(takeUntil(this.destroy$))

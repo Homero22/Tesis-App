@@ -4,6 +4,8 @@ import { sequelize } from "./database/postgres.js";
 import { configuracionInicial } from "./aplicacion/configuracion/configuracionInicialUseCase.js";
 import https from "https";
 import fs from "fs";
+import { TicketUsuario } from "./models/incidencias/ticket_usuario.model.js";
+
 
 
 

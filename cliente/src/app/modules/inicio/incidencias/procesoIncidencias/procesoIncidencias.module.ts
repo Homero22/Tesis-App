@@ -16,6 +16,11 @@ import { AgregarEstadoComponent } from "./caracteristicas/estados/agregar-estado
 import { AgregarServicioComponent } from "./caracteristicas/servicios/agregar-servicio/agregar-servicio.component";
 import { EditarServicioComponent } from "./caracteristicas/servicios/editar-servicio/editar-servicio.component";
 import { EditarEstadoComponent } from "./caracteristicas/estados/editar-estado/editar-estado.component";
+import { VerTicketComponent } from "./tickets/components/ver-ticket/ver-ticket.component";
+import { EditarTicketComponent } from "./tickets/components/editar-ticket/editar-ticket.component";
+import { AddSolucionTicketComponent } from "./tickets/components/add-solucion-ticket/add-solucion-ticket.component";
+import { PasarTicketComponent } from "./tickets/components/pasar-ticket/pasar-ticket.component";
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 
@@ -34,14 +39,19 @@ import { EditarEstadoComponent } from "./caracteristicas/estados/editar-estado/e
       AgregarEstadoComponent,
       AgregarServicioComponent,
       EditarServicioComponent,
-      EditarEstadoComponent
+      EditarEstadoComponent,
+      VerTicketComponent,
+      EditarTicketComponent,
+      AddSolucionTicketComponent,
+      PasarTicketComponent
     ],
     imports: [
       CommonModule,
       RouterModule.forChild([]),
       ReactiveFormsModule,
       FormsModule,
-      PaginationAndFilterModule
+      PaginationAndFilterModule,
+      MatTabsModule
     ],
     exports: [
       ArchivoPlanoComponent,
@@ -56,7 +66,11 @@ import { EditarEstadoComponent } from "./caracteristicas/estados/editar-estado/e
       AgregarEstadoComponent,
       AgregarServicioComponent,
       EditarServicioComponent,
-      EditarEstadoComponent
+      EditarEstadoComponent,
+      VerTicketComponent,
+      EditarTicketComponent,
+      AddSolucionTicketComponent,
+      PasarTicketComponent
     ]
 })
 export class ProcesoIncidenciasModule { }

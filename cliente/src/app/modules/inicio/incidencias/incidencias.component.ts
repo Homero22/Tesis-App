@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import config from 'config/config';
 import { Subject, takeUntil } from 'rxjs';
 import { IncidenciasService } from 'src/app/core/services/incidencias/incidencias.service';
+import { TicketService } from 'src/app/core/services/incidencias/ticket.service';
 import { MenusService } from 'src/app/core/services/menus.service';
 
 @Component({
@@ -27,8 +28,11 @@ export class IncidenciasComponent implements OnInit, OnDestroy {
     SERVICIOS: 5,
     ESTADOS: 6,
   };
+  rol: any='';
 
-  constructor(public srvMenus: MenusService, public srvIncidencias: IncidenciasService) {
+  constructor(public srvMenus: MenusService, public srvIncidencias: IncidenciasService,
+    public srvTickets: TicketService
+  ) {
     this.path = window.location.pathname.split('/').pop() || '';
     this.menuTabsSelected = this.listaViews[this.path.toUpperCase()] || 0;
   }
@@ -89,6 +93,9 @@ export class IncidenciasComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.srvTickets.selectRol$.subscribe((res) => {
+      this.rol = res;
+    });
 
   this.srvIncidencias.selectTabSelected$
     .pipe(takeUntil(this.destroy$))
