@@ -72,6 +72,21 @@
             <app-editar-servicio></app-editar-servicio>
           </div>
 
+          <div *ngSwitchCase="'verTicket'">
+            <app-ver-ticket></app-ver-ticket>
+          </div>
+          <div *ngSwitchCase="'editarTicket'">
+            <app-editar-ticket></app-editar-ticket>
+          </div>
+
+          <div *ngSwitchCase="'agregarSolucionTicket'">
+            <app-add-solucion-ticket></app-add-solucion-ticket>
+          </div>
+
+          <div *ngSwitchCase="'pasarTicket'">
+            <app-pasar-ticket></app-pasar-ticket>
+          </div>
+
 
 
 

@@ -1,0 +1,8 @@
+.tabla-estilos tbody tr {
+  cursor: pointer;
+  border-top-width: 0.5px;
+}
+.color:hover {
+  background-color: #58ac6d;
+  transition: background-color 0.3s ease;
+}

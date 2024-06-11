@@ -40,6 +40,10 @@ export const TicketUsuario = sequelize.define(
         },
         txt_ticket_usuario_solucion:{
             type: DataTypes.TEXT,
+        },
+        str_ticket_usuario_estado:{
+            type: DataTypes.STRING,
+            defaultValue: 'PENDIENTE'
         }
     },
     {

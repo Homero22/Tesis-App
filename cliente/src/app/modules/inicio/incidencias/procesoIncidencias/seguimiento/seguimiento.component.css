@@ -1,0 +1,184 @@
+.ticket-seguimiento-container {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 10px;
+  margin: 5px;
+}
+
+.ticket-seguimiento {
+  flex: 0 0 calc(20% - 10px); /* 5 elementos por fila con espacio entre ellos */
+  margin: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  box-sizing: border-box; /* Incluye padding y border en el ancho y alto */
+  position: relative; /* Necesario para la posición del número */
+}
+
+.ticket-seguimiento.pasado {
+  background-color: #68bb6bd4;
+
+}
+
+.ticket-seguimiento.pendiente {
+  background-color: #aeacac91;
+
+}
+
+.solucion-numero {
+  position: absolute;
+  top: 10px; /* Ajusta la posición para que no tape el contenido */
+  right: 16px; /* Ajusta la posición para que no tape el contenido */
+  background-color: #1f2021;
+  color: #fff;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 1; /* Asegura que esté por encima del contenido */
+}
+.btn-usuario{
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  color: #eee6e6;
+  background-color: black;
+}
+
+.ticket-seguimiento h3 {
+  margin-top: 30px; /* Agrega un margen superior para evitar que el texto se superponga con el número */
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ffffff;
+  margin: 10px 0;
+}
+
+.vulnerabilidad-info {
+  background-color: #f9f9f9; /* Color de fondo claro para diferenciar la sección */
+  padding: 20px; /* Espacio interno */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  margin-top: 20px; /* Margen superior */
+}
+
+.vulnerabilidad-info h2 {
+  border-bottom: 2px solid #ccc; /* Línea debajo del título */
+  padding-bottom: 10px; /* Espacio debajo del título */
+  margin-bottom: 20px; /* Margen debajo del título */
+  color: #333; /* Color del texto del título */
+}
+
+.vulnerabilidad-item {
+  margin-bottom: 15px; /* Espacio entre elementos */
+}
+
+.vulnerabilidad-item p {
+  margin: 5px 0; /* Márgenes en los párrafos */
+}
+
+.descripcion, .solucion {
+  background-color: #fff; /* Fondo blanco */
+  padding: 10px; /* Espacio interno */
+  border: 1px solid #ddd; /* Borde gris claro */
+  border-radius: 4px; /* Bordes redondeados */
+  white-space: pre-wrap; /* Mantener formato de texto */
+}
+
+.vulnerabilidad-info p strong {
+  color: #555; /* Color del texto en negrita */
+}
+
+.btn-pendiente {
+  background-color:red;
+  border: 2px solid red;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+
+.btn-pasado {
+  background-color: black;
+  border: 2px solid black;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed; /* Queda fijo en la pantalla */
+  z-index: 1; /* Colocación por delante */
+  left: 0;
+  top: 0;
+  width: 100%; /* Anchura completa */
+  height: 100%; /* Altura completa */
+  overflow: auto; /* Habilita el desplazamiento si es necesario */
+  background-color: rgb(0,0,0); /* Color de fondo negro */
+  background-color: rgba(0,0,0,0.4); /* Con opacidad */
+  padding-top: 60px; /* Padding en la parte superior */
+}
+
+.modal.show {
+  display: block; /* Muestra el modal */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto; /* 5% desde la parte superior y centrado */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Ancho del modal */
+  border-radius: 8px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.container-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.container-in{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

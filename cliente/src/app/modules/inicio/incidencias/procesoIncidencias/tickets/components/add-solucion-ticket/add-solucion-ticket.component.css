@@ -1,0 +1,20 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 2px;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+#solucion {
+  width: 100%; /* Establece el ancho al 100% del contenedor */
+  height: 100px; /* Ajusta la altura según tus necesidades */
+  resize: none
+}

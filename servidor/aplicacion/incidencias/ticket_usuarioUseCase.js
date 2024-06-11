@@ -26,7 +26,26 @@ export const crearTicketUsuarioUseCase = async (data) => {
         return error.message;
     }
 };
-
+export const agregarSolucionTicketUsuarioUseCase = async (data) => {
+    try {
+        const ticketUsuario = await ticketUsuarioRepository.agregarSolucionTicketUsuarioRepository(data);
+        if(!ticketUsuario){
+            return {
+                status:false,
+                message:"Error al agregar la solucion al ticket usuario",
+                body:[]
+            };
+        }
+        return {
+            status:true,
+            message:"Solucion agregada correctamente",
+            body:ticketUsuario
+        }
+    } catch (error) {
+        console.log(error);
+        return error.message;
+    }
+};
 const obtenerTicketUsuariosUseCase = async () => {
     try {
         const ticketUsuarios = await ticketUsuarioRepository.obtenerAllTicketUsuariosRepository();
@@ -57,16 +76,41 @@ const actualizarTicketUsuarioUseCase = async (id, data) => {
     }
 };
 
-const obtenerTicketUsuariosPaginacionUseCase = async (query) => {
-    try {
-        const { limit, offset } = obtenerDataQueryPaginacion(query);
-        const ticketUsuarios = await ticketUsuarioRepository.obtenerAllTicketUsuariosRepository();
-        const data = paginacion(ticketUsuarios, limit, offset);
-        return data;
-    } catch (error) {
-        console.log(error);
-        return error.message;
+const obtenerTicketUsuariosPaginacionUseCase = async (query,usuario) => {
+    const validacion = validarPaginacion(query);
+    if (validacion != true) {
+      return validacion;
     }
+    let idUsuario = usuario.body.int_usuario_id;
+    const { page, limit } = obtenerDataQueryPaginacion(query);
+    let ticketUsuarios = await ticketUsuarioRepository.obtenerTicketUsuariosConPaginacionRepository(
+      page,
+      limit,
+        idUsuario
+    );
+
+
+    const totalTicketUsuarios = await ticketUsuarioRepository.obtenerTotalTicketUsuariosRepository(idUsuario);
+
+    const metadata = paginacion(page, limit, totalTicketUsuarios);
+
+    
+    console.log("ticketUsuarios",ticketUsuarios);
+
+    return {
+      status: true,
+      message: "Ticket usuarios encontrados",
+      body: ticketUsuarios,
+      metadata: {
+        pagination: metadata,
+      }
+    };
+
+
+
+
+
+
 };
 
 export default {
@@ -75,4 +119,5 @@ export default {
     obtenerTicketUsuarioByIdUseCase,
     actualizarTicketUsuarioUseCase,
     obtenerTicketUsuariosPaginacionUseCase,
+    agregarSolucionTicketUsuarioUseCase
 }

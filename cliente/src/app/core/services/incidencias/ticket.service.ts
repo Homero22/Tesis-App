@@ -1,11 +1,13 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import config from "config/config";
-import { Subject, takeUntil } from "rxjs";
+import { BehaviorSubject, Subject, takeUntil } from "rxjs";
 import { DataMetadata } from "../../models/metadata";
 import Swal from "sweetalert2";
 import { TicketModel } from '../../models/incidencias/ticketModel';
 import { TicketModelBody } from '../../models/incidencias/ticketModel';
+import { UsuarioCentralizadaModel } from '../../models/usuarios/usuarioCentralizadaModel';
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -13,28 +15,91 @@ import { TicketModelBody } from '../../models/incidencias/ticketModel';
 
 export class TicketService{
 
-  constructor(private http:HttpClient) {}
+  constructor(private http:HttpClient
+    ,private router: Router
+  ) {}
 
   private urlApi_tickets: string = config.URL_API_BASE + 'tickets';
   private urlApi_buscar_tickets: string = config.URL_API_BASE + 'tickets/buscar';
   private urlApi_filtrar_tickets: string = config.URL_API_BASE + 'tickets/filtrar';
+  private urlApi_seguimiento_ticket: string = config.URL_API_BASE + 'seguimiento';
 
   private destroy$ = new Subject<any>();
   private dataMetadata$ = new Subject<DataMetadata>();
   private verTicket$ = new Subject<TicketModelBody>();
+  private editarTicket$ = new BehaviorSubject<any>({});
+  private aggSolucionTicket$ =new BehaviorSubject<any>({})
+  private isTicketUsuario$ = new BehaviorSubject<boolean>(false);
+  private solucionesTicket$ = new BehaviorSubject<any>({
+
+  });
+
+  private seguimientoTicket$ = new BehaviorSubject<any>({
+    vacio: true
+  });
+
+  private solucionTicketUsuario$ = new BehaviorSubject<any>({
+    vacio: true
+  });
+
+  private rol$ = new BehaviorSubject<string>('');
 
   private tabSelected$ = new Subject<number>();
 
   metaData!: DataMetadata;
   tickets! : any[];
   verTicket! : TicketModelBody;
+  editarTicket!:any;
+  isTicketUsuario: boolean = false;
+
+
+  ticketsUsuario!: any[];
+
+  setSolucionTicketUsuario(data:any){
+    this.solucionTicketUsuario$.next(data);
+  }
+  get selectSolucionTicketUsuario$(){
+    return this.solucionTicketUsuario$.asObservable();
+  }
+
+  setRol(data:string){
+    console.log("rol",data);
+    this.rol$.next(data);
+  }
+  get selectRol$(){
+    return this.rol$.asObservable();
+  }
+  setSeguimientoTicket(data:any){
+    this.seguimientoTicket$.next(data);
+  }
+  get selectSeguimientoTicket$(){
+    return this.seguimientoTicket$.asObservable();
+  }
 
   setTabSelected(data:number){
     this.tabSelected$.next(data);
   }
+  setSolucionesTicket(data:any){
+    this.solucionesTicket$.next(data);
+  }
+  get selectSolucionesTicket$(){
+    return this.solucionesTicket$.asObservable();
+  }
+  setIsTicketUsuario(data:boolean){
+    this.isTicketUsuario$.next(data);
+  }
+  get selectIsTicketUsuario$(){
+    return this.isTicketUsuario$.asObservable();
+  }
 
   get selectTabSelected$(){
     return this.tabSelected$.asObservable();
+  }
+  setAddSolucionTicket(data:any){
+    this.aggSolucionTicket$.next(data);
+  }
+  get selectAddSolucionTicket$(){
+    return this.aggSolucionTicket$.asObservable();
   }
 
   setDataMetadata(data:DataMetadata){
@@ -42,6 +107,9 @@ export class TicketService{
   }
   setTickets(data:TicketModelBody[]){
     this.tickets = data;
+  }
+  setTicketsUsuario(data:any[]){
+    this.ticketsUsuario =data;
   }
 
   get selectMetadata$(){
@@ -51,6 +119,19 @@ export class TicketService{
   get selectVerTicket$(){
     return this.verTicket$.asObservable();
   }
+
+  setVerTicket(data:any){
+    this.verTicket = data;
+    console.log("ver ticker",this.verTicket);
+  }
+  setEditarTicket(data:any){
+    this.editarTicket$.next(data);
+  }
+
+  get selectEditarTicket$(){
+    return this.editarTicket$.asObservable();
+  }
+
 
   //Obtener tickets
   getTickets(params: any){
@@ -64,6 +145,30 @@ export class TicketService{
         withCredentials: true
       }
     )
+  }
+  //Pasar ticket
+  pasarTicket(ticketId: any, data: any){
+    return this.http.patch<any>(this.urlApi_tickets + '/' + ticketId,
+      {
+        int_usuario_id: data.usuarioId,
+        int_ticket_usuario_id: data.ticketUsuarioId
+      },
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  //editar ticket
+  updateTicket(ticket_id: number, ticket: any){
+   return this.http.put<any>(this.urlApi_tickets + '/' + ticket_id,
+   {
+      str_ticket_observacion: ticket
+   },
+    {
+      withCredentials: true
+    }
+   );
   }
 
   crearTicket(ticket: any){
@@ -100,12 +205,45 @@ export class TicketService{
     )
   }
 
+  //obtener seguimiento de un ticket
+  obtenerSeguimientoTicket(ticket_id: number){
+    return this.http.get<any>(`${this.urlApi_seguimiento_ticket}/${ticket_id}`,
+      {
+        withCredentials: true
+      }
+    )
+  }
+
+  //funcion general para obtener seguimiento de un ticket
+  obtenerSeguimiento(ticket_id: number){
+    this.obtenerSeguimientoTicket(ticket_id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data: any) => {
+        this.setSeguimientoTicket(data);
+        console.log("Hay data", data)
+        this.router.navigate(['incidencias/seguimiento']);
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'Error al obtener seguimiento',
+          icon: 'error',
+          text: err.error.message
+        });
+        console.log(err);
+      }
+    })
+  }
+
+
+
   //funcion general para obtener tickets
   obtenerTickets(params: any){
     this.getTickets(params)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (data: TicketModel) => {
+
         this.tickets = data.body;
         this.metaData = data.metadata;
         this.setDataMetadata(data.metadata);
@@ -166,6 +304,123 @@ export class TicketService{
       }
     })
   }
+
+
+
+
+  //Ticket_usuario
+
+  //rutas
+  private urlApi_tickets_usuario: string = config.URL_API_BASE + 'tickets/usuario';
+  private urlApi_tickets_soluciones : string = config.URL_API_BASE + 'tickets/soluciones';
+  private urlApi_tickets_solucion : string = config.URL_API_BASE + 'tickets/usuario/solucion';
+
+  //Obtener tickets
+  getTicketsUsuarioPaginacion(params: any){
+    let httpParams = new HttpParams()
+    .set('page', params.page)
+    .set('limit', params.limit);
+
+    return this.http.get<TicketModel>(`${this.urlApi_tickets_usuario}/${params.rol}`,
+      {
+        params: httpParams,
+        withCredentials: true
+      }
+    )
+  }
+
+  //Obtener las soluciones de un ticket en especifico
+  getSolucionesTicket(ticket_id: number){
+    return this.http.get<any>(`${this.urlApi_tickets_soluciones}/${ticket_id}`,
+      {
+        withCredentials: true
+      }
+    )
+  }
+
+  //agregar solucion a un ticket
+  addSolucionTicket(ticket:any){
+    return this.http.post<any>( this.urlApi_tickets_solucion, ticket,
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
+    //obtener TicketUsuario by Id
+    getTicketUsuarioById(id: number){
+      return this.http.get<UsuarioCentralizadaModel>(this.urlApi_tickets_usuario + '/solucion/' + id,
+        {
+          withCredentials: true
+        }
+      )
+    }
+
+
+
+  //funcion general para obtener tickets
+  obtenerTicketsUsuario(params: any){
+    this.getTicketsUsuarioPaginacion(params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data: any) => {
+        this.ticketsUsuario = data.body;
+        this.metaData = data.metadata;
+        this.setDataMetadata(data.metadata);
+        this.setTicketsUsuario(data.body);
+        console.log("tickets usuario",data.body)
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'Error al obtener tickets',
+          icon: 'error',
+          text: err.error.message
+        });
+        console.log(err);
+      }
+    })
+  }
+
+  //funcion general para obtener soluciones de un ticket
+  obtenerSolucionesTicket(ticket_id: number){
+    this.getSolucionesTicket(ticket_id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data: any) => {
+        this.setSolucionesTicket(data);
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'Error al obtener soluciones',
+          icon: 'error',
+          text: err.error.message
+        });
+        console.log(err);
+      }
+    })
+  }
+
+  //funcion general para obtener TicketUsuario by Id
+  obtenerTicketUsuarioById(id: number){
+    this.getTicketUsuarioById(id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data: any) => {
+        this.setSolucionTicketUsuario(data);
+        console.log("ticket usuario solucion !!: =>",data)
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'Error al obtener ticket',
+          icon: 'error',
+          text: err.error.message
+        });
+        console.log(err);
+      }
+    })
+  }
+
+
 
 
 

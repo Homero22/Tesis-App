@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { UsuarioRolModelBody } from 'src/app/core/models/usuarios/usuarioRol';
 import { CasClient } from 'src/app/core/security/CasClient/CasClient';
 import { PermisosUsuarioRolService } from 'src/app/core/services/Usuarios/permisosUsuarioRol.service';
 import { UsuarioRolService } from 'src/app/core/services/Usuarios/usuarioRol.service';
 import { UsuariosService } from 'src/app/core/services/Usuarios/usuarios.service';
+import { TicketService } from 'src/app/core/services/incidencias/ticket.service';
 import { MenusService } from 'src/app/core/services/menus.service';
 
 @Component({
@@ -32,6 +34,8 @@ export class DesplegableComponent implements OnInit {
   constructor(    public srvUsuario: UsuariosService,
     public srvUsuarioRol: UsuarioRolService,
     public srvMenus: MenusService,
+    private router: Router,
+    private srvTicket: TicketService,
     public casCliente: CasClient) { }
 
   ngOnInit():void {
@@ -59,10 +63,12 @@ export class DesplegableComponent implements OnInit {
               if(storedRole){
                 this.nameRol = storedRole;
                 localStorage.setItem('selectedRole', this.nameRol);
+                this.srvTicket.setRol(this.nameRol);
                 this.isLoad = true;
               }else{
                 this.nameRol = this.rolesUsuario[0].str_rol_nombre;
                 localStorage.setItem('selectedRole', this.nameRol);
+                this.srvTicket.setRol(this.nameRol);
               }
               this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
             }
@@ -81,6 +87,8 @@ export class DesplegableComponent implements OnInit {
 
   permisos(rol: UsuarioRolModelBody){
     this.nameRol = rol.str_rol_nombre;
+    console.log("Rol seleccionado",this.nameRol);
+    this.srvTicket.setRol(this.nameRol);
     localStorage.setItem('selectedRole',this.nameRol);
     this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
     window.location.assign('/welcome');

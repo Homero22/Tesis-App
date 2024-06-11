@@ -15,7 +15,7 @@ async function main(port) {
     await sequelize.authenticate();
 
     //Sincronizar la base de datos
-    await sequelize.sync({ force: false, logging: true });
+    await sequelize.sync({ force: false, logging: false });
 
     if (configVariables.env == "production") {
       //Iniciar el servidor

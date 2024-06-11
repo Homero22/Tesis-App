@@ -6,7 +6,7 @@
           <label for="">Incidencia</label>
           <input type="text" formControlName="incidencia_nombre" required>
 
-          <label for="">Añadir Responsables</label>
+          <label for="">Añadir Responsable</label>
           <input
           formControlName="usuario"
             [spellcheck]="false"
@@ -14,26 +14,26 @@
             type="text"
             (input)="searchUsuario($event)"
             [value]="searchTerm"
+            [disabled]="usuarioSeleccionado !== null"
           />
-          <div class="results">
+          <div class="results" *ngIf="suggestions.length > 0">
             <ol>
               <li *ngFor="let suggestion of suggestions">
                 <p (click)="selectSuggestion(suggestion)">
-                  {{ suggestion.str_usuario_nombres }}
-                  {{ suggestion.str_usuario_apellidos }}
+                  {{ suggestion.str_usuario_nombres }} {{ suggestion.str_usuario_apellidos }}
                 </p>
               </li>
             </ol>
           </div>
-          <!-- Mostrar lista de seleccionados -->
-          <label for="">Responsables seleccionados</label>
-          <div *ngFor="let usuario of listaUsuarios; let i = index">
+
+          <!-- Mostrar usuario seleccionado -->
+          <label for="">Responsable seleccionado</label>
+          <div *ngIf="usuarioSeleccionado">
             <div class="listaResponsables">
               <li>
-                {{ usuario.str_usuario_nombres }}
-                {{ usuario.str_usuario_apellidos }}
+                {{ usuarioSeleccionado.str_usuario_nombres }} {{ usuarioSeleccionado.str_usuario_apellidos }}
               </li>
-              <button class="eliminarUsuario" (click)="eliminarUsuario(i)">
+              <button class="eliminarUsuario" (click)="eliminarUsuario()">
                 <i class="material-icons"> cancel</i>
               </button>
             </div>
@@ -42,13 +42,12 @@
       </div>
 
       <div class="container-BodyData">
-
         <div class="container-Left">
           <div class="containerInfo">
             <label for="MenuPadre">Estado</label>
             <div class="container-Select">
               <select formControlName="estado" id="estado">
-                <option *ngFor="let estado of srvEstados.allEstados" [value]="estado.int_estado_id" >
+                <option *ngFor="let estado of srvEstados.allEstados" [value]="estado.int_estado_id">
                   {{ estado.str_estado_nombre }}
                 </option>
               </select>
@@ -56,14 +55,12 @@
           </div>
         </div>
 
-
         <div class="container-Right">
-
           <div class="containerInfo">
             <label for="servicio">Servicio</label>
             <div class="container-Select">
               <select formControlName="servicio" id="servicio">
-                <option *ngFor="let servicio of srvServicios.allServicios" [value]="servicio.int_servicio_id" >
+                <option *ngFor="let servicio of srvServicios.allServicios" [value]="servicio.int_servicio_id">
                   {{ servicio.str_servicio_nombre }}
                 </option>
               </select>
@@ -71,41 +68,20 @@
           </div>
         </div>
       </div>
+
       <div class="containerInfo">
         <label for="observacion">Observación</label>
         <div>
-          <textarea rows="4" cols="50"
-          type="text"
-          name="observacion"
-          id="observacion"
-          formControlName="observacion"
-          required>
-          </textarea>
+          <textarea class="solucion"  type="text" name="observacion" id="observacion" formControlName="observacion" required></textarea>
         </div>
       </div>
-
-    </div>
-    <div class="cont">
-      <button
-        type="submit"
-        class="btn-primary-add"
-        (click)="previsualizarTicket()"
-        [disabled]="myForm.invalid"
-      >
-        Previsualizar Ticket
-      </button>
     </div>
 
     <div class="cont">
-      <button
-        type="submit"
-        class="btn-primary-add"
-        (click)="agregarTicket()"
-        [disabled]="myForm.invalid"
-      >
+      <button type="submit" class="btn-primary-add" (click)="agregarTicket()" [disabled]="myForm.invalid">
         Guardar
       </button>
     </div>
-
   </form>
 </div>
+
