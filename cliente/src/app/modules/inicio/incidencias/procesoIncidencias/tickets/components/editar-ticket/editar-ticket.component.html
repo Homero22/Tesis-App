@@ -1,0 +1,60 @@
+<div class="body-Form">
+  <form [formGroup]="myForm" class="formFather">
+    <div class="container-DataInfoFind">
+      <div class="cont search">
+        <div class="containerInfo">
+          <label for="">Incidencia</label>
+          <input type="text" formControlName="incidencia_nombre">
+        </div>
+      </div>
+
+      <div class="container-BodyData">
+
+        <div class="container-Left">
+          <div class="containerInfo">
+            <label for="MenuPadre">Estado</label>
+            <div class="container-Select">
+              <input type="text" formControlName="estado">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="container-Right">
+
+          <div class="containerInfo">
+            <label for="servicio">Servicio</label>
+            <div class="container-Select">
+              <input type="text" formControlName="servicio">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="containerInfo">
+        <label for="observacion">Observación</label>
+        <div>
+          <textarea class="solucion"
+          type="text"
+          name="observacion"
+          id="observacion"
+          formControlName="observacion"
+          required>
+          </textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cont">
+      <button
+        type="submit"
+        class="btn-primary-add"
+        (click)="actualizarTicket()"
+        [disabled]="myForm.invalid"
+      >
+        Guardar
+      </button>
+    </div>
+
+  </form>
+</div>

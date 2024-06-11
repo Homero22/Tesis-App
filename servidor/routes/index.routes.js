@@ -10,6 +10,8 @@ import ticketRoutes from "./incidencias/ticket.routes.js";
 import notificacionesRoutes from "./notificaciones/notificaciones.routes.js";
 import servicioRoutes from "./incidencias/servicio.routes.js";
 import estadoRoutes from "./incidencias/estado.routes.js";
+import ticketUsuarioRoutes from "./incidencias/ticketUsuario.routes.js"
+import seguimientoRoutes from "./incidencias/seguimiento.routes.js";
 
 const router = Router();
 
@@ -30,6 +32,7 @@ router.get("/info", (req, res) => {
     });
 });
 
+
 router.use("/auth", authRoutes);
 router.use("/usuarios", usuariosRoutes);
 router.use("/roles", rolesRoutes);
@@ -38,9 +41,11 @@ router.use("/usuarioRol", usuarioRol);
 router.use("/permisos", permisosRoutes);
 router.use("/vulnerabilidades", vulnerabilidadesRoutes);
 router.use("/tickets", ticketRoutes);
+router.use("/tickets/usuario", ticketUsuarioRoutes);
 router.use("/notificaciones", notificacionesRoutes);
 router.use("/servicios", servicioRoutes);
 router.use("/estados", estadoRoutes);
+router.use("/seguimiento", seguimientoRoutes);
 
 
 

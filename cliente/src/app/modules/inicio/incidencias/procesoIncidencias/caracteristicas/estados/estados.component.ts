@@ -232,14 +232,14 @@ export class EstadosComponent implements OnInit {
       this.srvEstados.filtrarEstados({
         filtro: 'ACTIVO',
         page: page
-      
+
       });
     }
     if(this.filtroActual === 'Ver estados inactivos'){
       this.srvEstados.filtrarEstados({
         filtro: 'INACTIVO',
         page: page
-      
+
       });
     }
     if(this.searchText !== ''){

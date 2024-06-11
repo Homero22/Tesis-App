@@ -1,0 +1,60 @@
+<div>
+  <form>
+    <table>
+        <!-- id -->
+        <tr>
+          <td><strong>Ticket ID</strong></td>
+          <td>{{ editarTicket.int_ticket_id }}</td>
+        </tr>
+      <tr>
+        <td><strong>Vulnerabilidad</strong></td>
+        <td>{{ editarTicket.tb_vulnerabilidade.str_vulnerabilidades_name }}</td>
+      </tr>
+      <!-- vulnera ID -->
+      <tr>
+        <td><strong>Vulnerabilidad ID</strong></td>
+        <td>{{ editarTicket.tb_vulnerabilidade.int_vulnerabilidades_id }}</td>
+      </tr>
+      <tr>
+        <td><strong>Estado</strong></td>
+        <td>{{ editarTicket.tb_estado.str_estado_nombre }}</td>
+      </tr>
+      <tr>
+        <td><strong>Servicio</strong></td>
+        <td>{{ editarTicket.tb_servicio.str_servicio_nombre }}</td>
+      </tr>
+      <tr>
+        <td><strong>Observación</strong></td>
+        <td>{{ editarTicket.str_ticket_observacion }}</td>
+      </tr>
+    </table>
+
+
+    <div>
+      <label for="solucion">Agregar Observación/Solución</label>
+      <textarea
+        type="text"
+        id="solucion"
+        name="solucion"
+        [(ngModel)]="solucion"
+        required
+      ></textarea>
+      <div>
+        <p>Fecha: {{ fechaActual | date:'short' }}</p>
+      </div>
+      <button
+        type="submit"
+        (click)="addSolucionTicket()"
+        [disabled]="!editarTicket || !solucion"
+      >
+        Guardar
+      </button>
+    </div>
+
+  </form>
+</div>
+
+
+
+
+

@@ -1,0 +1,5 @@
+.solucion {
+  width: 100%; /* Establece el ancho al 100% del contenedor */
+  height: 100px; /* Ajusta la altura según tus necesidades */
+  resize: none
+}

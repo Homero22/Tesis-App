@@ -53,7 +53,7 @@ const actualizarEstado = async (req, res) => {
         const { id } = req.params;
         const data = req.body;
         console.log(data);
-        
+
         const estadoActualizado = await EstadosService.actualizarEstadoService(id, data);
         res.json(estadoActualizado);
     } catch (error) {
@@ -70,7 +70,7 @@ const cambiarEstadoEstado = async (req, res) => {
         console.log("Cambiar Estado")
         const { id } = req.params;
         const data = req.body;
-        console.log(data);
+        console.log("estado",data);
         const estadoActualizado = await EstadosService.cambiarEstadoService(id, data);
         res.json(estadoActualizado);
     } catch (error) {
@@ -117,6 +117,19 @@ const filtrarEstados = async (req, res) => {
         });
     }
 }
+const obtenerTodosEstados = async (req, res) => {
+    try {
+        console.log("Obtener Todos los Estados")
+        const estados = await EstadosService.obtenerEstadosService();
+        res.json(estados);
+    } catch (error) {
+        res.status(500).json({
+            status: false,
+            message: "Error en el servidor" + error,
+            body: [],
+        });
+    }
+}
 
 export default {
     crearEstado,
@@ -125,5 +138,6 @@ export default {
     actualizarEstado,
     cambiarEstadoEstado,
     buscarEstados,
-    filtrarEstados
+    filtrarEstados,
+    obtenerTodosEstados
 }

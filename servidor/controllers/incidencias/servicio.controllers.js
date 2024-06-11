@@ -96,6 +96,18 @@ const filtrarServicios = async (req, res) => {
         });
     }
 }
+const obtenerTodosServicios = async (req, res) => {
+    try {
+        const servicios = await ServiciosService.obtenerServiciosService();
+        res.json(servicios);
+    } catch (error) {
+        res.status(500).json({
+            status: false,
+            message: "Error en el servidor" + error,
+            body: [],
+        });
+    }
+}
 
 export default {
     crearServicio,
@@ -103,5 +115,6 @@ export default {
     actualizarServicio,
     cambiarEstadoServicio,
     buscarServicios,
-    filtrarServicios
+    filtrarServicios,
+    obtenerTodosServicios
 }

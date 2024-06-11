@@ -5,6 +5,7 @@ import indexRoutes from "./routes/index.routes.js";
 
 
 
+
 const app = express();
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'https://tesis.ojedahomero.lol');
@@ -28,5 +29,10 @@ app.use(cors({
 app.use(cookieParser());
 
 export default app;
+// Middleware para registrar cada solicitud
+app.use((req, res, next) => {
+    console.log(`Request Method: ${req.method}, Request URL: ${req.originalUrl}`);
+    next(); // Continuar con la siguiente función de middleware o ruta
+  });
 
 app.use(indexRoutes);
