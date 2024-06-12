@@ -12,6 +12,7 @@ import servicioRoutes from "./incidencias/servicio.routes.js";
 import estadoRoutes from "./incidencias/estado.routes.js";
 import ticketUsuarioRoutes from "./incidencias/ticketUsuario.routes.js"
 import seguimientoRoutes from "./incidencias/seguimiento.routes.js";
+import notificacionesUsuarioRoutes from "./incidencias/notificaciones.routes.js";
 
 const router = Router();
 
@@ -46,6 +47,7 @@ router.use("/notificaciones", notificacionesRoutes);
 router.use("/servicios", servicioRoutes);
 router.use("/estados", estadoRoutes);
 router.use("/seguimiento", seguimientoRoutes);
+router.use("/notificacionesUsuario", notificacionesUsuarioRoutes);
 
 
 

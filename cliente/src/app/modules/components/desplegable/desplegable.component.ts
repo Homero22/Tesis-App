@@ -39,13 +39,13 @@ export class DesplegableComponent implements OnInit {
     public casCliente: CasClient) { }
 
   ngOnInit():void {
-    console.log("Cargando DesplegableComponent");
       this.srvUsuario
       .getMe()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (_me) => {
           this.srvUsuario.dataMiCuenta = _me.body;
+          this.srvUsuario.setUsuarioLogueado(_me.body);
         },
         error: (err) => {
           console.log(err);

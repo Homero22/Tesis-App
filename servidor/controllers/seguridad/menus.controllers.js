@@ -154,7 +154,7 @@ const obtenerMenusAndSubmenus = async (req, res) => {
         const dataCookie = jwt.verify(token, jwtVariables.jwtSecret);
         //obtengo el int_rol_id dado un rol
         const idRol = await rolesUseCase.obtenerIdRolByNameService(rol);
-        console.log(idRol);
+
         //obtener el int_usuario_rol_id del usuario logueado dado el rol
         const usuario = await usuarioRolUseCase.obtenerIdUsuarioRolService(idRol, dataCookie.int_usuario_id);
 

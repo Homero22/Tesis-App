@@ -341,7 +341,6 @@ export class MenusService {
   }
 
   obtenerAllMenus() {
-    console.log("entro")
     this.getAllMenus()
       .pipe(takeUntil(this.destroy$))
       .subscribe({

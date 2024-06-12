@@ -27,7 +27,11 @@ export class UsuariosService{
     private urlApi_buscar_usuario_registrado: string = config.URL_API_BASE + "usuarios/buscar/registrado";
     private urlApi_filtrar_usuario: string = config.URL_API_BASE + "usuarios/filtrar";
 
+
+
     constructor(private http: HttpClient){}
+
+
     getMe(){
       return this.http.get<MiCuentaModel>(this.urlApi_me ,
         {
@@ -69,6 +73,16 @@ export class UsuariosService{
     private updateUsuario$ = new BehaviorSubject<UsuariosModelBody>( this.initUsuario);
     private verPerfil$ = new BehaviorSubject<boolean>(this.verPerfil);
     private usuario$ = new Subject<UsuariosModelBody>();
+    private usuarioLogueado$ = new BehaviorSubject<MiCuentaModelBody>(this.dataMiCuenta);
+
+    setUsuarioLogueado(data:MiCuentaModelBody){
+
+      this.usuarioLogueado$.next(data);
+    }
+
+    get selectUsuarioLogueado$(){
+      return this.usuarioLogueado$.asObservable();
+    }
 
     setUsuario(data:UsuariosModelBody){
       this.usuario = data;
