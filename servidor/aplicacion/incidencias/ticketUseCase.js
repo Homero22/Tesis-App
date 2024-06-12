@@ -6,6 +6,11 @@ import {
   obtenerDataQueryPaginacion,
   validarPaginacion,
 } from "../utils/paginacion.utils.js";
+
+import notificacionesUsuarioUseCase from "./notificacionesUseCase.js"
+
+import { eventEmitter } from "../../controllers/notificaciones/notificaciones.controller.js";
+
 const crearTicketUseCase = async (data) => {
   try {
     //objeto
@@ -51,6 +56,15 @@ const crearTicketUseCase = async (data) => {
         body: [],
       };
     }
+    //notificacion de ticket creado
+    const notificacion = {
+      int_usuario_id: data.str_ticket_usuario.int_usuario_id,
+      str_notificacion_descripcion: "Se le ha asignado un nuevo ticket",
+      str_notificacion_titulo: "Nuevo ticket creado",
+      dt_fecha_creacion: new Date()
+    }
+
+    const notificacionCreada = await notificacionesUsuarioUseCase.crearNotificacionUseCase(notificacion);
 
     return {
       status: true,
@@ -217,12 +231,19 @@ const pasarTicketUseCase = async (id, usuarioId, ticketUsuarioId) => {
       const ticketUsuario = await ticketUsuarioRepository.crearTicketUsuarioRepository(
         ticketUsuarioObj
       );
-      console.log("ticketUsuarioID ???????????????????", ticketUsuarioId);
       //actualizar el estado del ticket con el id del ticket_usuario
       const ticketUsuarioUpdate = await ticketRepository.cambiarEstadoTicketRepository(
         ticketUsuarioId,
         "PASADO"
       );
+      //notificacion de ticket pasado
+      const notificacion = {
+        int_usuario_id: usuarioId,
+        str_notificacion_descripcion: "Se le ha pasado un ticket",
+        str_notificacion_titulo: "Ticket pasado",
+        dt_fecha_creacion: new Date()
+      }
+      const notificacionCreada = await notificacionesUsuarioUseCase.crearNotificacionUseCase(notificacion);
       return {
         status: true,
         message: "Ticket pasado correctamente",

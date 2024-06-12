@@ -30,6 +30,7 @@ export class CuentaComponent implements OnInit {
         if(_me.body){
           this.isData = true;
           this.servicioUsuario.dataMiCuenta = _me.body;
+          this.servicioUsuario.setUsuarioLogueado(_me.body);
         }
       },
       error:(error)=>{

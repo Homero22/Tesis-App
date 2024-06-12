@@ -4,7 +4,7 @@ export const eventEmitter = new EventEmitter();
 export const enviarNotificacion = (req, res) => {
     try{
         const {tipo, mensaje} = req.body;
-        eventEmitter.emit('notificacion', {tipo, mensaje});
+        eventEmitter.emit('notificacion', {tipo, mensaje,idUsuario});
         res.json({status: true, message: "Notificación enviada"});
     }catch(error){
         res.status(500).json({status: false, message: "Error en el servidor" + error});

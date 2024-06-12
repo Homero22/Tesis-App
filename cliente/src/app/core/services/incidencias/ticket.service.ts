@@ -63,7 +63,6 @@ export class TicketService{
   }
 
   setRol(data:string){
-    console.log("rol",data);
     this.rol$.next(data);
   }
   get selectRol$(){
