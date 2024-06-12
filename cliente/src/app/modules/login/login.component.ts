@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
           if (this.casClient.isAuth()) {
             window.location.href = config.URL_BASE_PATH + '/welcome';
           }else{
-            console.log('PASO 2 Xd');
+
             await this.loginWithTicket(params);
           }
           this.isLoading = true;

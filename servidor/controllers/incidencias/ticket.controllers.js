@@ -1,11 +1,19 @@
 import ticketUseCase from "../../aplicacion/incidencias/ticketUseCase.js";
+import { eventEmitter } from "../notificaciones/notificaciones.controller.js";
 
 export const crearTicket = async (req, res) => {
     try {
-        console.log("Crear Ticket");
         const data = req.body;
         const ticket = await ticketUseCase.crearTicketUseCase(data);
         res.json(ticket);
+
+        //notificacion de ticket creado
+        eventEmitter.emit('notificacion', {
+            tipo: 'success', 
+            mensaje: "Se ha creado un nuevo ticket"
+        });
+
+
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -65,7 +73,6 @@ export const editarTicket = async (req, res) => {
 export const obtenerSolucionesTicketById = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log("Soluciones Ticket",id)
         const ticket = await ticketUseCase.obtenerSolucionesTicketByIdUseCase(id);
         res.json(ticket);
     } catch (error) {
@@ -84,6 +91,14 @@ export const pasarTicket = async (req, res) => {
         const {int_usuario_id, int_ticket_usuario_id} = req.body;
         const ticketU = await ticketUseCase.pasarTicketUseCase(id,int_usuario_id,int_ticket_usuario_id);
         res.json(ticketU);
+        console.log("Respuest",ticketU.status);
+        if(ticketU.status){
+            eventEmitter.emit('notificacion', {
+                tipo: 'success', 
+                mensaje: "Se le ha pasado un ticket, revisar su bandeja de entrada",
+                int_usuario_id: int_usuario_id
+            });
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({

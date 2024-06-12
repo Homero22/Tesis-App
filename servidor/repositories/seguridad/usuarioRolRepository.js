@@ -142,6 +142,23 @@ const comprobarUsuarioRol = async (usuarioRol) => {
         console.log(error);
     }
 }
+const getUsuarioByIdRol = async (idRol) => {
+    try {
+        console.log("ID ROL",idRol);
+
+        const usuario = await UsuarioRol.findOne({
+            where: {
+                int_usuario_rol_id: idRol
+            },
+            raw: true
+        });
+        console.log("USUARIO",usuario);
+        return usuario;
+
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 export default {
     getAllUsuarioRoles,
@@ -153,5 +170,6 @@ export default {
     getUsuarioRolesPorIdUsuario,
     comprobarUsuarioRol,
     createUsuarioRolT,
-    getUsuarioRolByIdUsuarioAndRol
+    getUsuarioRolByIdUsuarioAndRol,
+    getUsuarioByIdRol
 }

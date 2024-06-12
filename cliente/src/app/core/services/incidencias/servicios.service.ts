@@ -87,7 +87,7 @@ export class ServiciosService{
 
   // Editar servicio
   editarServicio(_id: number, _nombre: string){
-    console.log("editar", _id, _nombre)
+
 
     return this.http.put<ServiciosModel>(
       `${this.urlApi_servicios}/${_id}`,
