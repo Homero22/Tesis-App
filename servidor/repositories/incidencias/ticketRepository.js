@@ -171,7 +171,7 @@ const obtenerSolucionesTicketByIdRepository = async (id) => {
             },
             
             order: [
-                ['dt_fecha_actualizacion', 'DESC']
+                ['dt_fecha_actualizacion', 'DESC'],
             ]
         });
         return ticket;
@@ -243,7 +243,7 @@ const obtenerSeguimientoByTicketIdRepository = async (id) => {
                 }
             ],
             order: [
-                ['dt_fecha_actualizacion', 'DESC']
+                ['dt_fecha_creacion', 'DESC']
             ]
         });
         return seguimiento;
@@ -267,6 +267,66 @@ const obtenerTicketByIdRepository = async (id) => {
     }
 }
 
+const reporteTicketsRepository = async (fechaInicio, fechaFin, estado) => {
+    try {
+
+        const tickets = await Ticket.findAll({
+            where: {
+                dt_fecha_creacion: {
+                    [Op.between]: [fechaInicio, fechaFin]
+                },
+                int_estado_id: estado
+            },
+            include: [
+                {
+                    model: Servicio,
+                    required: true
+                },
+                {
+                    model: Estado,
+                    required: true
+                },
+                {
+                    model: Vulnerabilidades,
+                    required: true
+                }
+            ],
+            order: [
+                ['dt_fecha_actualizacion', 'DESC']
+            ]
+        });
+        for (let i=0; i<tickets.length; i++) {
+            const ticket = tickets[i];
+            const ticket_usuario = await TicketUsuario.findOne({
+                where: {
+                    int_ticket_id: ticket.int_ticket_id,
+                    str_ticket_usuario_estado: 'PENDIENTE'
+                },
+                include: [
+                    {
+                        model: Usuario,
+                        required: true
+                    }
+                ],
+            });
+
+            let nombres = ticket_usuario.dataValues.tb_usuario.str_usuario_nombres;
+            let apellidos = ticket_usuario.dataValues.tb_usuario.str_usuario_apellidos;
+
+            ticket.dataValues.usuario ={
+                nombres: nombres,
+                apellidos: apellidos
+            }
+
+            ticket.dataValues.ticket_usuario = ticket_usuario;
+        }
+        return tickets;
+    } catch (error) {
+        console.log(error);
+        return error.message;
+    }
+}
+
 
 export default {
     crearTicketRepository,
@@ -280,7 +340,8 @@ export default {
     comprobarTicketRepository,
     cambiarEstadoTicketRepository,
     obtenerSeguimientoByTicketIdRepository,
-    obtenerTicketByIdRepository
+    obtenerTicketByIdRepository,
+    reporteTicketsRepository
 }
 
 
