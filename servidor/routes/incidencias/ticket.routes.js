@@ -8,6 +8,7 @@ router.post("/", ticketControllers.crearTicket);
 router.get("/all", ticketControllers.obtenerTickets);
 router.put("/:id", ticketControllers.editarTicket);
 router.patch("/:id", ticketControllers.pasarTicket);
+router.get("/reporte", ticketControllers.reporteTickets);
 
 
 

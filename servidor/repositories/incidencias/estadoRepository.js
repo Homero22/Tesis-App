@@ -203,6 +203,19 @@ const obtenerEstadoPorNombreRepository = async (nombre) => {
     return error.message;
   }
 };
+export const obtenerEstadoByNombreRepository = async (nombre) => {
+  try {
+    const estado = await Estado.findOne({
+      where: {
+        str_estado_nombre: nombre,
+      },
+    });
+    return estado;
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
+}
 
 export default {
   crearEstadoRepository,

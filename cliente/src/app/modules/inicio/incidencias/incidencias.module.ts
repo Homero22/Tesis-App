@@ -64,7 +64,7 @@ const routes: Routes = [
       IncidenciasRoutingModule,
       RouterModule.forChild(routes),
       ComponentsModule,
-      ProcesoIncidenciasModule,
+      ProcesoIncidenciasModule
 
     ],
     exports: [

@@ -59,6 +59,8 @@ export class SeguimientoComponent implements OnInit {
         this.vulnerabilidad = res.vulnerabilidad;
         this.ticket = res.ticket;
         this.isData= true;
+        //this.ordenarSeguimientos();
+
       }else{
         this.isData = false;
       }
@@ -70,6 +72,16 @@ export class SeguimientoComponent implements OnInit {
   returnView(){
     this.router.navigate(['/incidencias/tickets']);
   }
+
+  // ordenarSeguimientos(){
+  //   //el seguimiento con estado Pendiente debe ir al final
+  //   let pendiente = this.seguimiento.find((s: any) => s.str_ticket_usuario_estado === 'PENDIENTE');
+  //   if(pendiente){
+  //     this.seguimiento = this.seguimiento.filter((s: any) => s.str_ticket_usuario_estado !== 'PENDIENTE');
+  //     this.seguimiento.push(pendiente);
+  //   }
+
+  // }
 
   verSolucion(solucion: string) {
     this.selectedSolucion = solucion;
