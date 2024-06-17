@@ -8,6 +8,7 @@ import { TicketModel } from '../../models/incidencias/ticketModel';
 import { TicketModelBody } from '../../models/incidencias/ticketModel';
 import { UsuarioCentralizadaModel } from '../../models/usuarios/usuarioCentralizadaModel';
 import { Router } from "@angular/router";
+import { DataReporteTickets } from "../../models/incidencias/dataReporteTickets";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class TicketService{
   private urlApi_buscar_tickets: string = config.URL_API_BASE + 'tickets/buscar';
   private urlApi_filtrar_tickets: string = config.URL_API_BASE + 'tickets/filtrar';
   private urlApi_seguimiento_ticket: string = config.URL_API_BASE + 'seguimiento';
+
 
   private destroy$ = new Subject<any>();
   private dataMetadata$ = new Subject<DataMetadata>();
@@ -53,7 +55,19 @@ export class TicketService{
   isTicketUsuario: boolean = false;
 
 
+  private ticketsReportes$ = new BehaviorSubject<DataReporteTickets[]>([]
+  );
+
+
+
   ticketsUsuario!: any[];
+
+  setTicketsReportes(data:any){
+    this.ticketsReportes$.next(data);
+  }
+  get selectTicketsReportes$(){
+    return this.ticketsReportes$.asObservable();
+  }
 
   setSolucionTicketUsuario(data:any){
     this.solucionTicketUsuario$.next(data);
@@ -139,6 +153,21 @@ export class TicketService{
     .set('limit', params.limit);
 
     return this.http.get<TicketModel>(this.urlApi_tickets,
+      {
+        params: httpParams,
+        withCredentials: true
+      }
+    )
+  }
+  //Obtener Tickets por fechas y estado
+  getTicketsByDate(params: any){
+
+    let httpParams = new HttpParams()
+    .set('fechainicio', params.fechainicio)
+    .set('fechafin', params.fechafin)
+    .set('estado', params.estado);
+
+    return this.http.get<any>(this.urlApi_tickets + '/reporte',
       {
         params: httpParams,
         withCredentials: true
@@ -233,6 +262,42 @@ export class TicketService{
       }
     })
   }
+
+  //funcion general para getTicketsByDate
+  obtenerTicketsByDate(params: any){
+    this.getTicketsByDate(params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data: any) => {
+        if(data.status){
+          Swal.fire({
+            title: 'Tickets encontrados',
+            icon: 'success',
+            text: data.message
+          });
+          this.tickets = data.body;
+          this.setTicketsReportes(data.body);
+
+        }else{
+          Swal.fire({
+            title: 'Error al obtener tickets',
+            icon: 'error',
+            text: data.message
+          });
+        }
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'Error al obtener tickets',
+          icon: 'error',
+          text: err.error.message
+        });
+        console.log(err);
+      }
+    })
+  }
+
+
 
 
 

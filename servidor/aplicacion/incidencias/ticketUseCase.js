@@ -11,6 +11,8 @@ import notificacionesUsuarioUseCase from "./notificacionesUseCase.js"
 
 import { eventEmitter } from "../../controllers/notificaciones/notificaciones.controller.js";
 
+import {obtenerEstadoByNombreRepository} from '../../repositories/incidencias/estadoRepository.js'
+
 const crearTicketUseCase = async (data) => {
   try {
     //objeto
@@ -266,6 +268,81 @@ const pasarTicketUseCase = async (id, usuarioId, ticketUsuarioId) => {
   }
 };
 
+const reporteTicketsUseCase = async (fechaInicio, fechaFin, estado) => {
+  try {
+
+    //convierto las fechas a formato date
+    const fechaInicioDate = new Date(fechaInicio);
+    const fechaFinDate = new Date(fechaFin);
+    let estadoNombre;
+
+    //si el estado es "Tickets no atendidos" entonces el estado es "PENDIENTE"
+    if (estado == "Tickets no atendidos") {
+      estadoNombre = "Pendiente";
+    }
+    //si el estado es "Tickets finalizados" entonces el estado es "FINALIZADO"
+    if (estado == "Tickets finalizados") {
+      estadoNombre = "Finalizado";
+    }
+    //si el estado es "Tickets resueltos" entonces el estado es "RESUELTO"
+    if (estado == "Tickets resueltos") {
+      estadoNombre = "Resuelto";
+    }
+
+    const estadoId = await obtenerEstadoByNombreRepository(estadoNombre);
+
+
+    const tickets = await ticketRepository.reporteTicketsRepository(
+      fechaInicioDate,
+      fechaFinDate,
+      estadoId.int_estado_id
+    );
+    //console.log("Tickets",tickets);
+    if(tickets.length == 0){
+      return {
+        status: false,
+        message: "No se encontraron tickets",
+        body: [],
+      };
+    }
+
+    let ticketsFormateado = [];
+
+  if (tickets.length > 0) {
+    for (let i = 0; i < tickets.length; i++) {
+      const ticket = tickets[i];
+      const ticketFormateado = {
+        int_ticket_id: ticket.int_ticket_id,
+        int_servicio_id: ticket.tb_servicio.int_servicio_id,
+        str_servicio_nombre: ticket.tb_servicio.str_servicio_nombre,
+        int_vulnerabilidades_id:
+          ticket.tb_vulnerabilidade.int_vulnerabilidades_id,
+        str_vulnerabilidades_nombre:
+          ticket.tb_vulnerabilidade.str_vulnerabilidades_name,
+        int_estado_id: ticket.tb_estado.int_estado_id,
+        str_estado_nombre: ticket.tb_estado.str_estado_nombre,
+        str_ticket_observacion: ticket.str_ticket_observacion,
+        dt_fecha_creacion: ticket.dt_fecha_creacion,
+        dt_fecha_actualizacion: ticket.dt_fecha_actualizacion,
+        ticket_usuario:
+          ticket.dataValues.usuario.nombres +
+          " " +
+          ticket.dataValues.usuario.apellidos,
+      };
+      ticketsFormateado.push(ticketFormateado);
+    }
+  }
+    return {
+      status: true,
+      message: "Tickets encontrados",
+      body: ticketsFormateado,
+    };
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
+};
+
 export default {
   crearTicketUseCase,
   obtenerTicketsUseCase,
@@ -273,4 +350,5 @@ export default {
   editarTicketUseCase,
   obtenerSolucionesTicketByIdUseCase,
   pasarTicketUseCase,
+  reporteTicketsUseCase,
 };

@@ -109,12 +109,29 @@ export const pasarTicket = async (req, res) => {
     }
 }
 
+const reporteTickets = async (req, res) => {
+    try {
+
+        const {fechainicio,fechafin,estado} = req.query;
+        const tickets = await ticketUseCase.reporteTicketsUseCase(fechainicio,fechafin,estado);
+        res.json(tickets);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Error al obtener el reporte de tickets " + error.message,
+            body: [],
+          });
+    }
+}
+
 export default {
     crearTicket,
     obtenerTickets,
     obtenerTicketsConPaginacion,
     editarTicket,
     obtenerSolucionesTicketById,
-    pasarTicket
+    pasarTicket,
+    reporteTickets
 }
 
