@@ -217,6 +217,8 @@ export const obtenerEstadoByNombreRepository = async (nombre) => {
   }
 }
 
+
+
 export default {
   crearEstadoRepository,
   obtenerAllEstadosRepository,

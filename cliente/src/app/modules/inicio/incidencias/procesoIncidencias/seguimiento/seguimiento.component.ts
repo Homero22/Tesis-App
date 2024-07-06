@@ -48,9 +48,12 @@ export class SeguimientoComponent implements OnInit {
     private srvTickets: TicketService,
     private router: Router
   ) { }
+  estado!: string;
+  servicio!: string;
 
   ngOnInit() {
     this.isData = false;
+
 
     this.srvTickets.selectSeguimientoTicket$.subscribe((res) => {
       if(!res.vacio){
@@ -60,6 +63,17 @@ export class SeguimientoComponent implements OnInit {
         this.ticket = res.ticket;
         this.isData= true;
         //this.ordenarSeguimientos();
+
+      }else{
+        this.isData = false;
+      }
+    });
+
+    this.srvTickets.selectSeguimientoTicketInfo$.subscribe((res) => {
+      if(!res.vacio){
+        console.log("Info: ", res);
+        this.servicio = res.str_servicio_nombre;
+        this.estado = res.str_estado_nombre;        ;
 
       }else{
         this.isData = false;

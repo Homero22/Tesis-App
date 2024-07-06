@@ -64,7 +64,7 @@ export class EditarMenuComponent implements OnInit {
     this.srvMenus.selectUpdateMenu$
     .subscribe({
       next:(res:any)=>{
-        console.log("res",res);
+
         this.myForm.controls['str_menu_nombre'].setValue(res.str_menu_nombre);
         this.myForm.controls['str_menu_descripcion'].setValue(res.str_menu_descripcion);
         this.myForm.controls['str_menu_path'].setValue(res.str_menu_path);

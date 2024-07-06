@@ -1,0 +1,135 @@
+<!-- ver-incidencia-modal.component.html -->
+
+<div mat-dialog-actions class="btnG">
+  <button mat-button (click)="onClose()">Cerrar</button>
+</div>
+<h2 mat-dialog-title>{{title}}</h2>
+<div mat-dialog-content>
+  <div class="table-container">
+    <table class="table table-bordered">
+      <tr>
+        <th>Fecha Actualización</th>
+        <td>{{ incidencia.dt_fecha_actualizacion }}</td>
+      </tr>
+      <tr>
+        <th>Fecha Creación</th>
+        <td>{{ incidencia.dt_fecha_creacion }}</td>
+      </tr>
+      <tr>
+        <th>Archivo ID</th>
+        <td>{{ incidencia.int_archivo_id }}</td>
+      </tr>
+      <tr>
+        <th>Vulnerabilidades ID</th>
+        <td>{{ incidencia.int_vulnerabilidades_id }}</td>
+      </tr>
+      <tr>
+        <th>BID</th>
+        <td>{{ incidencia.str_vulnerabilidades_bid }}</td>
+      </tr>
+      <tr>
+        <th>Canvas</th>
+        <td>{{ incidencia.str_vulnerabilidades_canvas }}</td>
+      </tr>
+      <tr>
+        <th>Core Impact</th>
+        <td>{{ incidencia.str_vulnerabilidades_core_impact }}</td>
+      </tr>
+      <tr>
+        <th>CVE</th>
+        <td>{{ incidencia.str_vulnerabilidades_cve }}</td>
+      </tr>
+      <tr>
+        <th>CVSS v2.0 Base Score</th>
+        <td>{{ incidencia.str_vulnerabilidades_cvss_v2_0_base_score }}</td>
+      </tr>
+      <tr>
+        <th>CVSS v2.0 Temporal Score</th>
+        <td>{{ incidencia.str_vulnerabilidades_cvss_v2_0_temporal_score }}</td>
+      </tr>
+      <tr>
+        <th>CVSS v3.0 Base Score</th>
+        <td>{{ incidencia.str_vulnerabilidades_cvss_v3_0_base_score }}</td>
+      </tr>
+      <tr>
+        <th>CVSS v3.0 Temporal Score</th>
+        <td>{{ incidencia.str_vulnerabilidades_cvss_v3_0_temporal_score }}</td>
+      </tr>
+      <tr>
+        <th>Descripción</th>
+        <td>{{ incidencia.str_vulnerabilidades_description }}</td>
+      </tr>
+      <tr>
+        <th>Host</th>
+        <td>{{ incidencia.str_vulnerabilidades_host }}</td>
+      </tr>
+      <tr>
+        <th>Metasploit</th>
+        <td>{{ incidencia.str_vulnerabilidades_metasploit }}</td>
+      </tr>
+      <tr>
+        <th>MSKB</th>
+        <td>{{ incidencia.str_vulnerabilidades_mskb }}</td>
+      </tr>
+      <tr>
+        <th>Nombre</th>
+        <td>{{ incidencia.str_vulnerabilidades_name }}</td>
+      </tr>
+      <tr>
+        <th>Plugin ID</th>
+        <td>{{ incidencia.str_vulnerabilidades_plugin_id }}</td>
+      </tr>
+      <tr>
+        <th>Plugin Modification Date</th>
+        <td>{{ incidencia.str_vulnerabilidades_plugin_modification_date }}</td>
+      </tr>
+      <tr>
+        <th>Plugin Output</th>
+        <td>{{ incidencia.str_vulnerabilidades_plugin_output }}</td>
+      </tr>
+      <tr>
+        <th>Plugin Publication Date</th>
+        <td>{{ incidencia.str_vulnerabilidades_plugin_publication_date }}</td>
+      </tr>
+      <tr>
+        <th>Port</th>
+        <td>{{ incidencia.str_vulnerabilidades_port }}</td>
+      </tr>
+      <tr>
+        <th>Protocol</th>
+        <td>{{ incidencia.str_vulnerabilidades_protocol }}</td>
+      </tr>
+      <tr>
+        <th>Risk</th>
+        <td>{{ incidencia.str_vulnerabilidades_risk }}</td>
+      </tr>
+      <tr>
+        <th>Risk Factor</th>
+        <td>{{ incidencia.str_vulnerabilidades_risk_factor }}</td>
+      </tr>
+      <tr>
+        <th>See Also</th>
+        <td>{{ incidencia.str_vulnerabilidades_see_also }}</td>
+      </tr>
+      <tr>
+        <th>Solution</th>
+        <td>{{ incidencia.str_vulnerabilidades_solution }}</td>
+      </tr>
+      <tr>
+        <th>STIG Severity</th>
+        <td>{{ incidencia.str_vulnerabilidades_stig_severity }}</td>
+      </tr>
+      <tr>
+        <th>Synopsis</th>
+        <td>{{ incidencia.str_vulnerabilidades_synopsis }}</td>
+      </tr>
+      <tr>
+        <th>Xref</th>
+        <td>{{ incidencia.str_vulnerabilidades_xref }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+

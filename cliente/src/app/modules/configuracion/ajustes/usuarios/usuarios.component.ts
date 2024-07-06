@@ -151,7 +151,7 @@ export class UsuariosComponent implements OnInit {
   verificarData(){
 
     if(this.UsuariosService.metaData.pagination.total === 0){
-      console.log(this.UsuariosService.metaData.pagination.total)
+
       this.isData = false;
     }else{
       this.isData = true;

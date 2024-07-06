@@ -25,7 +25,7 @@ async function main(port) {
         );
       });
     } else {
-      console.log("Desarrollo");
+      
       const options = {
         cert: fs.readFileSync(
           "../cliente/src/assets/Certificados/STAR_espoch_edu_ec.crt"

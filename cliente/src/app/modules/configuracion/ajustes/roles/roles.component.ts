@@ -86,7 +86,7 @@ export class RolesComponent implements OnInit {
 
   verificarData(){
     if(this.srvRoles.metaData.pagination.total === 0){
-      console.log(this.srvRoles.metaData.pagination.total)
+
       this.isData = false;
     }else{
       this.isData = true;
@@ -124,7 +124,7 @@ export class RolesComponent implements OnInit {
         .subscribe({
           next: (data) => {
             if(data.status){
-              console.log(data);
+
               Swal.fire({
                 icon: 'success',
                 title: data.message,

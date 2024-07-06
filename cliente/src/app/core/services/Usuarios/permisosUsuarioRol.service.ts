@@ -24,6 +24,11 @@ export class PermisosUsuarioRolService {
 
   permisosUsuarioRol!: Permiso[];
 
+  hasPermission(expectedPermission: string): boolean {
+    // Lógica de verificación de permisos aquí
+    return true;
+  }
+
 
   setPermisosUsuarioRol(data: Permiso[]) {
     this.dataPermisosUsuarioRol$.next(data);

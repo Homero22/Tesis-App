@@ -3,7 +3,8 @@ import { InicioComponent } from './inicio.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NotificacionesUsuarioComponent } from './notificacionesUsuario/notificacionesUsuario.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 
@@ -14,25 +15,27 @@ const routes: Routes =[
     children: [
       {
         path:'welcome',
-        loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule)
+        loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule),
+        canActivate: []
       },
       {
         path:'incidencias',
-        loadChildren: () => import('./incidencias/incidencias.module').then(m => m.IncidenciasModule)
+        loadChildren: () => import('./incidencias/incidencias.module').then(m => m.IncidenciasModule),
+        canActivate: []
       },
       {
         path:'reportes',
-        loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule)
+        loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule),
+        canActivate: []
       },
       {
         path:'notificacionesUsuario',
         loadChildren: () => import('./notificacionesUsuario/notificacionesUsuario.module').then(m => m.NotificacionesUsuarioModule)
       }
+    ],
 
-
-
-    ]
   },
+
 ]
 @NgModule({
   declarations: [InicioComponent],
@@ -41,6 +44,9 @@ const routes: Routes =[
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
+
+
+
 
 
 

@@ -32,7 +32,7 @@ const routes: Routes = [
       {path:'ajustes', loadChildren:()=>ConfiguracionModule},
     ]
   },
-  { path: '**', redirectTo:'/404'}
+  { path: '**', redirectTo:'/denegado'}
 ];
 
 @NgModule({

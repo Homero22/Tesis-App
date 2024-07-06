@@ -87,7 +87,7 @@ export class DesplegableComponent implements OnInit {
 
   permisos(rol: UsuarioRolModelBody){
     this.nameRol = rol.str_rol_nombre;
-    console.log("Rol seleccionado",this.nameRol);
+
     this.srvTicket.setRol(this.nameRol);
     localStorage.setItem('selectedRole',this.nameRol);
     this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);

@@ -88,7 +88,7 @@ export class EstadosService {
 
   // Editar estado
   editarEstado(_id: number, _nombre: string){
-    console.log("servicio: editar estado", _id, _nombre);
+
     return this.http.put<EstadosModel>(
       `${this.urlApi_estados}/${_id}`,
       {
@@ -146,7 +146,7 @@ export class EstadosService {
   // Filtrar estado
 
   filtrarEstado(_filtro: string, page: number){
-    console.log("filtro", _filtro, page);
+
     let httpParams = new HttpParams()
     .set('texto', _filtro)
     .set('page', page);
@@ -178,9 +178,9 @@ export class EstadosService {
     .subscribe({
       next: (data: EstadosModel) => {
         this.estados = data.body;
-        console.log("estados", this.estados);
+
         this.metaData = data.metadata;
-        console.log("metadata", data);
+
         this.setDataMetadata(this.metaData);
         this.setEstados(this.estados);
       },

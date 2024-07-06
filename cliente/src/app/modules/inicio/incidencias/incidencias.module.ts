@@ -7,6 +7,9 @@ import { IncidenciasRoutingModule } from "./incidencias-routing.module";
 import { RouterModule, Routes } from "@angular/router";
 import { ComponentsModule } from "../../components/components.module";
 import { ProcesoIncidenciasModule } from "./procesoIncidencias/procesoIncidencias.module";
+import { GraficosComponent } from '../reportes/graficos/graficos.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 const routes: Routes = [
@@ -18,35 +21,40 @@ const routes: Routes = [
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: []
       },
       {
         path:'vulnerabilidades',
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: []
       },
       {
         path:'tickets',
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: []
       },
       {
         path:'seguimiento',
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: []
       },
       {
         path:'caracteristicas',
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: []
       }
     ]
   },
@@ -58,17 +66,19 @@ const routes: Routes = [
 @NgModule({
     declarations: [
       IncidenciasComponent,
+
     ],
     imports: [
       CommonModule,
       IncidenciasRoutingModule,
       RouterModule.forChild(routes),
       ComponentsModule,
-      ProcesoIncidenciasModule
-
+      ProcesoIncidenciasModule,
+      MatDialogModule,
     ],
     exports: [
-      RouterModule
+      RouterModule,
+
     ],
 })
 export class IncidenciasModule { }

@@ -21,6 +21,7 @@ import { EditarTicketComponent } from "./tickets/components/editar-ticket/editar
 import { AddSolucionTicketComponent } from "./tickets/components/add-solucion-ticket/add-solucion-ticket.component";
 import { PasarTicketComponent } from "./tickets/components/pasar-ticket/pasar-ticket.component";
 import {MatTabsModule} from '@angular/material/tabs';
+import { MatDialogActions, MatDialogModule } from "@angular/material/dialog";
 
 
 
@@ -43,7 +44,7 @@ import {MatTabsModule} from '@angular/material/tabs';
       VerTicketComponent,
       EditarTicketComponent,
       AddSolucionTicketComponent,
-      PasarTicketComponent
+      PasarTicketComponent,
     ],
     imports: [
       CommonModule,
@@ -70,7 +71,9 @@ import {MatTabsModule} from '@angular/material/tabs';
       VerTicketComponent,
       EditarTicketComponent,
       AddSolucionTicketComponent,
-      PasarTicketComponent
+      PasarTicketComponent,
+
+
     ]
 })
 export class ProcesoIncidenciasModule { }

@@ -91,7 +91,7 @@ const crearUsuarioRolService = async (idRol, idUsuario) => {
         };
     }
     //despues de crear el usuarioRol, con el int_usuario_rol_id debo darle permisos de todos los menus
-    console.log("Id del usuariorol",usuarioRolCreado.int_usuario_rol_id);
+    
     const permisos = await permisosService.crearPermisosPorIdUsuarioRolService(usuarioRolCreado.int_usuario_rol_id);
     if (!permisos) {
         return {

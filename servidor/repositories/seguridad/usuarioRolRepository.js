@@ -144,15 +144,12 @@ const comprobarUsuarioRol = async (usuarioRol) => {
 }
 const getUsuarioByIdRol = async (idRol) => {
     try {
-        console.log("ID ROL",idRol);
-
         const usuario = await UsuarioRol.findOne({
             where: {
                 int_usuario_rol_id: idRol
             },
             raw: true
         });
-        console.log("USUARIO",usuario);
         return usuario;
 
     } catch (error) {

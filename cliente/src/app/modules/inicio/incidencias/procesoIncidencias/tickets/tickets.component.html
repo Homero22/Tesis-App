@@ -50,6 +50,9 @@
             <div class="d-flex">Nombre de la Incidencia</div>
           </th>
           <th>
+            <div class="d-flex">Ticket ID</div>
+          </th>
+          <th>
             <div class="d-flex">Observación </div>
           </th>
           <th>
@@ -77,6 +80,9 @@
               }}
             </div>
           </td>
+          <td>
+            {{ ticket.int_ticket_id }}
+          </td>
           <td (click)="seguimiento(ticket)">
             {{ ticket.str_ticket_observacion.length > 50 ? (ticket.str_ticket_observacion | slice:0:50) + '...' : ticket.str_ticket_observacion }}
           </td>
@@ -85,7 +91,9 @@
           </td>
 
           <td (click)="seguimiento(ticket)">
-            {{ ticket.str_estado_nombre}}
+            <div [ngClass]="getClass(ticket.str_estado_nombre)">
+              {{ ticket.str_estado_nombre }}
+            </div>
           </td>
 
           <td>
@@ -97,6 +105,9 @@
             </button>
             <button class="btn btn-primary" (click)="seguimiento(ticket)" title="Ver seguimiento del ticket" >
               <i class="material-icons"> timeline </i>
+            </button>
+            <button class="btn btn-primary" (click)="finalizarTicket(ticket)" title="Finalizar ticket" *ngIf="ticket.str_estado_nombre!='Finalizado'">
+              <i class="material-icons">check</i>
             </button>
           </td>
 
@@ -170,6 +181,11 @@
             <div class="d-flex">Nombre de la Incidencia</div>
           </th>
           <th>
+            <div>
+              <div class="d-flex">Ticket ID</div>
+            </div>
+          </th>
+          <th>
             <div class="d-flex">Observación </div>
           </th>
           <th>
@@ -195,6 +211,9 @@
             </div>
           </td>
           <td>
+            <div>{{ticket[0].int_ticket_id}}</div>
+          </td>
+          <td>
             {{ ticket[0].str_ticket_observacion.length > 50 ? (ticket[0].str_ticket_observacion | slice:0:50) + '...' : ticket[0].str_ticket_observacion }}
           </td>
           <td>
@@ -210,6 +229,9 @@
             </button>
             <button *ngIf="ticket[0].str_ticket_usuario_estado !='PASADO'" class="btn btn-primary" (click)="traspasarTicket(ticket[0],'Pasar Ticket', 'pasarTicket')" title="Transferir Ticket">
               <i class="material-icons"> group_add </i>
+            </button>
+            <button *ngIf="ticket[0].str_ticket_usuario_estado !='PASADO'" class="btn btn-primary" (click)="enviarRevision(ticket[0])" title="Enviar Ticket a revisión">
+              <i class="material-icons"> send </i>
             </button>
           </td>
 

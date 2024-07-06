@@ -184,7 +184,7 @@ export class UsuariosService{
 
     //obtener las 10 primeras coincidencias de la busqueda
     searchUsuario(_search: any): Observable<any> {
-      console.log("????",_search);
+
       let httpParams = new HttpParams()
       .set("texto",_search)
       return this.http.get<UsuariosModel>(`${this.urlApi_buscar_usuario_registrado}`,

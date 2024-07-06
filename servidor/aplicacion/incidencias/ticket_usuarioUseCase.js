@@ -95,7 +95,7 @@ const obtenerTicketUsuariosPaginacionUseCase = async (query,usuario) => {
     const metadata = paginacion(page, limit, totalTicketUsuarios);
 
     
-    console.log("ticketUsuarios",ticketUsuarios);
+   
 
     return {
       status: true,
@@ -113,11 +113,22 @@ const obtenerTicketUsuariosPaginacionUseCase = async (query,usuario) => {
 
 };
 
+const cambiarEstadoTicketUsuarioUseCase = async (id, estado) => {
+    try {
+        const ticketUsuario = await ticketUsuarioRepository.cambiarEstadoTicketUsuarioRepository(id, estado);
+        return ticketUsuario;
+    } catch (error) {
+        console.log(error);
+        return error.message;
+    }
+}
+
 export default {
     crearTicketUsuarioUseCase,
     obtenerTicketUsuariosUseCase,
     obtenerTicketUsuarioByIdUseCase,
     actualizarTicketUsuarioUseCase,
     obtenerTicketUsuariosPaginacionUseCase,
-    agregarSolucionTicketUsuarioUseCase
+    agregarSolucionTicketUsuarioUseCase,
+    cambiarEstadoTicketUsuarioUseCase
 }

@@ -40,7 +40,7 @@ export class NotificacionesComponent implements OnInit, OnDestroy {
       let obj = JSON.parse(event.data);
       this.obtenerId();
       if (obj.int_usuario_id == this.id_usuario_logueado) {
-        console.log('DATA PARA UN USUARIO', obj);
+
         //aqui llega el int_usuario_id para mostrar o no la notificacion si es para el usuario
 
         //verifico que si tiene 4 notificaciones, elimino la primera
@@ -86,7 +86,7 @@ export class NotificacionesComponent implements OnInit, OnDestroy {
   obtenerId(){
     this.srvMiCuenta.selectUsuarioLogueado$.subscribe((data) => {
       this.id_usuario_logueado = data.int_usuario_id;
-      console.log('ID USUARIO LOGUEADO', this.id_usuario_logueado);
+
     });
   }
 
