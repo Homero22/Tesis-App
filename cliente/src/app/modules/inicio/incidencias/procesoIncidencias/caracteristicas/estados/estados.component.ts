@@ -66,7 +66,7 @@ export class EstadosComponent implements OnInit {
     });
   }
   addEstado(tittle: string, form: string){
-    console.log("add estado")
+
     this.srvModal.setFormModal({formulario: form, title: tittle, special: false});
     this.srvModal.openModal();
 
@@ -133,7 +133,7 @@ export class EstadosComponent implements OnInit {
       title: tittle,
       special: false,
     };
-    console.log("estado a actualizar",estado)
+
     this.srvEstados.setUpdataEstado(estado)
     this.srvModal.setFormModal(this.elementForm);
     this.srvModal.openModal();
@@ -217,7 +217,7 @@ export class EstadosComponent implements OnInit {
   }
   verificarData(){
     if(this.srvEstados.metaData.pagination.total === 0){
-      console.log(this.srvEstados.metaData.pagination.total)
+
       this.isData = false;
     }else{
       this.isData = true;
@@ -232,14 +232,14 @@ export class EstadosComponent implements OnInit {
       this.srvEstados.filtrarEstados({
         filtro: 'ACTIVO',
         page: page
-      
+
       });
     }
     if(this.filtroActual === 'Ver estados inactivos'){
       this.srvEstados.filtrarEstados({
         filtro: 'INACTIVO',
         page: page
-      
+
       });
     }
     if(this.searchText !== ''){

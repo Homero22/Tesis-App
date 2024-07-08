@@ -92,7 +92,7 @@
             {{ incidencia.str_vulnerabilidades_protocol }}
           </td> -->
 
-          <td>
+          <td [ngClass]="[incidencia.str_vulnerabilidades_risk_factor, 'center-text']">
             {{ incidencia.str_vulnerabilidades_risk_factor }}
           </td>
 
@@ -115,9 +115,6 @@
               <i class="material-icons"> add </i>
             </button>
           </td>
-
-
-
 
         </tr>
       </tbody>

@@ -2,6 +2,7 @@ import usuarioRol from "../../aplicacion/usuarios/usuarioRolUseCase.js";
 import { jwtVariables } from "../../configuracion/variablesGlobales.js";
 import jwt from "jsonwebtoken";
 import { eventEmitter } from "../notificaciones/notificaciones.controller.js";
+import  NotificacionesUsuarioUseCase from "../../aplicacion/incidencias/notificacionesUseCase.js"
 const obtenerRolesPorUsuario = async (req, res) => {
     try {
         const { id } = req.params;
@@ -40,7 +41,7 @@ const obtenerRolesUsuarioLogueado = async (req, res) => {
 const crearUsuarioRol = async (req, res) => {
     try {
         const { idRol, idUsuario } = req.body;
-        console.log("crear perfil ",idRol, idUsuario);
+
         const usuarioRolCreado = await usuarioRol.crearUsuarioRolService(
         idRol,
         idUsuario
@@ -60,7 +61,22 @@ const cambiarEstadoUsuarioRol = async (req, res) => {
         const { id } = req.params;
         const usuarioRolDesactivado = await usuarioRol.cambiarEstadoUsuarioRolService(id);
         res.json(usuarioRolDesactivado); 
-        eventEmitter.emit('notificacion', {tipo: 'success', mensaje: "Se ha cambiado el estado de un perfil de un usuario"});
+
+        //guardar notificacion
+        const usuario = await usuarioRol.obtenerIdUsuarioByIdUsuarioRolService(id);
+        eventEmitter.emit('notificacion', {
+            tipo: 'success', 
+            mensaje: "Se ha cambiado el estado de un perfil de un usuario",
+            int_usuario_id: usuario.body.int_usuario_id
+        });
+
+        const notificacion = {
+            int_usuario_id: usuario.body.int_usuario_id,
+            str_notificacion_descripcion: "Se ha cambiado el estado del perfil",
+            str_notificacion_titulo: "Cambio de estado de perfil",
+            dt_fecha_creacion: new Date()
+        }
+        const notificacionCreada = await NotificacionesUsuarioUseCase.crearNotificacionUseCase(notificacion);
     } catch (error) {
         res.status(500).json({
         status: false,

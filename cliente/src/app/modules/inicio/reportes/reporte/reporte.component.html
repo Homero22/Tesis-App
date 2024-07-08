@@ -1,3 +1,108 @@
-<p>
-  reporte works!
-</p>
+
+<div class="pdf">
+  <button
+    id="pdf_button"
+    class="pdf-button"
+    (click)="generarPDF()"
+    [disabled]="!verificarDatosPdf()">Generar PDF
+  </button>
+</div>
+<div class="op1">
+  <div class="container-reportes">
+    <div class="reporte">
+      <form [formGroup]="range">
+        <div class="data" *ngIf="range.value.selectedOption">
+          <p>Reporte de <strong>{{ range.value.selectedOption }}</strong></p>
+        </div>
+        <div class="opciones">
+          <select formControlName="selectedOption" [value]="'Seleccione una opción'">
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="Tickets no atendidos">Tickets no atendidos</option>
+            <option value="Tickets resueltos">Tickets resueltos</option>
+            <option value="Tickets finalizados">Tickets finalizados</option>
+          </select>
+        </div>
+        <mat-form-field>
+          <mat-label>Ingrese el rango</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Desde">
+            <input matEndDate formControlName="end" placeholder="Hasta">
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <div class="fil">
+          <button
+            id="filter_button"
+            class="filter-button"
+            (click)="obtenerReporte()"
+            [disabled]="!verificarDatosReporte()">Generar Reporte
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="re-general">
+  <div class="table-re">
+    <mat-form-field>
+      <mat-label>Filtrar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. SSL" #input>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+
+
+        <ng-container matColumnDef="#">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+          <td mat-cell *matCellDef="let row; "> {{row.int_ticket_id}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="Incidencia">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Incidencia </th>
+          <td mat-cell *matCellDef="let row"> {{row.str_vulnerabilidades_nombre}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="Responsable">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Responsable </th>
+          <td mat-cell *matCellDef="let row"> {{row.ticket_usuario}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="Estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+          <td mat-cell *matCellDef="let row"> {{row.str_estado_nombre}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No se ha encontrado datos "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Componente HTML -->
+<div class="overlay" *ngIf="abrirPdf">
+  <div class="modal">
+    <div class="container-btn-pdf">
+      <button class="close-btn" (click)="cerrarPdf()">Cerrar</button>
+    </div>
+    <div id="ver-pdf-reporte" style="width: 100%; height: 100%"></div>
+  </div>
+</div>
+
+
+

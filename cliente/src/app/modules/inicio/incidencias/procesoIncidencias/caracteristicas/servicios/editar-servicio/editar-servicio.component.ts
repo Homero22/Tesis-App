@@ -44,7 +44,7 @@ export class EditarServicioComponent implements OnInit {
     this.srvServicio.selectUpdateServicio$
     .subscribe({
       next:(res:any)=>{
-        console.log("EditarServicio??",res);
+
         this.myForm.controls['id'].setValue(res.int_servicio_id);
         this.myForm.controls['nombre'].setValue(res.str_servicio_nombre);
         this.myForm.controls['estado'].setValue(res.str_servicio_estado);

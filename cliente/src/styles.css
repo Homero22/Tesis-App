@@ -759,6 +759,7 @@ cuando se va a realizar busqueda por filtrado */
   justify-content: space-between;
 }
 
+
 /* Div que contiene los botones del Formulario */
 .container-Btns{
   display: grid;

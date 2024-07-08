@@ -1,0 +1,87 @@
+<!-- ticket.component.html -->
+<div *ngIf="!isTicketUsuario && isData">
+  <h2>Ticket Nº {{ticket.numeroTicket +1}}</h2>
+  <table>
+    <tr>
+      <th>Ticket ID</th>
+      <td>{{ ticket.int_ticket_id }}</td>
+    </tr>
+    <tr>
+      <th>Servicio</th>
+      <td>{{ ticket.str_servicio_nombre }}</td>
+    </tr>
+    <tr>
+      <th>Vulnerabilidad</th>
+      <td>{{ ticket.str_vulnerabilidades_nombre }}</td>
+    </tr>
+    <tr>
+      <th>Estado</th>
+      <td>{{ ticket.str_estado_nombre }}</td>
+    </tr>
+    <tr>
+      <th>Responsable</th>
+      <td>{{ ticket.ticket_usuario }}</td>
+    </tr>
+    <tr>
+      <th>Observación</th>
+      <td>{{ ticket.str_ticket_observacion }}</td>
+    </tr>
+    <tr>
+      <th>Fecha de Creación</th>
+      <td>{{ ticket.dt_fecha_creacion | date:'short' }}</td>
+    </tr>
+    <tr>
+      <th>Fecha de Actualización</th>
+      <td>{{ ticket.dt_fecha_actualizacion | date:'short' }}</td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="isTicketUsuario && isData">
+  <table>
+    <tr>
+      <th>Ticket ID</th>
+      <td>{{ ticket.int_ticket_id }}</td>
+    </tr>
+    <tr>
+      <th>Vulnerabilidad</th>
+      <td>{{ ticket.tb_vulnerabilidade.str_vulnerabilidades_name }}</td>
+    </tr>
+    <tr>
+      <th>Observación</th>
+      <td>{{ ticket.str_ticket_observacion }}</td>
+    </tr>
+    <tr>
+      <th>Fecha de Creación</th>
+      <td>{{ ticket.dt_fecha_creacion | date:'short' }}</td>
+    </tr>
+  </table>
+  <label for="">Soluciones anteriores</label>
+
+  <ng-container *ngIf="isData">
+    <ng-container *ngIf="hasValidSoluciones; else noSoluciones">
+      <table>
+        <tr>
+          <th>Usuario</th>
+          <th>Observación/Solución</th>
+        </tr>
+        <ng-container *ngFor="let solucion of soluciones">
+          <tr *ngIf="solucion.txt_ticket_usuario_solucion">
+            <td>{{ solucion.usuario }}</td>
+            <td>{{ solucion.txt_ticket_usuario_solucion }}</td>
+          </tr>
+        </ng-container>
+      </table>
+    </ng-container>
+    <ng-template #noSoluciones>
+      <div>No se han registrado soluciones.</div>
+    </ng-template>
+  </ng-container>
+
+
+
+
+</div>
+
+
+

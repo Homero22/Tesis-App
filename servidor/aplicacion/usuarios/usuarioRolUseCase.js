@@ -91,7 +91,7 @@ const crearUsuarioRolService = async (idRol, idUsuario) => {
         };
     }
     //despues de crear el usuarioRol, con el int_usuario_rol_id debo darle permisos de todos los menus
-    console.log("Id del usuariorol",usuarioRolCreado.int_usuario_rol_id);
+    
     const permisos = await permisosService.crearPermisosPorIdUsuarioRolService(usuarioRolCreado.int_usuario_rol_id);
     if (!permisos) {
         return {
@@ -158,7 +158,21 @@ const obtenerIdUsuarioRolService = async (rol, idUsuario) => {
         body: usuarioRol,
     };
 }
-const sum = (a,b)=> a+b;
+const obtenerIdUsuarioByIdUsuarioRolService = async (idUsuarioRol) => {
+    const usuarioRol = await usuarioRolRepository.getUsuarioByIdRol(idUsuarioRol);
+    if (!usuarioRol) {
+        return {
+        status: false,
+        message: "No se encontró el usuario rol con el id del usuario rol",
+        body: [],
+        };
+    }
+    return {
+        status: true,
+        message: "Usuario rol encontrado",
+        body: usuarioRol,
+    };
+}
 
 
 
@@ -166,5 +180,6 @@ export default {
     obtenerRolesPorUsuarioService,
     crearUsuarioRolService,
     cambiarEstadoUsuarioRolService,
-    obtenerIdUsuarioRolService,  
+    obtenerIdUsuarioRolService,
+    obtenerIdUsuarioByIdUsuarioRolService  
 }

@@ -1,6 +1,7 @@
 import { Usuario } from "../../models/seguridad/usuario.model.js";
 import { Op } from "sequelize";
-
+import { UsuarioRol } from "../../models/seguridad/usuarioRoles.model.js";
+import { Rol } from "../../models/seguridad/rol.model.js";
 
 const getAllUsers = async () => {
     try {
@@ -363,6 +364,24 @@ const buscarUsuariosRegistrados = async (texto) => {
         console.log(error);
     }
 }
+const obtenerAdministrador = async () => {
+    try {
+        //obtengo el id del rol administrador
+        const idAdmin = await Rol.findOne({
+            where: {
+                str_rol_nombre: 'Administrador'
+            }
+        });
+        const administradores = await UsuarioRol.findAll({
+            where: {
+                int_rol_id: idAdmin.int_rol_id
+            }
+        });
+        return administradores;
+    } catch (error) {
+        console.log(error);
+    }
+}
 export default {
     getAllUsers,
     createUser,
@@ -375,5 +394,6 @@ export default {
     obtenerTotalUsuarios,
     buscarUsuario,
     filtrarUsuarios,
-    buscarUsuariosRegistrados
+    buscarUsuariosRegistrados,
+    obtenerAdministrador
 }

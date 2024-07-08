@@ -327,7 +327,7 @@ export class MenusService {
         next: (data: any) => {
           this.nombreMenuPadre = data.body.str_menu_nombre;
           this.idMenuPadre = _id;
-          console.log("1",data.body.str_menu_nombre)
+
           this.setNombreMenuPadre(this.nombreMenuPadre);
         },
         error: (err) => {
@@ -341,7 +341,6 @@ export class MenusService {
   }
 
   obtenerAllMenus() {
-    console.log("entro")
     this.getAllMenus()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -385,6 +384,7 @@ export class MenusService {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data: MenusPermisosModel) => {
+          console.log("!!!!! 1")
           this.menusPermisos = data.body;
           this.setMenusPermisos(this.menusPermisos);
         },

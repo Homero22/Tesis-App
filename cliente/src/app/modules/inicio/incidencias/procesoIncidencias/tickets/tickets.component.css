@@ -1,0 +1,52 @@
+.tabla-estilos tbody tr {
+  cursor: pointer;
+  border-top-width: 0.5px;
+}
+/* .color:hover {
+  background-color: #58ac6d;
+  transition: background-color 0.3s ease;
+} */
+
+
+.en-proceso {
+  background: linear-gradient(to right, #f94a23, #e8070b); /* Degradado de amarillo a rojo */
+}
+
+.finalizado {
+  background: linear-gradient(to right, #19dc30, #148d30); /* Degradado de verde a amarillo */
+}
+
+.abierto {
+  background: linear-gradient(to right, #75a1c7, #2172b9); /* Degradado de azul a gris */
+}
+.otro {
+  background: linear-gradient(to right, #747b81, #5621b9); /* Degradado de azul a gris */
+}
+
+/* Agrega estilos adicionales para mejorar la apariencia */
+.en-proceso, .finalizado, .abierto, .otro {
+  color: white; /* Color del texto */
+  padding: 10px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  text-align: center; /* Centrar el texto */
+}
+
+.btn-finalizar{
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.btn-finalizar:hover {
+  background-color: #f94a23;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+
+

@@ -194,7 +194,7 @@ filtrarRolesGeneral(filtro: string, page: number) {
 
 //funcionar general para buscar roles
 buscarRolesGeneral(texto: string , page:number) {
-  console.log("BUSCANDO ROLES CON PAGINACION", texto, page)
+
   this.buscarRol(texto,page)
     .pipe(takeUntil(this.destroy$))
     .subscribe({

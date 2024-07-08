@@ -20,9 +20,11 @@ export class AsideComponent implements OnInit {
     public srvMenu : MenusService,
   ) { }
   ngOnInit(): void {
+
     this.srvMenu.selectMenusPermisos$.subscribe((data) => {
       this.menus = data;
       this.ordenarMenus(this.menus);
+      console.log("Permisos",this.menus);
 
     });
   }
@@ -56,14 +58,14 @@ export class AsideComponent implements OnInit {
       ...this.menus,
       ...otrosMenus
     ];
-    console.log(this.menus);
+
     this.isLoad = true;
 
   }
 
   verSubMenus(menu : MenusPermisosModelBody){
     this.clickSubmenus = !this.clickSubmenus;
-    console.log("Click ver submenus",menu);
+
 
   }
 

@@ -87,7 +87,7 @@ export class ServiciosService{
 
   // Editar servicio
   editarServicio(_id: number, _nombre: string){
-    console.log("editar", _id, _nombre)
+
 
     return this.http.put<ServiciosModel>(
       `${this.urlApi_servicios}/${_id}`,
@@ -126,7 +126,7 @@ export class ServiciosService{
     let httpParams = new HttpParams()
     .set('texto', _texto)
     .set('page', page);
-    console.log("?!", _texto, page)
+
 
     return this.http.get<ServiciosModel>(this.urlApi_buscar_servicio, {
       params: httpParams,
@@ -168,7 +168,7 @@ export class ServiciosService{
     .subscribe({
       next: (data: ServiciosModel) => {
         this.servicios = data.body;
-        console.log(this.servicios)
+
         this.metaData = data.metadata;
         this.setDataMetadata(this.metaData);
         this.setServicios(this.servicios);
@@ -200,7 +200,7 @@ export class ServiciosService{
   //funcion general para buscar servicios
 
   buscarServicios(params: any){
-    console.log("buscar",params)
+
     this.buscarServicio(params.texto, params.page)
     .pipe(takeUntil(this.destroy$))
     .subscribe({

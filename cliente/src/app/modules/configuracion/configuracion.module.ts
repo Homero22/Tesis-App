@@ -16,34 +16,38 @@ const routes: Routes = [
         loadChildren:()=>
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
-        )
+        ),
+        canActivate: []
       },
       {
         path:'cuenta2',
         loadChildren:()=>
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
-        )
+        ),
+        canActivate: []
       },
       {
         path:'usuarios',
         loadChildren:()=>
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
-        )
+        ),
+        canActivate: []
       },
       {
         path:'roles',
         loadChildren:()=>
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
-        )
+        ),
+        canActivate: []
       }
 
     ]
   },
   {
-    path:'**', redirectTo:''
+    path:'**', redirectTo:'/404'
   }
 ]
 

@@ -22,7 +22,7 @@
           <mat-card-content class="card">
             <div class="notificacionInfo">
               <div class="notificacionTitulo">
-                <h3>{{notificacion.titulo}}</h3>
+                <h3>{{notificacion.str_notificacion_titulo}}</h3>
               </div>
               <mat-card-actions class="cerrar">
                 <button mat-button color="black" (click)="eliminarNotificacion(i)">
@@ -30,11 +30,11 @@
                 </button>
               </mat-card-actions>
               <div class="notificacionDescripcion">
-                <p>{{notificacion.descripcion}}</p>
+                <p>{{notificacion.str_notificacion_descripcion}}</p>
               </div>
             </div>
             <div class="notificacionFecha">
-              <p>{{notificacion.fecha}}</p>
+              <p>{{notificacion.dt_fecha_creacion | date:'short'}}</p>
             </div>
           </mat-card-content>
         </mat-card>

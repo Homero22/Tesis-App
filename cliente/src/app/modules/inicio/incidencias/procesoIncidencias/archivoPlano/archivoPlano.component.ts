@@ -76,7 +76,7 @@ export class ArchivoPlanoComponent implements OnInit {
     });
   }
   comprobarArchivo() {
-    console.log('comprobando archivo');
+
     //verificar que el archivo tenga las columnas necesarias
     let columns = [
       'Plugin ID',
@@ -153,10 +153,10 @@ export class ArchivoPlanoComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          console.log(res);
+
           if (res.status) {
             Swal.close();
-            console.log(res);
+
             Swal.fire({
               icon: 'success',
               title: 'Datos Cargados Exitosamente',

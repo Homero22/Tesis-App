@@ -21,6 +21,10 @@ import { LayoutModule } from './layout/layout.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from './modules/modal/modal.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgChartsModule } from 'ng2-charts';
+import {  MatDialogModule } from '@angular/material/dialog';
+
+
 
 
 
@@ -42,11 +46,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     ModalModule,
     BrowserAnimationsModule,
+    NgChartsModule,
+    MatDialogModule
 
 
-
-
-
+    // MatFormFieldModule,
+    // MatDatepickerModule
   ],
   providers: [
     CasClient,

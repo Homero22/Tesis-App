@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { UsuarioRolModelBody } from 'src/app/core/models/usuarios/usuarioRol';
 import { CasClient } from 'src/app/core/security/CasClient/CasClient';
 import { PermisosUsuarioRolService } from 'src/app/core/services/Usuarios/permisosUsuarioRol.service';
 import { UsuarioRolService } from 'src/app/core/services/Usuarios/usuarioRol.service';
 import { UsuariosService } from 'src/app/core/services/Usuarios/usuarios.service';
+import { TicketService } from 'src/app/core/services/incidencias/ticket.service';
 import { MenusService } from 'src/app/core/services/menus.service';
 
 @Component({
@@ -32,16 +34,18 @@ export class DesplegableComponent implements OnInit {
   constructor(    public srvUsuario: UsuariosService,
     public srvUsuarioRol: UsuarioRolService,
     public srvMenus: MenusService,
+    private router: Router,
+    private srvTicket: TicketService,
     public casCliente: CasClient) { }
 
   ngOnInit():void {
-
       this.srvUsuario
       .getMe()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (_me) => {
           this.srvUsuario.dataMiCuenta = _me.body;
+          this.srvUsuario.setUsuarioLogueado(_me.body);
         },
         error: (err) => {
           console.log(err);
@@ -59,15 +63,14 @@ export class DesplegableComponent implements OnInit {
               if(storedRole){
                 this.nameRol = storedRole;
                 localStorage.setItem('selectedRole', this.nameRol);
+                this.srvTicket.setRol(this.nameRol);
                 this.isLoad = true;
               }else{
                 this.nameRol = this.rolesUsuario[0].str_rol_nombre;
                 localStorage.setItem('selectedRole', this.nameRol);
+                this.srvTicket.setRol(this.nameRol);
               }
               this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
-
-
-
             }
           },
           error: (err: any) => {
@@ -84,6 +87,8 @@ export class DesplegableComponent implements OnInit {
 
   permisos(rol: UsuarioRolModelBody){
     this.nameRol = rol.str_rol_nombre;
+
+    this.srvTicket.setRol(this.nameRol);
     localStorage.setItem('selectedRole',this.nameRol);
     this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
     window.location.assign('/welcome');

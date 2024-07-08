@@ -93,7 +93,7 @@ export class ServiciosComponent implements OnInit {
   }
   verificarData() {
     if (this.srvServicios.metaData.pagination.total === 0) {
-      console.log(this.srvServicios.metaData.pagination.total);
+
       this.isData = false;
     } else {
       this.isData = true;
@@ -181,7 +181,7 @@ export class ServiciosComponent implements OnInit {
         .subscribe({
           next: (data) => {
             if(data.status){
-              console.log(data);
+
               Swal.fire({
                 icon: 'success',
                 title: data.message,
@@ -222,7 +222,7 @@ export class ServiciosComponent implements OnInit {
 
 
   addServicio(tittle: string, form: string) {
-    console.log('Añadiendo servicio');
+
     this.srvModal.setFormModal({
       formulario: form,
       title: tittle,

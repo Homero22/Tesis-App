@@ -1,0 +1,57 @@
+<div class="cont search">
+  <form [formGroup]="myForm" class="formFather">
+    <div class="containerInfo">
+      <label for="">Incidencia</label>
+      <input type="text" formControlName="incidencia_nombre">
+
+      <label for="">Pasar a usuario</label>
+      <input
+        formControlName="usuario"
+        [spellcheck]="false"
+        placeholder="Buscar Usuario"
+        type="text"
+        (input)="searchUsuario($event)"
+        [value]="searchTerm"
+      />
+      <div class="results" *ngIf="suggestions.length > 0">
+        <ol>
+          <li *ngFor="let suggestion of suggestions">
+            <p (click)="selectSuggestion(suggestion)">
+              {{ suggestion.str_usuario_nombres }} {{ suggestion.str_usuario_apellidos }}
+            </p>
+          </li>
+        </ol>
+      </div>
+      <!-- Mostrar lista de seleccionados -->
+      <label for="">Responsable seleccionado</label>
+      <div *ngFor="let usuario of listaUsuarios; let i = index">
+        <div class="listaResponsables">
+          <li>
+            {{ usuario.str_usuario_nombres }} {{ usuario.str_usuario_apellidos }}
+          </li>
+          <button class="eliminarUsuario" (click)="eliminarUsuario(i)">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- Botón de enviar -->
+  <div class="container-Button">
+    <button class="btn btn-primary" (click)="pasarTicket()" [disabled]="!isUsuarioSeleccionado || !existeSolucion">
+      <i class="material-icons">send</i>
+      Pasar Ticket
+    </button>
+  </div>
+  <div *ngIf="!existeSolucion" class="alert alert-info" role="alert">
+    Por favor, proporcione una observación o solución para poder pasar el ticket.
+  </div>
+  <div class="solucion-status">
+    <i *ngIf="existeSolucion" class="material-icons check-icon">check_circle</i>
+    <i *ngIf="!existeSolucion" class="material-icons x-icon">highlight_off</i>
+    <span *ngIf="existeSolucion" class="solucion-text">Solución proporcionada</span>
+    <span *ngIf="!existeSolucion" class="solucion-text">Solución no proporcionada</span>
+  </div>
+</div>
+
+
