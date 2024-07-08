@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { isValidGuard } from 'src/app/core/guards/permisos.guard';
 
 
 
@@ -26,11 +27,12 @@ const routes: Routes =[
       {
         path:'reportes',
         loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule),
-        canActivate: []
+        canActivate: [isValidGuard]
       },
       {
         path:'notificacionesUsuario',
-        loadChildren: () => import('./notificacionesUsuario/notificacionesUsuario.module').then(m => m.NotificacionesUsuarioModule)
+        loadChildren: () => import('./notificacionesUsuario/notificacionesUsuario.module').then(m => m.NotificacionesUsuarioModule),
+        canActivate: [isValidGuard]
       }
     ],
 

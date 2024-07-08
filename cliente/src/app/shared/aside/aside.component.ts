@@ -24,6 +24,7 @@ export class AsideComponent implements OnInit {
     this.srvMenu.selectMenusPermisos$.subscribe((data) => {
       this.menus = data;
       this.ordenarMenus(this.menus);
+      console.log("Permisos",this.menus);
 
     });
   }

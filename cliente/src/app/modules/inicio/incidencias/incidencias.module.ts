@@ -10,6 +10,7 @@ import { ProcesoIncidenciasModule } from "./procesoIncidencias/procesoIncidencia
 import { GraficosComponent } from '../reportes/graficos/graficos.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import {MatDialogModule} from '@angular/material/dialog';
+import { isValidGuard } from 'src/app/core/guards/permisos.guard';
 
 
 const routes: Routes = [
@@ -22,7 +23,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: []
+        canActivate: [isValidGuard]
       },
       {
         path:'vulnerabilidades',
@@ -30,7 +31,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: []
+        canActivate: [isValidGuard]
       },
       {
         path:'tickets',
@@ -38,7 +39,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: []
+        canActivate: [isValidGuard]
       },
       {
         path:'seguimiento',
@@ -46,7 +47,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: []
+        canActivate: [isValidGuard]
       },
       {
         path:'caracteristicas',
@@ -54,7 +55,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: []
+        canActivate: [isValidGuard]
       }
     ]
   },
