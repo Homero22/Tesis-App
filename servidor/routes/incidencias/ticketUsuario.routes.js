@@ -7,6 +7,7 @@ router.post("/solucion", ticketUsuarioControllers.agregarSolucionTicketUsuario);
 router.post("/", ticketUsuarioControllers.crearTicketUsuario);
 router.get("/solucion/:id", ticketUsuarioControllers.obtenerTicketUsuarioById);
 router.put("/:id", ticketUsuarioControllers.editarTicketUsuario);
+router.put("/estado/:id", ticketUsuarioControllers.cambiarEstadoTicketUsuario);
 
 
 

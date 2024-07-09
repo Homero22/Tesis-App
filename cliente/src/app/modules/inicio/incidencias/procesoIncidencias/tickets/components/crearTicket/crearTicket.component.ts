@@ -125,6 +125,6 @@ export class CrearTicketComponent implements OnInit {
   }
 
   previsualizarTicket() {
-    console.log("Previsualizar", this.myForm.value);
+
   }
 }

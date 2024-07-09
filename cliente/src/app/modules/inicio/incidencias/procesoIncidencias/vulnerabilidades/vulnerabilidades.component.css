@@ -13,6 +13,25 @@
 .general{
   margin: 5px;
 }
+.None{
+  background-color: #0271b8;
+}
+.Medium{
+  background-color: #fcc531;
+}
+.Low{
+  background-color: #3fae49;
+}
+.High{
+  background-color: #ee9336;
+}
+.Critical{
+  background-color: #d53e3a;
+}
+.center-text {
+  text-align: center;
+  border-radius: 5px;
+}
 
 
 

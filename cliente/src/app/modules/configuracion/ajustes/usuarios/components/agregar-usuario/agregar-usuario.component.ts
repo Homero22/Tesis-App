@@ -96,7 +96,7 @@ export class AgregarUsuarioComponent implements OnInit {
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next:(usuario:UsuarioCentralizadaModel)=>{
-        console.log("q llega",usuario);
+
         if(usuario.status){
           Swal.fire({
             title: 'Éxito',
@@ -145,7 +145,7 @@ export class AgregarUsuarioComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.myForm.value);
+
     //extraigo la cedula del formulario
     let cedula = this.myForm.get('per_cedula')?.value;
     this.obtenerDatosCentralizada(cedula);
@@ -156,7 +156,7 @@ export class AgregarUsuarioComponent implements OnInit {
     let cedula = this.myForm.get('per_cedula')?.value;
     let telefono = this.myForm.get('per_telefono')?.value;
     let idRol = this.myForm.get('roles')?.value;
-    console.log("idRol",idRol);
+
     Swal.fire({
       title: 'Cargando...',
       timer: 1000,

@@ -26,7 +26,7 @@ export class EditarPermisosComponent implements OnInit {
     this.srvPermisos.getPermisosUsuarioRol.subscribe({
       next: (data) => {
         this.permisos = data;
-        console.log('edt', this.permisos);
+
       },
       error: (error) => {
         console.log(error);

@@ -38,9 +38,9 @@ function getTokenGenerado(initToken) {
 
   var user = authContext.getCachedUser();
   if (user) {
-    console.log("Usuario logueado");
+
   } else {
-    console.log("Usuario no logueado");
+
   }
 }
 
@@ -48,7 +48,7 @@ function cargarData(ruta, archivo) {
   return new Promise((resolve, reject) => {
     authContext.acquireToken(baseEndpoint, function (error, token) {
       if (error || !token) {
-        console.log("ADAL error: " + error);
+
         resolve(false);
       }
       fetch(baseEndpoint + `/v1.0/me/drive/root:/${ruta}/${archivo}`, {
@@ -64,18 +64,7 @@ function cargarData(ruta, archivo) {
           reject(err);
         });
 
-      // $.ajax({
-      //   type: "GET",
-      //   url: baseEndpoint + `/v1.0/me/drive/root:/${ruta}/${archivo}`,
-      //   headers: { Authorization: "Bearer " + token },
-      // })
-      //   .done(function (response) {
-      //     console.log(response);
-      //     resolve(response);
-      //   })
-      //   .fail(function () {
-      //     resolve(false);
-      //   });
+
     });
   });
 }
@@ -86,7 +75,7 @@ async function onUpload(archivo, ruta, nombreArchivo) {
   try {
     var i = fileToUpload.name.lastIndexOf(".");
   } catch (error) {
-    console.log("Seleccione primero el archivo a subir.");
+    console.log(error);
     return;
   }
   let fileType = fileToUpload.name.substring(i + 1);

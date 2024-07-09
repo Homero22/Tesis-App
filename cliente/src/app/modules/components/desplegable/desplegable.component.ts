@@ -82,20 +82,23 @@ export class DesplegableComponent implements OnInit {
 
   }
   openNotis(){
-    window.location.assign('/notificacionesUsuario');
+    //window.location.assign('/notificaciones');
+    this.router.navigate(['/notificaciones']);
   }
 
   permisos(rol: UsuarioRolModelBody){
     this.nameRol = rol.str_rol_nombre;
-    console.log("Rol seleccionado",this.nameRol);
+
     this.srvTicket.setRol(this.nameRol);
     localStorage.setItem('selectedRole',this.nameRol);
     this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
-    window.location.assign('/welcome');
+    //window.location.assign('/welcome');
+    this.router.navigate(['/welcome']);
   }
 
   ajustes(){
-    window.location.href = '/ajustes';
+    //window.location.href = '/ajustes';
+    this.router.navigate(['/ajustes']);
   }
 
 

@@ -38,7 +38,7 @@ export class UsuarioRolService {
 
   get getUsuariosRoles$() {
     return this.dataUsuariosRoles$.asObservable();
-    
+
   }
 
 
@@ -62,7 +62,7 @@ export class UsuarioRolService {
   //crear usuarioRol enviando el idRol y el idUsuario
 
   crearUsuarioRol(idRol: number, idUsuario: number) {
-    console.log(idRol, idUsuario);
+
     return this.http.post<UsuarioRolModel>(this.urlApi_usuarioRol,
       {
         idRol,

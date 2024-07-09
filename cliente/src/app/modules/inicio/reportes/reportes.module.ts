@@ -17,6 +17,7 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 
 import {FormControl, FormGroup,  ReactiveFormsModule} from '@angular/forms';
+import { NgChartsModule } from "ng2-charts";
 
 
 
@@ -49,7 +50,8 @@ const routes: Routes = [
     ReportesComponent,
     GraficosComponent,
     ReporteComponent,
-   // PdfComponent
+   // PdfComponent,
+
 
 
   ],
@@ -69,6 +71,8 @@ const routes: Routes = [
     MatPaginatorModule,
     MatInputModule,
     ReactiveFormsModule,
+    NgChartsModule,
+
 
 
 
@@ -80,7 +84,8 @@ const routes: Routes = [
 
   ],
   exports: [
-    RouterModule
+    RouterModule,
+    GraficosComponent
   ],
 })
 export class ReportesModule {}

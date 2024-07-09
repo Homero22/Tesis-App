@@ -53,7 +53,7 @@ export class AgregarPerfilesComponent implements OnInit {
   }
   // Función para manejar la adición del perfil
   addProfile() {
-    console.log(this.selectedRol);
+
 
 
     // Llamar al servicio para crear el usuarioRol

@@ -199,7 +199,7 @@ const actualizarRolService = async (id, nombre, descripcion) => {
 const desactivarRolService = async (id) => {
     const rol = await rolRepository.getRolPorId(id);
     let estado = rol.str_rol_estado;
-    console.log(estado);
+    
     if (estado == "ACTIVO") {
         estado = "INACTIVO";
     } else {

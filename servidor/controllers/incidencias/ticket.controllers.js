@@ -1,5 +1,7 @@
 import ticketUseCase from "../../aplicacion/incidencias/ticketUseCase.js";
 import { eventEmitter } from "../notificaciones/notificaciones.controller.js";
+import {obtenerAdministradorService} from "../../aplicacion/usuarios/usuariosUseCase.js";
+import notificacionesUsuarioUseCase from "../../aplicacion/incidencias/notificacionesUseCase.js"
 
 export const crearTicket = async (req, res) => {
     try {
@@ -40,7 +42,6 @@ export const obtenerTickets = async (req, res) => {
 
 export const obtenerTicketsConPaginacion = async (req, res) => {
     try {
-        console.log(req.query)
         const query = req.query;
         const tickets = await ticketUseCase.obtenerTicketsConPaginacionUseCase(query);
         res.json(tickets);
@@ -57,7 +58,6 @@ export const editarTicket = async (req, res) => {
     try {
         const { id } = req.params;
         const {str_ticket_observacion} = req.body;
-        console.log("controller")
         const ticketU = await ticketUseCase.editarTicketUseCase(id,str_ticket_observacion);
         res.json(ticketU);
     } catch (error) {
@@ -91,7 +91,7 @@ export const pasarTicket = async (req, res) => {
         const {int_usuario_id, int_ticket_usuario_id} = req.body;
         const ticketU = await ticketUseCase.pasarTicketUseCase(id,int_usuario_id,int_ticket_usuario_id);
         res.json(ticketU);
-        console.log("Respuest",ticketU.status);
+        
         if(ticketU.status){
             eventEmitter.emit('notificacion', {
                 tipo: 'success', 
@@ -111,7 +111,6 @@ export const pasarTicket = async (req, res) => {
 
 const reporteTickets = async (req, res) => {
     try {
-
         const {fechainicio,fechafin,estado} = req.query;
         const tickets = await ticketUseCase.reporteTicketsUseCase(fechainicio,fechafin,estado);
         res.json(tickets);
@@ -125,6 +124,52 @@ const reporteTickets = async (req, res) => {
     }
 }
 
+const finalizarTicket = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const ticket = await ticketUseCase.finalizarTicketUseCase(id);
+        res.json(ticket);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Error al finalizar el ticket " + error.message,
+            body: [],
+          });
+    }
+}
+const enviarRevision = async (req, res) => {
+    try {
+        const { id } = req.params;
+        //obtengo el id del administrador
+        const administradores = await obtenerAdministradorService();
+        for (let i = 0; i < administradores.length; i++) {
+            
+            const administrador = administradores[i];
+            const notificacion = {
+                int_usuario_id: administrador.int_usuario_id,
+                str_notificacion_descripcion: "Se ha enviado a revisión el Ticket con ID: " + id,
+                str_notificacion_titulo: "Revisar Ticket",
+                dt_fecha_creacion: new Date()
+              }
+              const notificacionCreada = await notificacionesUsuarioUseCase.crearNotificacionUseCase(notificacion);
+            eventEmitter.emit('notificacion', {
+                tipo: 'success', 
+                mensaje: "Se ha enviado a revisión el ticket con id " + id,
+                int_usuario_id: administrador.int_usuario_id
+            });
+            
+        }
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Error al enviar a revision el ticket " + error.message,
+            body: [],
+          });
+    }
+}
 export default {
     crearTicket,
     obtenerTickets,
@@ -132,6 +177,8 @@ export default {
     editarTicket,
     obtenerSolucionesTicketById,
     pasarTicket,
-    reporteTickets
+    reporteTickets,
+    finalizarTicket,
+    enviarRevision
 }
 

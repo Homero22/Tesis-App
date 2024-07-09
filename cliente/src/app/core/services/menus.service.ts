@@ -327,7 +327,7 @@ export class MenusService {
         next: (data: any) => {
           this.nombreMenuPadre = data.body.str_menu_nombre;
           this.idMenuPadre = _id;
-          console.log("1",data.body.str_menu_nombre)
+
           this.setNombreMenuPadre(this.nombreMenuPadre);
         },
         error: (err) => {

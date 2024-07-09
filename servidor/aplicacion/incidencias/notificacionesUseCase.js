@@ -2,7 +2,7 @@ import notificacionesRepository from "../../repositories/incidencias/notificacio
 
 const crearNotificacionUseCase = async (data) => {
     try {
-        console.log("Informacion de la notificacion",data);
+       
         const dataCreate = await notificacionesRepository.crearNotificacionRepository(data);
         return dataCreate;
     } catch (error) {

@@ -28,7 +28,7 @@ export const configuracionInicial = async () => {
     usuarioInfo.str_rol_nombre
   );
   if (!rolAdminExistente || !rolUsuarioExistente) {
-    console.log("Creando roles");
+   
 
     const rolAdmin = await rolRepository.createRol({
       ...adminInfo,
@@ -133,8 +133,8 @@ export const configuracionInicial = async () => {
     menus.map((menu) => menu.str_menu_nombre)
   );
   if (menusEncontrados.length == 0) {
-    console.log("cantidad", menusEncontrados.length);
-    console.log("Creando menus");
+    
+   
     const menusCreados = await menuRepository.createMenus(menus);
     if (menusCreados) {
       console.log("Menus creados");

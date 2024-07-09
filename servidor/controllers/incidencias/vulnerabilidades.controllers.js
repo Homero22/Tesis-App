@@ -3,7 +3,6 @@ import vulnerabilidadesUseCase from "../../aplicacion/incidencias/vulnerabilidad
 export const importarVulnerabilidades = async (req, res) => {
     try {
         const file = req.file;
-        console.log("nombre?",file.originalname);
         const vulnerabilidadesCreadas = await vulnerabilidadesUseCase.importarVulnerabilidadesService(file.path, file.originalname);
         res.json(vulnerabilidadesCreadas);
     } catch (error) {

@@ -48,11 +48,11 @@ export class AddSolucionTicketComponent implements OnInit {
 
     this.srvTicket.selectSolucionTicketUsuario$.subscribe({
       next:(res:any)=>{
-        console.log("res:=>", res)
+
         if(res.vacio){
-          console.log("no data")
+
         }else{
-          console.log("statsus",res.status)
+
           this.solucion = res.txt_ticket_usuario_solucion
           this.myForm = this.fb.group({
             solucion: [this.solucion, Validators.required]
