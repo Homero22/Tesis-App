@@ -107,7 +107,7 @@ export class CasClient {
           resolve(translated);
         })
       );
-      console.log('valido', valido);
+
       if (valido.status == 'success') {
         let user = valido.datosCas.casUser;
         sessionStorage.setItem('loginUser', user);
@@ -162,9 +162,13 @@ export class CasClient {
     window.sessionStorage.removeItem('clientName');
     window.sessionStorage.removeItem('UserCedula');
     window.sessionStorage.removeItem('perid');
+    window.sessionStorage.removeItem('selectedRole');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('selectedRole');
     //eliminar cookie llamada token
     document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=localhost; Secure; SameSite=None;';
+
+
   }
 
   public isNotEmpty(obj: any): boolean {
@@ -180,7 +184,7 @@ export class CasClient {
     if (ticket) {
       sessionStorage.setItem('ticketUser', ticket);
     }
-    console.log('ticket en sabe', ticket);
+
 
   }
 
@@ -195,7 +199,7 @@ export class CasClient {
   public isAuthenticated(): boolean {
     var rawIdToken = sessionStorage.getItem('ticketUser');
     if(this.isNotEmpty(rawIdToken)){
-      console.log("esta autenticado" + rawIdToken);
+
     }
     return this.isNotEmpty(rawIdToken);
   }

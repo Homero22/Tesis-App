@@ -149,7 +149,7 @@ const crearUsuarioService = async (cedula,telefono,idRol) => {
   //luego del commit para que se cree el usuario y el usuarioRol, debo crear los permisos
     //una vez que obtengo el in_usuario_rol_id de UsuarioRol, debo obtener todos los int_menu_id de Permisos para completar los permisos.
   //llamo al permisosService enviandole el int_usuario_rol_id creado
-  console.log("Id del usuariorol",usuarioRol);
+ 
   const permisosActualizados = await permisosService.crearPermisosPorIdUsuarioRolService(
     usuarioRol
   );
@@ -188,7 +188,7 @@ const obtenerDatosServidorExterno = async (cedula) => {
       str_usuario_cedula: cedula,
       str_usuario_telefono: data.listado[0].per_telefonoCelular,
     }
-    console.log(usuario);
+    
     return usuario;
   } catch (error) {
     console.log(error);
@@ -346,6 +346,15 @@ const obtenerUsuariosCentralizadaService = async (cedula) => {
   }
 
 }
+
+export const obtenerAdministradorService = async () => {
+  //llamo a repositorio para obtener el usuario dado el id
+  const usuarios = await usuarioRepository.obtenerAdministrador();
+  if (usuarios) {
+    return usuarios;
+  }
+  return false;
+};
 
 export default {
   obtenerDatosMiCuentaService,

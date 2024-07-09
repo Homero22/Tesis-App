@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { IncidenciasModelBody } from 'src/app/core/models/incidencias/incidenciasModel';
 import { DataMetadata } from 'src/app/core/models/metadata';
 import { IncidenciasService } from 'src/app/core/services/incidencias/incidencias.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import Swal from 'sweetalert2';
+import { ModalInfoIncidenciaComponent } from './components/modal-info-incidencia/modal-info-incidencia.component';
 
 @Component({
   selector: 'app-vulnerabilidades',
@@ -14,7 +16,7 @@ import Swal from 'sweetalert2';
 })
 export class VulnerabilidadesComponent implements OnInit {
 
-  constructor(public srvIncidencias: IncidenciasService,
+  constructor(public srvIncidencias: IncidenciasService,public dialog: MatDialog,
     public srvModal : ModalService
     ) { }
 
@@ -65,6 +67,10 @@ export class VulnerabilidadesComponent implements OnInit {
   filtros: any[] = [
   "Protocolo TCP",
   "Ver  inactivos",
+  "Risk Factor Medium",
+  "Risk Factor High",
+  "Risk Factor Low",
+  "Risk Factor Critical",
   ]
   filtroActual: string = 'Ver todo';
 
@@ -119,15 +125,23 @@ export class VulnerabilidadesComponent implements OnInit {
 
 
   verData(incidencia: IncidenciasModelBody,title: string, form: string){
-    this.srvIncidencias.setVerIncidencia(incidencia);
-    this.elementForm = {
-      formulario: form,
-      title: title,
-      special: false,
-    };
-    this.srvModal.setFormModal(this.elementForm);
-    this.srvModal.openModal();
+    // this.srvIncidencias.setVerIncidencia(incidencia);
+    // this.elementForm = {
+    //   formulario: form,
+    //   title: title,
+    //   special: false,
+    // };
+    // this.srvModal.setFormModal(this.elementForm);
+    // this.srvModal.openModal();
+    const dialogRef = this.dialog.open(ModalInfoIncidenciaComponent, {
+      width: '800px',
+      height: '600px',
+      data: { incidencia, title }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
 
   }
 
@@ -162,28 +176,65 @@ export class VulnerabilidadesComponent implements OnInit {
         })
         this.verificarData();
         break;
+      case "Risk Factor Medium":
+        this.filtroActual = "Risk Factor Medium";
+        this.srvIncidencias.filtrarIncidenciasGeneral("Medium",1)
+        this.verificarData();
+        break;
+      case "Risk Factor High":
+        this.filtroActual = "Risk Factor High";
+        this.srvIncidencias.filtrarIncidenciasGeneral("High",1)
+        this.verificarData();
+        break;
+      case "Risk Factor Low":
+        this.filtroActual = "Risk Factor Low";
+        this.srvIncidencias.filtrarIncidenciasGeneral("Low",1)
+        this.verificarData();
+        break;
+      case "Risk Factor Critical":
+        this.filtroActual = "Risk Factor Critical";
+        this.srvIncidencias.filtrarIncidenciasGeneral("Critical",1)
+        this.verificarData();
+        break;
     }
   }
 
   changePage(page: number) {
     this.request = true;
-    console.log("cambiando pagina", page , this.currentPage)
+
     this.currentPage = page;
     //comprobar si se esta filtrando para cambiar la pagina
     if(this.filtroActual === 'Protocolo TCP'){
-      console.log("buscando 0")
+
       this.srvIncidencias.filtrarIncidenciasGeneral('tcp',page)
     }
+    if(this.filtroActual === 'Risk Factor Medium'){
+
+      this.srvIncidencias.filtrarIncidenciasGeneral('Medium',page)
+    }
+    if(this.filtroActual === 'Risk Factor High'){
+
+      this.srvIncidencias.filtrarIncidenciasGeneral('High',page)
+    }
+    if(this.filtroActual === 'Risk Factor Low'){
+
+      this.srvIncidencias.filtrarIncidenciasGeneral('Low',page)
+    }
+    if(this.filtroActual === 'Risk Factor Critical'){
+
+      this.srvIncidencias.filtrarIncidenciasGeneral('Critical',page)
+    }
+
     if(this.filtroActual === 'Ver usuarios inactivos'){
-      console.log("buscando 3")
+
       this.srvIncidencias.filtrarIncidenciasGeneral('INACTIVO',page)
     }
     if(this.searchText !== ''){
-      console.log("buscando 1", this.searchText, page)
+
       this.srvIncidencias.buscarIncidenciasGeneral(this.searchText,page)
     }
     if(this.filtroActual === 'Ver todo' && this.searchText === ''){
-      console.log("buscando 2")
+
       this.srvIncidencias.obtenerIncidencias({
         page: page,
         limit: 10,

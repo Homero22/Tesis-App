@@ -89,7 +89,7 @@ const obtenerTicketUsuariosConPaginacionRepository = async (page, limit,idUsuari
             },
             raw: true
         });
-        console.log("estado?",ticketUsuarios);
+       
 
 
        
@@ -139,7 +139,7 @@ const obtenerTicketUsuariosConPaginacionRepository = async (page, limit,idUsuari
 };
 export const agregarSolucionTicketUsuarioRepository = async (data) => {
     try {
-        console.log("Data para agregar la solucion", data)
+        
         const dataUpdate = await TicketUsuario.update({
             txt_ticket_usuario_solucion: data.txt_ticket_usuario_solucion,
             dt_fecha_actualizacion: new Date()
@@ -154,6 +154,23 @@ export const agregarSolucionTicketUsuarioRepository = async (data) => {
         return error.message;
     }
 }
+const cambiarEstadoTicketUsuarioRepository = async (id, estado) => {
+    try {
+        const dataUpdate = await TicketUsuario.update({
+            str_ticket_usuario_estado: estado
+        }, {
+            where: {
+                int_ticket_usuario_id: id
+            }
+        });
+        return dataUpdate;
+    } catch (error) {
+        console.log(error);
+        return error.message;
+    }
+}
+
+
 
 export default {
     crearTicketUsuarioRepository,
@@ -162,5 +179,6 @@ export default {
     actualizarTicketUsuarioRepository,
     obtenerTicketUsuariosConPaginacionRepository,
     obtenerTotalTicketUsuariosRepository,
-    agregarSolucionTicketUsuarioRepository
+    agregarSolucionTicketUsuarioRepository,
+    cambiarEstadoTicketUsuarioRepository
 }

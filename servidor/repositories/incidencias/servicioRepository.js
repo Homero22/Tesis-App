@@ -42,7 +42,7 @@ const obtenerServicioByIdRepository = async (id) => {
 
 const actualizarServicioRepository = async (id, data) => {
   try {
-    console.log(new Date()  )
+   
     const dataUpdate = await Servicio.update({
       str_servicio_nombre: data.nombre,
       dt_fecha_actualizacion: new Date(),
@@ -60,7 +60,7 @@ const actualizarServicioRepository = async (id, data) => {
 
 const cambiarEstadoRepository = async (id, data) => {
   try {
-    console.log(data.str_servicio_estado)
+    
     const dataUpdate = await Servicio.update(
       {
         str_servicio_estado: data.str_servicio_estado,

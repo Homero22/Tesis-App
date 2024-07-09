@@ -7,6 +7,10 @@ import { IncidenciasRoutingModule } from "./incidencias-routing.module";
 import { RouterModule, Routes } from "@angular/router";
 import { ComponentsModule } from "../../components/components.module";
 import { ProcesoIncidenciasModule } from "./procesoIncidencias/procesoIncidencias.module";
+import { GraficosComponent } from '../reportes/graficos/graficos.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
+import { isValidGuard } from 'src/app/core/guards/permisos.guard';
 
 
 const routes: Routes = [
@@ -18,57 +22,61 @@ const routes: Routes = [
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: [isValidGuard]
       },
       {
         path:'vulnerabilidades',
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: [isValidGuard]
       },
       {
         path:'tickets',
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: [isValidGuard]
       },
       {
         path:'seguimiento',
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: [isValidGuard]
       },
       {
         path:'caracteristicas',
         loadChildren:()=>
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
-        )
+        ),
+        canActivate: [isValidGuard]
       }
     ]
   },
-  {
-    path:'**', redirectTo:''
-  }
 ];
 
 @NgModule({
     declarations: [
       IncidenciasComponent,
+
     ],
     imports: [
       CommonModule,
       IncidenciasRoutingModule,
       RouterModule.forChild(routes),
       ComponentsModule,
-      ProcesoIncidenciasModule
-
+      ProcesoIncidenciasModule,
+      MatDialogModule,
     ],
     exports: [
-      RouterModule
+      RouterModule,
+
     ],
 })
 export class IncidenciasModule { }

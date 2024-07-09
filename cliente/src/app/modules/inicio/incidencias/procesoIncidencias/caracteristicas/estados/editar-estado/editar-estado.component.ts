@@ -45,7 +45,7 @@ export class EditarEstadoComponent implements OnInit {
     this.srvEstado.selectUpdateEstado$
     .subscribe({
       next:(res:any)=>{
-        console.log("EditarEstado?ooo?",res);
+
         this.myForm.controls['id'].setValue(res.int_estado_id);
         this.myForm.controls['nombre'].setValue(res.str_estado_nombre);
         this.myForm.controls['estado'].setValue(res.str_estado_estado);

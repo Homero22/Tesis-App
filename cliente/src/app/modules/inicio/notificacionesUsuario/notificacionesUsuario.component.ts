@@ -45,19 +45,19 @@ export class NotificacionesUsuarioComponent implements OnInit {
     this.notificaciones.splice(index, 1);
     //obtengo el id de la notificacion
 
-    console.log("id",id);
+
 
     this.srvNotificaciones.deleteNotificacionUsuario(id)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (res) => {
-        console.log("Es",res);
+
         if(res.status){
           Swal.fire({
             icon: 'success',
             title: 'Notificación eliminada',
             showConfirmButton: false,
-            timer: 1500
+            timer: 500
           });
         }else{
           Swal.fire({

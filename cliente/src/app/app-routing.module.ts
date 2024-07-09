@@ -32,7 +32,6 @@ const routes: Routes = [
       {path:'ajustes', loadChildren:()=>ConfiguracionModule},
     ]
   },
-  { path: '**', redirectTo:'/404'}
 ];
 
 @NgModule({

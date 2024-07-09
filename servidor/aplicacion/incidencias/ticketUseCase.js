@@ -270,7 +270,7 @@ const pasarTicketUseCase = async (id, usuarioId, ticketUsuarioId) => {
 
 const reporteTicketsUseCase = async (fechaInicio, fechaFin, estado) => {
   try {
-
+    let ticketsFormateado = [];
     //convierto las fechas a formato date
     const fechaInicioDate = new Date(fechaInicio);
     const fechaFinDate = new Date(fechaFin);
@@ -278,64 +278,125 @@ const reporteTicketsUseCase = async (fechaInicio, fechaFin, estado) => {
 
     //si el estado es "Tickets no atendidos" entonces el estado es "PENDIENTE"
     if (estado == "Tickets no atendidos") {
-      estadoNombre = "Pendiente";
+      console.log("CONDICION: Tickets no atendidos");
+       //significa que aun no se ha registrado una solucion por parte del usuario responsable
+       //obtengo todos los tickets que tienen un registro en la tabla ticket_usuario y que este no tenga una solucion dada
+       const ticketsNoAtendidos = await ticketRepository.reporteTicketsNoAtendidosRepository(fechaInicioDate,fechaFinDate);
+        if(ticketsNoAtendidos.length == 0){
+          return {
+            status: false,
+            message: "No se encontraron tickets en este rango de fechas",
+            body: [],
+          };
+        }
+        formatearTicket(ticketsNoAtendidos);
+        return {
+          status: true,
+          message: "Tickets encontrados",
+          body: ticketsFormateado,
+        };
     }
     //si el estado es "Tickets finalizados" entonces el estado es "FINALIZADO"
     if (estado == "Tickets finalizados") {
+      console.log("CONDICION: Tickets finalizados");
       estadoNombre = "Finalizado";
+      const estadoId = await obtenerEstadoByNombreRepository(estadoNombre);
+      const tickets = await ticketRepository.reporteTicketsRepository(
+        fechaInicioDate,
+        fechaFinDate,
+        estadoId.int_estado_id
+      );
+      //console.log("Tickets",tickets);
+      if(tickets.length == 0){
+        return {
+          status: false,
+          message: "No se encontraron tickets en este rango de fechas",
+          body: [],
+        };
+      }
+      formatearTicket(tickets);
+      return {
+        status: true,
+        message: "Tickets encontrados",
+        body: ticketsFormateado,
+      };
+
     }
     //si el estado es "Tickets resueltos" entonces el estado es "RESUELTO"
     if (estado == "Tickets resueltos") {
-      estadoNombre = "Resuelto";
+      console.log("CONDICION: Tickets resueltos");
+      const ticketsResueltos = await ticketRepository.reporteTicketsResueltosRepository(fechaInicioDate,fechaFinDate);
+      if(ticketsResueltos.length == 0){
+        return {
+          status: false,
+          message: "No se encontraron tickets en este rango de fechas",
+          body: [],
+        };
+      }
+      formatearTicket(ticketsResueltos);
+      console.log("Tickets formateados",ticketsFormateado);
+      return {
+        status: true,
+        message: "Tickets encontrados",
+        body: ticketsFormateado,
+      };
+
     }
 
-    const estadoId = await obtenerEstadoByNombreRepository(estadoNombre);
+   
+
+   
+
+    function formatearTicket(tickets){
+      console.log("Funcion formatearTicket")
+      for (let i = 0; i < tickets.length; i++) {
+        const ticket = tickets[i];
+        const ticketFormateado = {
+          int_ticket_id: ticket.int_ticket_id,
+          int_servicio_id: ticket.tb_servicio.int_servicio_id,
+          str_servicio_nombre: ticket.tb_servicio.str_servicio_nombre,
+          int_vulnerabilidades_id:
+            ticket.tb_vulnerabilidade.int_vulnerabilidades_id,
+          str_vulnerabilidades_nombre:
+            ticket.tb_vulnerabilidade.str_vulnerabilidades_name,
+          int_estado_id: ticket.tb_estado.int_estado_id,
+          str_estado_nombre: ticket.tb_estado.str_estado_nombre,
+          str_ticket_observacion: ticket.str_ticket_observacion,
+          dt_fecha_creacion: ticket.dt_fecha_creacion,
+          dt_fecha_actualizacion: ticket.dt_fecha_actualizacion,
+          ticket_usuario:
+            ticket.dataValues.usuario.nombres +
+            " " +
+            ticket.dataValues.usuario.apellidos,
+        };
+        ticketsFormateado.push(ticketFormateado);
+      }
+
+    }
+    
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
+};
 
 
-    const tickets = await ticketRepository.reporteTicketsRepository(
-      fechaInicioDate,
-      fechaFinDate,
-      estadoId.int_estado_id
-    );
-    //console.log("Tickets",tickets);
-    if(tickets.length == 0){
+
+const finalizarTicketUseCase = async (id) => {
+  try {
+    const ticket = await ticketRepository.finalizarTicketRepository(id);
+    console.log("Ticket", ticket);
+    if (!ticket) {
       return {
         status: false,
-        message: "No se encontraron tickets",
+        message: "Error al finalizar el ticket",
         body: [],
       };
     }
-
-    let ticketsFormateado = [];
-
-  if (tickets.length > 0) {
-    for (let i = 0; i < tickets.length; i++) {
-      const ticket = tickets[i];
-      const ticketFormateado = {
-        int_ticket_id: ticket.int_ticket_id,
-        int_servicio_id: ticket.tb_servicio.int_servicio_id,
-        str_servicio_nombre: ticket.tb_servicio.str_servicio_nombre,
-        int_vulnerabilidades_id:
-          ticket.tb_vulnerabilidade.int_vulnerabilidades_id,
-        str_vulnerabilidades_nombre:
-          ticket.tb_vulnerabilidade.str_vulnerabilidades_name,
-        int_estado_id: ticket.tb_estado.int_estado_id,
-        str_estado_nombre: ticket.tb_estado.str_estado_nombre,
-        str_ticket_observacion: ticket.str_ticket_observacion,
-        dt_fecha_creacion: ticket.dt_fecha_creacion,
-        dt_fecha_actualizacion: ticket.dt_fecha_actualizacion,
-        ticket_usuario:
-          ticket.dataValues.usuario.nombres +
-          " " +
-          ticket.dataValues.usuario.apellidos,
-      };
-      ticketsFormateado.push(ticketFormateado);
-    }
-  }
     return {
       status: true,
-      message: "Tickets encontrados",
-      body: ticketsFormateado,
+      message: "Ticket finalizado correctamente",
+      body: ticket,
     };
   } catch (error) {
     console.log(error);
@@ -351,4 +412,5 @@ export default {
   obtenerSolucionesTicketByIdUseCase,
   pasarTicketUseCase,
   reporteTicketsUseCase,
+  finalizarTicketUseCase,
 };

@@ -49,7 +49,7 @@ export class AgregarMenuComponent implements OnInit {
     });
   }
 
-  
+
   agregarMenu(){
     let intMenuPadre = this.myForm.get('int_menu_padre_id')?.value;
     intMenuPadre= parseInt(intMenuPadre);
@@ -68,7 +68,7 @@ export class AgregarMenuComponent implements OnInit {
         .subscribe({
           next:(res:any)=>{
             if(res.status == true){
-              console.log("resss",res);
+
               Swal.fire({
                 title: 'Menú agregado',
                 icon: 'success',
@@ -77,7 +77,7 @@ export class AgregarMenuComponent implements OnInit {
                 confirmButtonText: `Aceptar`,
               })
             }else{
-              console.log("resbad",res);
+
               Swal.fire({
                 title: 'Error al agregar el menú',
                 icon: 'error',

@@ -276,7 +276,6 @@ const buscarIncidenciasRepository = async (texto, page) => {
 const filtrarVulnerabilidadesRepository = async (texto, page) => {
   try{
 
-    //filtrar por protocolo
 
     const skip = (page - 1) * 10;
 
@@ -285,6 +284,11 @@ const filtrarVulnerabilidadesRepository = async (texto, page) => {
         [Op.or]:[
           {
             str_vulnerabilidades_protocol:{
+              [Op.like]:`%${texto}%`
+            }
+          },
+          {
+            str_vulnerabilidades_risk_factor:{
               [Op.like]:`%${texto}%`
             }
           }
@@ -302,6 +306,11 @@ const filtrarVulnerabilidadesRepository = async (texto, page) => {
         [Op.or]:[
           {
             str_vulnerabilidades_protocol:{
+              [Op.like]:`%${texto}%`
+            }
+          },
+          {
+            str_vulnerabilidades_risk_factor:{
               [Op.like]:`%${texto}%`
             }
           }

@@ -12,6 +12,7 @@ import { DataReporteTickets } from 'src/app/core/models/incidencias/dataReporteT
 import { Data } from '@angular/router';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import Swal from 'sweetalert2';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -57,6 +58,12 @@ export class ReporteComponent implements OnInit, AfterViewInit {
 
   obtenerReporte() {
       const { start, end, selectedOption } = this.range.value;
+      Swal.fire({
+        title: 'Cargando...',
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
       this.srvTickets.obtenerTicketsByDate({
         fechainicio: start,
         fechafin: end,
@@ -67,11 +74,19 @@ export class ReporteComponent implements OnInit, AfterViewInit {
 
   verData(ticket:any, titulo:string, modal:string) {
     this.isData = true;
-    console.log(ticket);
+
   }
 
   verificarDatosReporte() {
     if (this.range.value.start && this.range.value.end && this.range.value.selectedOption) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  verificarDatosPdf(){
+    if (this.range.value.start && this.range.value.end && this.range.value.selectedOption && this.dataSource.data.length > 0) {
       return true;
     }else{
       return false;
@@ -131,11 +146,6 @@ export class ReporteComponent implements OnInit, AfterViewInit {
         }
       ],
     };
-    // pdfMake.createPdf(pdfDefinition).getBlob((blob: Blob) => {
-    //   const url = URL.createObjectURL(blob);
-    //   this.pdfFrame.nativeElement.src = url;
-    // })
-
     const pdfDocGenerator = pdfMake.createPdf(pdfDefinition);
     pdfDocGenerator.getBase64((data: any) => {
       this.pdfSrc = data;

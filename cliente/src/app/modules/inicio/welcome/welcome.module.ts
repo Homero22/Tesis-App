@@ -2,17 +2,19 @@ import { NgModule } from "@angular/core";
 import { WelcomeComponent } from "./welcome.component";
 import { CommonModule } from "@angular/common";
 import { WelcomeRoutingModule } from "./welcome-routing.module";
+import { ReportesModule } from "../reportes/reportes.module";
 
 @NgModule({
     declarations: [
-      WelcomeComponent
+      WelcomeComponent,
     ],
     imports: [
       CommonModule,
-      WelcomeRoutingModule
+      WelcomeRoutingModule,
+      ReportesModule
     ],
     exports: [
-      WelcomeComponent
+      WelcomeComponent,
     ],
 })
 

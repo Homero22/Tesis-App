@@ -32,7 +32,8 @@
       <div class="ticket-info">
         <h2>Información del Ticket</h2>
         <p><strong>ID del Ticket:</strong> {{ ticket.int_ticket_id }}</p>
-        <p><strong>Servicio ID:</strong> {{ ticket.int_servicio_id }}</p>
+        <p><strong>Servicio:</strong> {{ servicio }}</p>
+        <p><strong>Estado:</strong> {{ estado }}</p>
         <p><strong>Observación:</strong> {{ ticket.str_ticket_observacion }}</p>
         <p><strong>Fecha de Creación:</strong> {{ ticket.dt_fecha_creacion | date:'short' }}</p>
         <p><strong>Última Actualización:</strong> {{ ticket.dt_fecha_actualizacion | date:'short' }}</p>

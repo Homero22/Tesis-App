@@ -39,6 +39,9 @@ export class TicketService{
   private seguimientoTicket$ = new BehaviorSubject<any>({
     vacio: true
   });
+  private seguimientoTicketInfo$ = new BehaviorSubject<any>({
+    vacio: true
+  });
 
   private solucionTicketUsuario$ = new BehaviorSubject<any>({
     vacio: true
@@ -61,6 +64,13 @@ export class TicketService{
 
 
   ticketsUsuario!: any[];
+
+  setSeguimientoTicketInfo(data:any){
+    this.seguimientoTicketInfo$.next(data);
+  }
+  get selectSeguimientoTicketInfo$(){
+    return this.seguimientoTicketInfo$.asObservable();
+  }
 
   setTicketsReportes(data:any){
     this.ticketsReportes$.next(data);
@@ -135,7 +145,7 @@ export class TicketService{
 
   setVerTicket(data:any){
     this.verTicket = data;
-    console.log("ver ticker",this.verTicket);
+
   }
   setEditarTicket(data:any){
     this.editarTicket$.next(data);
@@ -242,6 +252,56 @@ export class TicketService{
     )
   }
 
+  //finalizarTicket
+  finalizarTicket(ticket_id:number){
+    return this.http.put<any>(this.urlApi_tickets + '/finalizar/' + ticket_id,
+      {
+        withCredentials: true
+      }
+    )
+  }
+
+  //enviarRevisionTicket
+  enviarRevisionTicket(ticket_id:number){
+    return this.http.put<any>(this.urlApi_tickets + '/revision/' + ticket_id,
+      {
+        withCredentials: true
+      }
+    )
+  }
+
+  //funcion general para enviar ticket a revision
+  enviarRevision(ticket_id: number){
+    this.enviarRevisionTicket(ticket_id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data: any) => {
+        if(data.status){
+          Swal.fire({
+            title: 'Ticket enviado a revisión',
+            icon: 'success',
+            text: data.message
+          });
+        }else{
+          Swal.fire({
+            title: 'Error al enviar a revisión',
+            icon: 'error',
+            text: data.message
+          });
+        }
+
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'Error al enviar a revisión',
+          icon: 'error',
+          text: err.error.message
+        });
+        console.log(err);
+      }
+    })
+  }
+
   //funcion general para obtener seguimiento de un ticket
   obtenerSeguimiento(ticket_id: number){
     this.obtenerSeguimientoTicket(ticket_id)
@@ -249,7 +309,7 @@ export class TicketService{
     .subscribe({
       next: (data: any) => {
         this.setSeguimientoTicket(data);
-        console.log("Hay data", data)
+
         this.router.navigate(['incidencias/seguimiento']);
       },
       error: (err) => {
@@ -269,6 +329,7 @@ export class TicketService{
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (data: any) => {
+        Swal.close();
         if(data.status){
           Swal.fire({
             title: 'Tickets encontrados',
@@ -280,8 +341,8 @@ export class TicketService{
 
         }else{
           Swal.fire({
-            title: 'Error al obtener tickets',
-            icon: 'error',
+            title: 'Sin tickets',
+            icon: 'info',
             text: data.message
           });
         }
@@ -420,6 +481,15 @@ export class TicketService{
       )
     }
 
+    //cambiar estado del TicketUsuario
+    cambiarEstadoTicketUsuario(id: number){
+      return this.http.put<any>(this.urlApi_tickets_usuario + '/estado/' + id,
+        {
+          withCredentials: true
+        }
+      )
+    }
+
 
 
   //funcion general para obtener tickets
@@ -432,7 +502,7 @@ export class TicketService{
         this.metaData = data.metadata;
         this.setDataMetadata(data.metadata);
         this.setTicketsUsuario(data.body);
-        console.log("tickets usuario",data.body)
+
       },
       error: (err) => {
         Swal.fire({
@@ -471,7 +541,7 @@ export class TicketService{
     .subscribe({
       next: (data: any) => {
         this.setSolucionTicketUsuario(data);
-        console.log("ticket usuario solucion !!: =>",data)
+
       },
       error: (err) => {
         Swal.fire({

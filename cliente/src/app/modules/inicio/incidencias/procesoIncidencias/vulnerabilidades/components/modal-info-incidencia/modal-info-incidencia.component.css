@@ -1,0 +1,56 @@
+/* Redondear las esquinas del modal */
+.mat-dialog-container {
+  border-radius: 25px !important; /* Ajusta este valor según tus necesidades */
+  padding: 20px; /* Añade padding para darle espacio interno */
+}
+
+/* Ajustar el ancho de la tabla */
+table {
+  width: 90%; /* Ajusta este valor según tus necesidades */
+  margin: 0 auto; /* Centrar la tabla horizontalmente */
+  border-collapse: collapse;
+}
+
+/* Estilos para celdas */
+th, td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+/* Estilos para encabezados */
+th {
+  background-color: #f2f2f2;
+}
+
+/* Centrar la tabla dentro del contenedor del modal */
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+h2{
+  text-align: center;
+  margin-top: 10px;
+}
+.btnG{
+  display: flex;
+  justify-content: right;
+  margin: 10px;
+}
+
+button{
+  background-color: #b80d0d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+
+
+
+

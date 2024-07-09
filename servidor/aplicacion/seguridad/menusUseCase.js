@@ -164,7 +164,7 @@ const crearMenuService = async (
   //tods los int_usuario_rol_id de UsuarioRol para completar los permisos.
 
   //llamo al permisosService enviandole el int_menu_id creado
-  console.log("Id del menu creado", menuCreado.int_menu_id);
+  
   const permisosActualizados =
     await permisosService.crearPermisosPorIdMenuService(menuCreado.int_menu_id);
 
@@ -194,8 +194,8 @@ const actualizarMenuService = async (
   id_menu_padre
 ) => {
   let respuesta = {};
-  console.log(id);
-  console.log(id_menu_padre);
+  
+  
   //comprobar que el id_menu_padre sea un numero entero
   if (isNaN(id_menu_padre) || isNaN(id)) {
     respuesta = {
@@ -284,10 +284,10 @@ const desactivarMenuService = async (id) => {
 const filtrarMenusService = async (texto, page) => {
   page = parseInt(page);
   const { menus, totalMenus } = await menuRepository.filtrarMenus(texto, page);
-  console.log("TOTAL", totalMenus);
+  
   if (menus.length > 0) {
     const metadata = paginacion(page, 10, totalMenus);
-    console.log(metadata);
+    
     return {
       status: true,
       message: "Menus encontrados",

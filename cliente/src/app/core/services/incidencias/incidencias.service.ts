@@ -63,7 +63,7 @@ export class IncidenciasService{
   }
 
   postFileData(file:any){
-    console.log("llega");
+
     return this.http.post<any>( this.urlApi_incidencias, file,
       {
         withCredentials: true,
@@ -125,7 +125,7 @@ export class IncidenciasService{
             this.incidencias = data.body;
             this.metaData = data.metadata;
             this.setDataMetadata(this.metaData)
-            console.log("llega inci", this.incidencias)
+
             // this.setUsuarios(this.usuarios)
           },
           error:(err)=>{
@@ -143,7 +143,7 @@ export class IncidenciasService{
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next:(data: IncidenciasModel)=>{
-            console.log("llega inci", data.metadata)
+
             this.incidencias = data.body;
             this.metaData = data.metadata;
             this.setDataMetadata(this.metaData)

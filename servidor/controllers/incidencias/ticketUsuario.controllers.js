@@ -20,8 +20,7 @@ export const obtenerTicketsUsuario = async (req, res) => {
 export const obtenerTicketUsuarioById = async (req, res) => {
 
     try {
-        const { id } = req.params;
-        console.log("Obtener ticket usuario por id", id)
+        const { id } = req.params
         const ticket = await ticketUsuario.obtenerTicketUsuarioByIdUseCase(id);
         res.json(ticket);
     } catch (error) {
@@ -136,6 +135,23 @@ export const obtenerTicketsUsuarioPorUsuario = async (req, res) => {
         }
     }
 
+const cambiarEstadoTicketUsuario = async(req,res) =>{
+    try{
+        const {id} = req.params;
+        let estado = 'PASADO'
+        const ticket = await ticketUsuario.cambiarEstadoTicketUsuarioUseCase(id,estado);
+        res.json(ticket);
+
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Error al cambiar el estado del ticket " + error.message,
+            body: [],
+          });
+    }
+}
+
 export default {
     obtenerTicketsUsuario,
     obtenerTicketUsuarioById,
@@ -144,5 +160,6 @@ export default {
     obtenerTicketsUsuarioConPaginacion,
     obtenerTicketsUsuarioPorEstado,
     obtenerTicketsUsuarioPorUsuario,
-    agregarSolucionTicketUsuario
+    agregarSolucionTicketUsuario,
+    cambiarEstadoTicketUsuario
 }

@@ -45,14 +45,14 @@ export class PasarTicketComponent implements OnInit {
     this.srvTickets.selectSolucionTicketUsuario$.subscribe({
       next: (res) => {
         if (res.vacio) {
-          console.log("no data")
+
         } else {
           this.sol = res.txt_ticket_usuario_solucion;
           this.comprobarSolucion();
         }
       }
     });
-    console.log("solu",this.verTicket);
+
     this.myForm.controls['incidencia_nombre'].setValue(this.verTicket.tb_vulnerabilidade.str_vulnerabilidades_name);
     this.myForm.controls['incidencia_nombre'].disable();
     // Habilitar el campo de búsqueda si no hay usuarios seleccionados
