@@ -384,7 +384,6 @@ export class MenusService {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data: MenusPermisosModel) => {
-          console.log("!!!!! 1")
           this.menusPermisos = data.body;
           this.setMenusPermisos(this.menusPermisos);
         },

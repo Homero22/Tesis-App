@@ -22,7 +22,8 @@ const routes: Routes =[
       {
         path:'incidencias',
         loadChildren: () => import('./incidencias/incidencias.module').then(m => m.IncidenciasModule),
-        canActivate: []
+        canActivate: [isValidGuard],
+        
       },
       {
         path:'reportes',
@@ -30,10 +31,10 @@ const routes: Routes =[
         canActivate: [isValidGuard]
       },
       {
-        path:'notificacionesUsuario',
+        path:'notificaciones',
         loadChildren: () => import('./notificacionesUsuario/notificacionesUsuario.module').then(m => m.NotificacionesUsuarioModule),
         canActivate: [isValidGuard]
-      }
+      },
     ],
 
   },

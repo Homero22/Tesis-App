@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ConfiguracionRoutingModule } from './configuracion-routing.module';
 import { AjustesModule } from './ajustes/ajustes.module';
 import { ComponentsModule } from '../components/components.module';
+import { isValidGuard } from 'src/app/core/guards/permisos.guard';
 
 
 const routes: Routes = [
@@ -17,15 +18,15 @@ const routes: Routes = [
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
         ),
-        canActivate: []
+        canActivate: [isValidGuard]
       },
       {
-        path:'cuenta2',
+        path:'cuenta',
         loadChildren:()=>
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
         ),
-        canActivate: []
+        canActivate: [isValidGuard]
       },
       {
         path:'usuarios',
@@ -33,7 +34,7 @@ const routes: Routes = [
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
         ),
-        canActivate: []
+        canActivate: [isValidGuard]
       },
       {
         path:'roles',
@@ -41,14 +42,11 @@ const routes: Routes = [
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
         ),
-        canActivate: []
+        canActivate: [isValidGuard]
       }
 
     ]
   },
-  {
-    path:'**', redirectTo:'/404'
-  }
 ]
 
 
