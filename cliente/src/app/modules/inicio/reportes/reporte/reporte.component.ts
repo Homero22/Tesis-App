@@ -53,7 +53,6 @@ export class ReporteComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.actualizarTabla();
-
   }
 
   obtenerReporte() {
@@ -86,7 +85,7 @@ export class ReporteComponent implements OnInit, AfterViewInit {
   }
 
   verificarDatosPdf(){
-    if (this.range.value.start && this.range.value.end && this.range.value.selectedOption && this.dataSource.data.length > 0) {
+    if (this.dataSource.data.length > 0) {
       return true;
     }else{
       return false;
@@ -158,8 +157,6 @@ export class ReporteComponent implements OnInit, AfterViewInit {
               '" type="application/pdf" width="100%" height="600" />';
           }
     });
-
-
 
   }
 

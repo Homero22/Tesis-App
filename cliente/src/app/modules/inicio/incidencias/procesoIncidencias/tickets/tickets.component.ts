@@ -24,12 +24,12 @@ export class TicketsComponent implements OnInit {
   buscando: boolean = false;
   filtrando: boolean = false;
   searchText: string = '';
-  placeholder: string = 'Buscar ticket';
+  placeholder: string = 'Buscar ticket ID';
   actualizarPaginacion: number = 0;
   estadoTicket!: string;
 
   loading: boolean = false;
-  filtros: any[] = ['Protocolo TCP', 'Ver  inactivos'];
+  filtros: any[] = ['Finalizados', 'En proceso', 'Abiertos', 'Ver todo'];
   filtroActual: string = 'Ver todo';
 
   rol: any = '';
@@ -113,8 +113,6 @@ export class TicketsComponent implements OnInit {
       this.isData = false;
     } else {
       this.isData = true;
-      //cerrar
-      Swal.close();
     }
   }
 
@@ -134,15 +132,234 @@ export class TicketsComponent implements OnInit {
   }
   changePage(page: number) {
     this.currentPage = page;
-    this.srvTickets.obtenerTickets({
-      page: page,
-      limit: 10,
-    });
+    //comprobar su se esta filtrando para cambiar de pagina
+    switch (this.filtroActual) {
+      case 'Finalizado':
+        this.srvTickets.filtrarTicketsGeneral('Finalizado', page);
+        break;
+      case 'En Proceso':
+        this.srvTickets.filtrarTicketsGeneral('En Proceso', page);
+        break;
+      case 'Abierto':
+        this.srvTickets.filtrarTicketsGeneral('Abierto', page);
+        break;
+      case 'Ver todo' :
+        this.srvTickets.obtenerTickets({
+          page: page,
+          limit: 10,
+        });
+        break;
+      case '':
+        this.srvTickets.obtenerTickets({
+          page: page,
+          limit: 10,
+        });
+    }
   }
-  buscarTicket(search: string) {
+  changePageUser(page: number) {
+    this.currentPage = page;
+    //comprobar su se esta filtrando para cambiar de pagina
+    switch (this.filtroActual) {
+      case 'Finalizado':
+        this.srvTickets.filtrarTicketsUsuarioGeneral('Finalizado', page, this.rol);
+        break;
+      case 'En Proceso':
+        this.srvTickets.filtrarTicketsUsuarioGeneral('En Proceso', page, this.rol);
+        break;
+      case 'Abierto':
+        this.srvTickets.filtrarTicketsUsuarioGeneral('Abierto', page, this.rol);
+        break;
+      case 'Ver todo' :
+        this.srvTickets.obtenerTicketsUsuario({
+          page: page,
+          limit: 10,
+          rol: this.rol,
+        });
+        break;
+      case '':
+        this.srvTickets.obtenerTicketsUsuario({
+          page: page,
+          limit: 10,
+          rol: this.rol,
+        });
+    }
+  }
+  buscarTicketUsuario(search: string) {
+    //comprobar que solo sea numero el search
+    if (isNaN(Number(search))) {
+      Swal.fire({
+        title: 'Error',
+        icon: 'error',
+        text: 'Ingrese un número de ticket válido',
+      });
+      this.searchText = '';
+      return;
+    }
 
+    //comprobar que ingrese un numero válido en el rango de un entero
+    if (!this.isIntegerInRange(search)) {
+      Swal.fire({
+        title: 'Error',
+        icon: 'error',
+        text: 'Ingrese un número de ticket válido',
+      });
+      this.searchText = '';
+      return;
+    }
+
+    this.searchText = search;
+    if (search != '') {
+      Swal.fire({
+        title: 'Buscando...',
+        icon:'question',
+        timer:500,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    }
+    if(search===''){
+      this.buscando=true;
+      this.srvTickets.obtenerTicketsUsuario({
+        page:1,
+        limit:10,
+        rol:this.rol
+      })
+      this.verificarData();
+    }else{
+      this.srvTickets.buscarTicketsUsuarioGeneral(search,1,this.rol)
+      this.verificarData();
+    }
+  }
+  filtrarTicketUsuario(filtro: string) {
+    this.filtrando = true;
+    Swal.fire({
+      title: 'Aplicando filtro...',
+      icon:'success',
+      timer:500,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    switch (filtro) {
+      case 'Finalizados':
+        this.filtroActual = 'Finalizado';
+        this.srvTickets.filtrarTicketsUsuarioGeneral('Finalizado', 1, this.rol);
+        this.verificarData();
+        break;
+      case 'En proceso':
+        this.filtroActual = 'En Proceso';
+        this.srvTickets.filtrarTicketsUsuarioGeneral('En Proceso', 1, this.rol);
+        this.verificarData();
+        break;
+      case 'Abiertos':
+        this.filtroActual = 'Abierto';
+        this.srvTickets.filtrarTicketsUsuarioGeneral('Abierto', 1, this.rol);
+        this.verificarData();
+        break;
+      case 'Ver todo':
+        this.filtroActual = 'Ver todo';
+        this.srvTickets.obtenerTicketsUsuario({
+          page: 1,
+          limit: 10,
+          rol: this.rol,
+        });
+        this.verificarData();
+        break;
+    }
+  }
+
+
+  isIntegerInRange = (value: string): boolean => {
+    const num: number = Number(value);
+    const INTEGER_MIN: number = -2147483648;
+    const INTEGER_MAX: number = 2147483647;
+    return Number.isInteger(num) && num >= INTEGER_MIN && num <= INTEGER_MAX;
+};
+
+  buscarTicket(search: string) {
+    //comprobar que solo sea numero el search
+    if (isNaN(Number(search))) {
+      Swal.fire({
+        title: 'Error',
+        icon: 'error',
+        text: 'Ingrese un número de ticket válido',
+      });
+      this.searchText = '';
+      return;
+    }
+
+    //comprobar que ingrese un numero válido en el rango de un entero
+    if (!this.isIntegerInRange(search)) {
+      Swal.fire({
+        title: 'Error',
+        icon: 'error',
+        text: 'Ingrese un número de ticket válido',
+      });
+      this.searchText = '';
+      return;
+    }
+
+    this.searchText = search;
+    if (search != '') {
+      Swal.fire({
+        title: 'Buscando...',
+        icon:'question',
+        timer:500,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    }
+    if(search===''){
+      this.buscando=true;
+      this.srvTickets.obtenerTickets({
+        page:1,
+        limit:10
+      })
+      this.verificarData();
+    }else{
+      this.srvTickets.buscarTicketsGeneral(search,1)
+      this.verificarData();
+    }
   }
   filtrarTicket(filtro: string) {
+    this.filtrando = true;
+    Swal.fire({
+      title: 'Aplicando filtro...',
+      icon:'success',
+      timer:500,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    switch (filtro) {
+      case 'Finalizados':
+        this.filtroActual = 'Finalizado';
+        this.srvTickets.filtrarTicketsGeneral('Finalizado', 1);
+        this.verificarData();
+        break;
+      case 'En proceso':
+        this.filtroActual = 'En Proceso';
+        this.srvTickets.filtrarTicketsGeneral('En Proceso', 1);
+        this.verificarData();
+        break;
+      case 'Abiertos':
+        this.filtroActual = 'Abierto';
+        this.srvTickets.filtrarTicketsGeneral('Abierto', 1);
+        this.verificarData();
+        break;
+      case 'Ver todo':
+        this.filtroActual = 'Ver todo';
+        this.srvTickets.obtenerTickets({
+          page: 1,
+          limit: 10,
+        });
+        this.verificarData();
+        break;
+    }
 
   }
 

@@ -125,11 +125,8 @@ const obtenerTicketUsuariosConPaginacionRepository = async (page, limit,idUsuari
             //estado del ticket_usuario
             ticketA[0].str_ticket_usuario_estado = inf.str_ticket_usuario_estado
             ticketUsuarios[i] = ticketA
-           
-           
-
+        
         }
-
 
         return ticketUsuarios;
     } catch (error) {
@@ -169,6 +166,145 @@ const cambiarEstadoTicketUsuarioRepository = async (id, estado) => {
         return error.message;
     }
 }
+const buscarTicketUsuariosRepository = async (idUsuario, idTicket) => {
+    try {
+       let ticketUsuarios = await TicketUsuario.findAll({
+            where: {
+                int_usuario_id: idUsuario,
+                int_ticket_id: idTicket
+            }
+        });
+        for(let i = 0; i < ticketUsuarios.length; i++){
+            const inf = ticketUsuarios[i]
+
+            const ticketA = await Ticket.findAll({
+                include:[
+                    {
+                        model: Servicio,
+                        required:true
+                    },
+                    {
+                        model:Estado,
+                        required:true
+                    },
+                    {   
+                        model:Vulnerabilidades,
+                        required:true
+                    }
+                ],
+                where:{
+                    int_ticket_id:inf.int_ticket_id
+                },
+                raw:true,
+                //quitar nombre de los modelos
+                nest: true
+
+            })
+            //agrego el idUsuario
+            ticketA[0].idUsuario = idUsuario
+            ticketA[0].int_ticket_usuario_id = inf.int_ticket_usuario_id
+            //estado del ticket_usuario
+            ticketA[0].str_ticket_usuario_estado = inf.str_ticket_usuario_estado
+            ticketUsuarios[i] = ticketA
+        
+        }
+
+        return ticketUsuarios;
+    } catch (error) {
+        console.log(error);
+        return error.message;
+    }
+}
+const filtrarTicketUsuariosRepository = async ( page,filtro,idUsuario) => {
+    try {
+        const skip = (page - 1) * 10;
+        let estado = await Estado.findOne({
+            where:{
+                str_estado_nombre: filtro
+            }
+        })
+
+        let ticketUsuarios = await TicketUsuario.findAll({
+            where:{
+                int_usuario_id: idUsuario
+            },
+            offset: skip,
+            limit: 10,
+            include:[
+                {
+                    model: Ticket,
+                    where:{
+                       int_estado_id: estado.int_estado_id
+                    },
+                    
+                }
+            ]
+        })
+        const totalTicketsConEstado = await TicketUsuario.count({
+            where:{
+                int_usuario_id: idUsuario
+            },
+            include:[
+                {
+                    model: Ticket,
+                    where:{
+                       int_estado_id: estado.int_estado_id
+                    },
+                    
+                }
+            ]
+        })
+
+        //el filtro es un estado del ticket por lo tanto se debe buscar el id del estado
+  
+        for(let i = 0; i < ticketUsuarios.length; i++){
+            const inf = ticketUsuarios[i]
+
+            const ticketA = await Ticket.findAll({
+                include:[
+                    {
+                        model: Servicio,
+                        required:true
+                    },
+                    {
+                        model:Estado,
+                        required:true
+                    },
+                    {   
+                        model:Vulnerabilidades,
+                        required:true
+                    }
+                ],
+                where:{
+                    int_ticket_id:inf.int_ticket_id
+                },
+                raw:true,
+                //quitar nombre de los modelos
+                nest: true
+
+            })
+            //agrego el idUsuario
+            ticketA[0].idUsuario = idUsuario
+            ticketA[0].int_ticket_usuario_id = inf.int_ticket_usuario_id
+            //estado del ticket_usuario
+            ticketA[0].str_ticket_usuario_estado = inf.str_ticket_usuario_estado
+            ticketUsuarios[i] = ticketA
+        
+        }
+
+
+
+        return {
+            ticketsUsuario: ticketUsuarios,
+            totalTicketsUsuario: totalTicketsConEstado
+        }
+
+    } catch (error) {
+        console.log(error);
+        return error.message;
+    }
+}
+
 
 
 
@@ -180,5 +316,7 @@ export default {
     obtenerTicketUsuariosConPaginacionRepository,
     obtenerTotalTicketUsuariosRepository,
     agregarSolucionTicketUsuarioRepository,
-    cambiarEstadoTicketUsuarioRepository
+    cambiarEstadoTicketUsuarioRepository,
+    buscarTicketUsuariosRepository,
+    filtrarTicketUsuariosRepository
 }

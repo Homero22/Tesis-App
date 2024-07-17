@@ -2,6 +2,8 @@ import { Router } from "express";
 import ticketControllers from "../../controllers/incidencias/ticket.controllers.js";
 
 const router = Router();
+router.get("/buscar/:id", ticketControllers.buscarTickets);
+router.get("/filtrar", ticketControllers.filtrarTickets);
 router.put("/finalizar/:id", ticketControllers.finalizarTicket);
 router.get("/soluciones/:id", ticketControllers.obtenerSolucionesTicketById);
 router.get("/", ticketControllers.obtenerTicketsConPaginacion);

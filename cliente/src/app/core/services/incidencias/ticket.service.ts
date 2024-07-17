@@ -26,6 +26,7 @@ export class TicketService{
   private urlApi_seguimiento_ticket: string = config.URL_API_BASE + 'seguimiento';
 
 
+
   private destroy$ = new Subject<any>();
   private dataMetadata$ = new Subject<DataMetadata>();
   private verTicket$ = new Subject<TicketModelBody>();
@@ -222,9 +223,8 @@ export class TicketService{
     .set('texto', search)
     .set('page', page);
 
-    return this.http.get<TicketModel>(this.urlApi_buscar_tickets,
+    return this.http.get<any>(this.urlApi_buscar_tickets + '/' + search,
       {
-        params: httpParams,
         withCredentials: true
       }
     )
@@ -235,7 +235,7 @@ export class TicketService{
     .set('filtro', filtro)
     .set('page', page);
 
-    return this.http.get<TicketModel>(this.urlApi_filtrar_tickets,
+    return this.http.get<any>(this.urlApi_filtrar_tickets,
       {
         params: httpParams,
         withCredentials: true
@@ -359,16 +359,13 @@ export class TicketService{
   }
 
 
-
-
-
   //funcion general para obtener tickets
   obtenerTickets(params: any){
     this.getTickets(params)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (data: TicketModel) => {
-
+        Swal.close();
         this.tickets = data.body;
         this.metaData = data.metadata;
         this.setDataMetadata(data.metadata);
@@ -391,10 +388,18 @@ export class TicketService{
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (data: TicketModel) => {
-        this.tickets = data.body;
-        this.metaData = data.metadata;
-        this.setDataMetadata(data.metadata);
-        this.setTickets(data.body);
+        if(data.status){
+          this.tickets = data.body;
+          this.metaData = data.metadata;
+          this.setDataMetadata(data.metadata);
+          this.setTickets(data.body);
+        }else{
+          Swal.fire({
+            title: 'No se encontraron tickets',
+            icon: 'info',
+            text: data.message
+          });
+        }
       },
       error: (err) => {
         Swal.fire({
@@ -410,14 +415,24 @@ export class TicketService{
   //funcion general para filtrar tickets
 
   filtrarTicketsGeneral(filtro: string, page: number){
+
     this.filtrarTickets(filtro, page)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (data: TicketModel) => {
-        this.tickets = data.body;
-        this.metaData = data.metadata;
-        this.setDataMetadata(data.metadata);
-        this.setTickets(data.body);
+        if(data.status){
+          this.tickets = data.body;
+          this.metaData = data.metadata;
+          console.log("filtrando",data.metadata);
+          this.setDataMetadata(data.metadata);
+          this.setTickets(data.body);
+        }else{
+          Swal.fire({
+            title: 'No se encontraron tickets',
+            icon: 'info',
+            text: data.message
+          });
+        }
       },
       error: (err) => {
         Swal.fire({
@@ -439,6 +454,8 @@ export class TicketService{
   private urlApi_tickets_usuario: string = config.URL_API_BASE + 'tickets/usuario';
   private urlApi_tickets_soluciones : string = config.URL_API_BASE + 'tickets/soluciones';
   private urlApi_tickets_solucion : string = config.URL_API_BASE + 'tickets/usuario/solucion';
+  private urlApi_buscar_tickets_usuario: string = config.URL_API_BASE + 'tickets/usuario/buscar';
+  private urlApi_filtrar_tickets_usuario: string = config.URL_API_BASE + 'tickets/usuario/filtrar';
 
   //Obtener tickets
   getTicketsUsuarioPaginacion(params: any){
@@ -490,14 +507,13 @@ export class TicketService{
       )
     }
 
-
-
   //funcion general para obtener tickets
   obtenerTicketsUsuario(params: any){
     this.getTicketsUsuarioPaginacion(params)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (data: any) => {
+        Swal.close();
         this.ticketsUsuario = data.body;
         this.metaData = data.metadata;
         this.setDataMetadata(data.metadata);
@@ -514,6 +530,93 @@ export class TicketService{
       }
     })
   }
+
+  buscarTicketsUsuario(search: string, page: number, rol: string){
+    let httpParams = new HttpParams()
+    .set('idTicket', search)
+    .set('page', page);
+
+    return this.http.get<any>(`${this.urlApi_buscar_tickets_usuario}/${rol}`,
+      {
+        params: httpParams,
+        withCredentials: true
+      }
+    )
+  }
+  filtrarTicketsUsuario(filtro: string, page: number, rol: string){
+    console.log("filtro 2",filtro);
+    let httpParams = new HttpParams()
+    .set('filtro', filtro)
+    .set('page', page);
+
+    return this.http.get<any>(`${this.urlApi_filtrar_tickets_usuario}/${rol}`,
+      {
+        params: httpParams,
+        withCredentials: true
+      }
+    )
+  }
+
+  //funcion general para obtener tickets de un usuario
+  filtrarTicketsUsuarioGeneral(filtro: string, page: number, rol: string){
+    this.filtrarTicketsUsuario(filtro, page, rol)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data: any) => {
+        if(data.status){
+          this.ticketsUsuario = data.body;
+          this.metaData = data.metadata;
+          this.setDataMetadata(data.metadata);
+          this.setTicketsUsuario(data.body);
+        }else{
+          Swal.fire({
+            title: 'No se encontraron tickets',
+            icon: 'info',
+            text: data.message
+          });
+        }
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'Error al filtrar tickets',
+          icon: 'error',
+          text: err.error.message
+        });
+        console.log(err);
+      }
+    })
+  }
+
+  //funcion general para buscar tickets de un usuario
+  buscarTicketsUsuarioGeneral(search: string, page: number, rol: string){
+    this.buscarTicketsUsuario(search, page, rol)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (data: any) => {
+        if(data.status){
+          this.ticketsUsuario = data.body;
+          this.metaData = data.metadata;
+          this.setDataMetadata(data.metadata);
+          this.setTicketsUsuario(data.body);
+        }else{
+          Swal.fire({
+            title: 'No se encontraron tickets',
+            icon: 'info',
+            text: data.message
+          });
+        }
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'Error al buscar tickets',
+          icon: 'error',
+          text: err.error.message
+        });
+        console.log(err);
+      }
+    })
+  }
+
 
   //funcion general para obtener soluciones de un ticket
   obtenerSolucionesTicket(ticket_id: number){
