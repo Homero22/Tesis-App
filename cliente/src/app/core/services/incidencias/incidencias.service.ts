@@ -143,7 +143,6 @@ export class IncidenciasService{
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next:(data: IncidenciasModel)=>{
-
             this.incidencias = data.body;
             this.metaData = data.metadata;
             this.setDataMetadata(this.metaData)

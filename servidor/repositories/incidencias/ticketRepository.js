@@ -221,23 +221,7 @@ const pasarTicketRepository = async (idTicket, idUsuario, estado) => {
         return error.message;
     }
 }
-// const cambiarEstadoTicketRepository = async (ticketUsuarioId, estado) => {
-//     try {
-//         console.log("Aqui debe cambiar el estado del ticket usuario", ticketUsuarioId, estado)
-//         const ticketEdit = await TicketUsuario.update({
-//             str_ticket_usuario_estado: estado,
-//             dt_fecha_actualizacion: new Date()
-//         },{
-//             where:{
-//                 int_ticket_usuario_id: ticketUsuarioId
-//             }
-//         });
-//         return ticketEdit;
-//     } catch (error) {
-//         console.log(error);
-//         return error.message;
-//     }
-// }
+
 
 const cambiarEstadoTicketRepository = async (idTicketUsuario, estado) => {
     try {
@@ -612,6 +596,208 @@ const reporteTicketsResueltosRepository = async (fechaInicio, fechaFin) => {
 
 }
 
+const filtrarTicketsRepository = async (filtro, page) => {
+    try {
+        const skip = (page - 1) * 10;
+
+        //obtenemos el id del estado segun el filtro
+
+        const estado = await Estado.findOne({
+            where: {
+                str_estado_nombre: filtro
+            }
+        });
+
+        //obtenemos los tickets que tengan el estado segun el filtro
+        const tickets = await Ticket.findAll({
+            where: {
+                int_estado_id: estado.int_estado_id
+            },
+            include: [
+                {
+                    model: Servicio,
+                    required: true
+                },
+                {
+                    model: Estado,
+                    required: true
+                },
+                {
+                    model: Vulnerabilidades,
+                    required: true
+                }
+            ],
+            order: [
+                ['dt_fecha_actualizacion', 'DESC']
+            ],
+            offset: skip,
+            limit: 10
+        });
+        const totalTicketsFiltrados = await Ticket.count({
+            where: {
+                int_estado_id: estado.int_estado_id
+            },
+        });
+
+
+        for (let i = 0; i < tickets.length; i++) {
+            const ticket = tickets[i];
+            const ticket_usuario = await TicketUsuario.findOne({
+                where: {
+                    int_ticket_id: ticket.int_ticket_id,
+                    str_ticket_usuario_estado: 'PENDIENTE'
+                },
+                include: [
+                    {
+                        model: Usuario,
+                        required: true
+                    }
+                ],
+            });
+           
+            if(ticket_usuario != null){
+
+                let nombres = ticket_usuario.dataValues.tb_usuario.str_usuario_nombres;
+                let apellidos = ticket_usuario.dataValues.tb_usuario.str_usuario_apellidos;
+
+                ticket.dataValues.usuario ={
+                    nombres: nombres,
+                    apellidos: apellidos
+                }
+                ticket.dataValues.ticket_usuario = ticket_usuario;
+            }else{
+                const ticket_usuario = await TicketUsuario.findOne({
+                    where: {
+                        int_ticket_id: ticket.int_ticket_id,
+                        str_ticket_usuario_estado: 'PASADO'
+                    },
+                    include: [
+                        {
+                            model: Usuario,
+                            required: true
+                        }
+                    ],
+                    order: [
+                        ['dt_fecha_actualizacion', 'DESC']
+                    ]
+                });
+                let nombres = ticket_usuario.dataValues.tb_usuario.str_usuario_nombres;
+                let apellidos = ticket_usuario.dataValues.tb_usuario.str_usuario_apellidos;
+
+                ticket.dataValues.usuario ={
+                    nombres: nombres,
+                    apellidos: apellidos
+                }
+                ticket.dataValues.ticket_usuario = ticket_usuario;
+            }
+
+            
+        }
+        const data = {
+            tickets: tickets,
+            totalTickets:totalTicketsFiltrados
+        }
+        return data
+    } catch (error) {
+        console.log(error);
+        return error.message;
+    }
+}
+
+const buscarTicketsRepository = async (id) => {
+    try {
+        const tickets = await Ticket.findAll({
+            where: {
+                int_ticket_id: id
+            },
+            include: [
+                {
+                    model: Servicio,
+                    required: true
+                },
+                {
+                    model: Estado,
+                    required: true
+                },
+                {
+                    model: Vulnerabilidades,
+                    required: true
+                }
+            ],
+            order: [
+                ['dt_fecha_actualizacion', 'DESC']
+            ]
+        });
+        const totalTickets = await Ticket.count({
+            where: {
+                int_ticket_id: id
+            }
+        });
+        for (let i = 0; i < tickets.length; i++) {
+            const ticket = tickets[i];
+            const ticket_usuario = await TicketUsuario.findOne({
+                where: {
+                    int_ticket_id: ticket.int_ticket_id,
+                    str_ticket_usuario_estado: 'PENDIENTE'
+                },
+                include: [
+                    {
+                        model: Usuario,
+                        required: true
+                    }
+                ],
+            });
+           
+            if(ticket_usuario != null){
+
+                let nombres = ticket_usuario.dataValues.tb_usuario.str_usuario_nombres;
+                let apellidos = ticket_usuario.dataValues.tb_usuario.str_usuario_apellidos;
+
+                ticket.dataValues.usuario ={
+                    nombres: nombres,
+                    apellidos: apellidos
+                }
+                ticket.dataValues.ticket_usuario = ticket_usuario;
+            }else{
+                const ticket_usuario = await TicketUsuario.findOne({
+                    where: {
+                        int_ticket_id: ticket.int_ticket_id,
+                        str_ticket_usuario_estado: 'PASADO'
+                    },
+                    include: [
+                        {
+                            model: Usuario,
+                            required: true
+                        }
+                    ],
+                    order: [
+                        ['dt_fecha_actualizacion', 'DESC']
+                    ]
+                });
+                let nombres = ticket_usuario.dataValues.tb_usuario.str_usuario_nombres;
+                let apellidos = ticket_usuario.dataValues.tb_usuario.str_usuario_apellidos;
+
+                ticket.dataValues.usuario ={
+                    nombres: nombres,
+                    apellidos: apellidos
+                }
+                ticket.dataValues.ticket_usuario = ticket_usuario;
+            }
+
+            
+        }
+        
+        const data = {
+            tickets: tickets,
+            totalTickets: totalTickets
+        }
+        return data;
+    } catch (error) {
+        console.log(error.message);
+        return error.message;
+    }
+}
+
 
 export default {
     crearTicketRepository,
@@ -629,7 +815,9 @@ export default {
     reporteTicketsRepository,
     finalizarTicketRepository,
     reporteTicketsNoAtendidosRepository,
-    reporteTicketsResueltosRepository
+    reporteTicketsResueltosRepository,
+    filtrarTicketsRepository,
+    buscarTicketsRepository
 }
 
 

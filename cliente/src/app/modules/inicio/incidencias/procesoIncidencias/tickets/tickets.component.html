@@ -135,14 +135,14 @@
     <app-search
     [placeholder]="placeholder"
     [filtrando]="filtrando"
-    (search)="buscarTicket($event)"
+    (search)="buscarTicketUsuario($event)"
     (buscando)="buscando = $event"
     >
     </app-search>
     <app-filter
       [filtros]="filtros"
       [buscando]="buscando"
-      (filtroSeleccionado)="filtrarTicket($event)"
+      (filtroSeleccionado)="filtrarTicketUsuario($event)"
     ></app-filter>
   </div>
   <div class="tabla-cuerpo">
@@ -216,8 +216,13 @@
           <td>
             {{ ticket[0].str_ticket_observacion.length > 50 ? (ticket[0].str_ticket_observacion | slice:0:50) + '...' : ticket[0].str_ticket_observacion }}
           </td>
-          <td>
+          <!-- <td>
             {{ ticket[0].tb_estado.str_estado_nombre}}
+          </td> -->
+          <td>
+            <div [ngClass]="getClass(ticket[0].tb_estado.str_estado_nombre)">
+              {{ ticket[0].tb_estado.str_estado_nombre }}
+            </div>
           </td>
 
           <td>
@@ -247,7 +252,7 @@
       [dataLength]="this.metadata.pagination.total"
       [metadata]="metadata"
       [currentPage]="currentPage"
-      (changePage)="changePage($event)"
+      (changePage)="changePageUser($event)"
     >
     </app-pagination>
   </div>

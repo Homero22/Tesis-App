@@ -6,8 +6,6 @@ import https from "https";
 import fs from "fs";
 
 
-console.log("hola hermoso <3")
-
 
 async function main(port) {
   try {

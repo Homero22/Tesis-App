@@ -89,13 +89,9 @@ const obtenerTicketUsuariosPaginacionUseCase = async (query,usuario) => {
         idUsuario
     );
 
-
     const totalTicketUsuarios = await ticketUsuarioRepository.obtenerTotalTicketUsuariosRepository(idUsuario);
 
     const metadata = paginacion(page, limit, totalTicketUsuarios);
-
-    
-   
 
     return {
       status: true,
@@ -105,12 +101,6 @@ const obtenerTicketUsuariosPaginacionUseCase = async (query,usuario) => {
         pagination: metadata,
       }
     };
-
-
-
-
-
-
 };
 
 const cambiarEstadoTicketUsuarioUseCase = async (id, estado) => {
@@ -123,6 +113,55 @@ const cambiarEstadoTicketUsuarioUseCase = async (id, estado) => {
     }
 }
 
+const filtrarTicketsUsuarioUseCase = async (filtro,page,usuario) => {
+    try{
+
+    
+    page = parseInt(page);
+    let idUsuario = usuario
+    
+    let {ticketsUsuario, totalTicketsUsuario} = await ticketUsuarioRepository.filtrarTicketUsuariosRepository(
+      page,
+      filtro,
+      idUsuario
+    );
+    console.log("tickes ",ticketsUsuario)
+    const metadata = paginacion(page,10, totalTicketsUsuario);
+
+    return {
+        status: true,
+        message: "Ticket usuarios encontrados",
+        body: ticketsUsuario,
+        metadata: {
+           pagination: metadata,
+        }
+    };
+}catch(error){
+    console.log(error);
+    return error.message;
+}
+}
+const buscarTicketUsuarioUseCase = async (usuario,page,idTicket) => {
+
+    let idUsuario = usuario
+
+    let ticketUsuarios = await ticketUsuarioRepository.buscarTicketUsuariosRepository(
+      idUsuario,
+        idTicket
+    );
+    const metadata = paginacion(page, 10, 1);
+
+    return {
+        status: true,
+        message: "Ticket usuarios encontrados",
+        body: ticketUsuarios,
+        metadata: {
+            pagination: metadata,
+        }
+        };
+
+}
+
 export default {
     crearTicketUsuarioUseCase,
     obtenerTicketUsuariosUseCase,
@@ -130,5 +169,7 @@ export default {
     actualizarTicketUsuarioUseCase,
     obtenerTicketUsuariosPaginacionUseCase,
     agregarSolucionTicketUsuarioUseCase,
-    cambiarEstadoTicketUsuarioUseCase
+    cambiarEstadoTicketUsuarioUseCase,
+    filtrarTicketsUsuarioUseCase,
+    buscarTicketUsuarioUseCase
 }
