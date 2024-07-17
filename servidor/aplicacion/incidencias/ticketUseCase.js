@@ -404,6 +404,128 @@ const finalizarTicketUseCase = async (id) => {
   }
 };
 
+const buscarTicketsUseCase = async (id) => {
+
+  const {tickets, totalTickets} = await ticketRepository.buscarTicketsRepository(id);
+  if(tickets.length > 0){
+    let ticketsFormateado = [];
+
+    for (let i = 0; i < tickets.length; i++) {
+      const ticket = tickets[i];
+      const ticketFormateado = {
+        int_ticket_id: ticket.int_ticket_id,
+        int_servicio_id: ticket.tb_servicio.int_servicio_id,
+        str_servicio_nombre: ticket.tb_servicio.str_servicio_nombre,
+        int_vulnerabilidades_id:
+          ticket.tb_vulnerabilidade.int_vulnerabilidades_id,
+        str_vulnerabilidades_nombre:
+          ticket.tb_vulnerabilidade.str_vulnerabilidades_name,
+        int_estado_id: ticket.tb_estado.int_estado_id,
+        str_estado_nombre: ticket.tb_estado.str_estado_nombre,
+        str_ticket_observacion: ticket.str_ticket_observacion,
+        dt_fecha_creacion: ticket.dt_fecha_creacion,
+        dt_fecha_actualizacion: ticket.dt_fecha_actualizacion,
+        ticket_usuario:
+          ticket.dataValues.usuario.nombres +
+          " " +
+          ticket.dataValues.usuario.apellidos,
+      };
+      ticketsFormateado.push(ticketFormateado);
+    }
+
+
+
+    return {
+      status: true,
+      message: "Tickets encontrados",
+      body: ticketsFormateado,
+      metadata: {
+        pagination: {
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: totalTickets,
+          limit: totalTickets,
+        }
+      },
+    };
+  }else{
+    return{
+      status: false,
+      message: "No se encontraron tickets",
+      body: [],
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: tickets.length,
+          limit: tickets.length,
+        }
+      }
+    }
+  }
+}
+
+const filtrarTicketsUseCase = async (filtro, page) => {
+  //convierto page en numero
+  page = parseInt(page);
+  const {tickets, totalTickets} = await ticketRepository.filtrarTicketsRepository(filtro, page);
+
+  if(tickets.length > 0){
+    let ticketsFormateado = [];
+    
+    for (let i = 0; i < tickets.length; i++) {
+      const ticket = tickets[i];
+      const ticketFormateado = {
+        int_ticket_id: ticket.int_ticket_id,
+        int_servicio_id: ticket.tb_servicio.int_servicio_id,
+        str_servicio_nombre: ticket.tb_servicio.str_servicio_nombre,
+        int_vulnerabilidades_id:
+          ticket.tb_vulnerabilidade.int_vulnerabilidades_id,
+        str_vulnerabilidades_nombre:
+          ticket.tb_vulnerabilidade.str_vulnerabilidades_name,
+        int_estado_id: ticket.tb_estado.int_estado_id,
+        str_estado_nombre: ticket.tb_estado.str_estado_nombre,
+        str_ticket_observacion: ticket.str_ticket_observacion,
+        dt_fecha_creacion: ticket.dt_fecha_creacion,
+        dt_fecha_actualizacion: ticket.dt_fecha_actualizacion,
+        ticket_usuario:
+          ticket.dataValues.usuario.nombres +
+          " " +
+          ticket.dataValues.usuario.apellidos,
+      };
+      ticketsFormateado.push(ticketFormateado);
+    }
+
+    const metadata = paginacion(page, 10, totalTickets);
+    return {
+      status: true,
+      message: "Tickets encontrados",
+      body: ticketsFormateado,
+      metadata: {
+        pagination: metadata,
+      },
+    };
+  }else{
+    return{
+      status: false,
+      message: "No se encontraron tickets",
+      body: [],
+      metadata: {
+        pagination:{
+          previousPage: 0,
+          currentPage: 1,
+          nextPage: null,
+          total: tickets.length,
+          limit: tickets.length,
+        }
+      }
+    }
+  }
+} 
+  
+
 export default {
   crearTicketUseCase,
   obtenerTicketsUseCase,
@@ -413,4 +535,6 @@ export default {
   pasarTicketUseCase,
   reporteTicketsUseCase,
   finalizarTicketUseCase,
+  buscarTicketsUseCase,
+  filtrarTicketsUseCase
 };

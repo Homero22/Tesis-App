@@ -103,37 +103,37 @@ export const obtenerTicketsUsuarioConPaginacion = async (req, res) => {
     }
 }
 
-export const obtenerTicketsUsuarioPorEstado = async (req, res) => {
+// export const obtenerTicketsUsuarioPorEstado = async (req, res) => {
 
-    try {
-        const { id } = req.params;
-        const ticket = await ticketUsuario.obtenerTicketsUsuarioPorEstadoUseCase(id);
-        res.json(ticket);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            status: false,
-            message: "Error al obtener el ticket " + error.message,
-            body: [],
-          });
-    }
-}
+//     try {
+//         const { id } = req.params;
+//         const ticket = await ticketUsuario.obtenerTicketsUsuarioPorEstadoUseCase(id);
+//         res.json(ticket);
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({
+//             status: false,
+//             message: "Error al obtener el ticket " + error.message,
+//             body: [],
+//           });
+//     }
+// }
 
-export const obtenerTicketsUsuarioPorUsuario = async (req, res) => {
+// export const obtenerTicketsUsuarioPorUsuario = async (req, res) => {
     
-        try {
-            const { id } = req.params;
-            const ticket = await ticketUsuario.obtenerTicketsUsuarioPorUsuarioUseCase(id);
-            res.json(ticket);
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                status: false,
-                message: "Error al obtener el ticket " + error.message,
-                body: [],
-            });
-        }
-    }
+//         try {
+//             const { id } = req.params;
+//             const ticket = await ticketUsuario.obtenerTicketsUsuarioPorUsuarioUseCase(id);
+//             res.json(ticket);
+//         } catch (error) {
+//             console.log(error);
+//             res.status(500).json({
+//                 status: false,
+//                 message: "Error al obtener el ticket " + error.message,
+//                 body: [],
+//             });
+//         }
+//     }
 
 const cambiarEstadoTicketUsuario = async(req,res) =>{
     try{
@@ -151,6 +151,43 @@ const cambiarEstadoTicketUsuario = async(req,res) =>{
           });
     }
 }
+const filtrarTicketsUsuario = async(req,res) =>{
+    try{
+        
+        const {rol} = req.params;
+        const { filtro,page } = req.query;
+        const {token} = req.cookies;
+        const dataCookie = jwt.verify(token, jwtVariables.jwtSecret);
+        const tickets = await ticketUsuario.filtrarTicketsUsuarioUseCase(filtro,page,dataCookie.int_usuario_id);
+        res.json(tickets);
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Error al filtrar los tickets " + error.message,
+            body: [],
+          });
+    }
+}
+const buscarTicketUsuario = async(req,res) =>{
+    try{
+        const {rol} = req.params;
+        const {idTicket, page} = req.query;
+        const {token} = req.cookies;
+        
+        const dataCookie = jwt.verify(token, jwtVariables.jwtSecret);
+
+        const tickets = await ticketUsuario.buscarTicketUsuarioUseCase(dataCookie.int_usuario_id,1,idTicket);
+        res.json(tickets);
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Error al buscar los tickets " + error.message,
+            body: [],
+          });
+    }
+}
 
 export default {
     obtenerTicketsUsuario,
@@ -158,8 +195,10 @@ export default {
     crearTicketUsuario,
     editarTicketUsuario,
     obtenerTicketsUsuarioConPaginacion,
-    obtenerTicketsUsuarioPorEstado,
-    obtenerTicketsUsuarioPorUsuario,
+    // obtenerTicketsUsuarioPorEstado,
+    // obtenerTicketsUsuarioPorUsuario,
     agregarSolucionTicketUsuario,
-    cambiarEstadoTicketUsuario
+    cambiarEstadoTicketUsuario,
+    filtrarTicketsUsuario,
+    buscarTicketUsuario
 }

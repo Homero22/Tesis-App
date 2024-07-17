@@ -170,6 +170,37 @@ const enviarRevision = async (req, res) => {
           });
     }
 }
+
+const buscarTickets = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const ticket = await ticketUseCase.buscarTicketsUseCase(id);
+        res.json(ticket);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Error al buscar los tickets " + error.message,
+            body: [],
+          });
+    }
+}
+
+const filtrarTickets = async (req, res) => {
+    try {
+        
+        const { filtro,page } = req.query;
+        const tickets = await ticketUseCase.filtrarTicketsUseCase(filtro,page);
+        res.json(tickets);
+    } catch (error) {
+        res.status(500).json({
+            status: false,
+            message: "Error al filtrar los tickets " + error.message,
+            body: [],
+          });
+    }
+}
+
 export default {
     crearTicket,
     obtenerTickets,
@@ -179,6 +210,8 @@ export default {
     pasarTicket,
     reporteTickets,
     finalizarTicket,
-    enviarRevision
+    enviarRevision,
+    buscarTickets,
+    filtrarTickets
 }
 
