@@ -198,6 +198,7 @@ const obtenerSolucionesTicketByIdUseCase = async (id) => {
       };
       ticketFormateado.push(ticketUsuarioFormateado);
     }
+    
     return {
       status: true,
       message: "Soluciones encontradas",

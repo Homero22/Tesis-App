@@ -22,6 +22,7 @@
     "@angular/router": "^15.1.0",
     "chart.js": "^4.4.3",
     "csv-parser": "^3.0.0",
+    "file-saver": "^2.0.5",
     "ng2-charts": "^4.1.1",
     "ng2-pdf-viewer": "^10.2.2",
     "ngx-papaparse": "^8.0.0",
@@ -32,6 +33,7 @@
     "sweetalert2": "^11.6.13",
     "tslib": "^2.3.0",
     "uninstall": "^0.0.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {

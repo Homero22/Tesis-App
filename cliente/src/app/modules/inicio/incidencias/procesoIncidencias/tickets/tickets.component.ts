@@ -75,15 +75,24 @@ export class TicketsComponent implements OnInit {
     this.srvTickets.selectRol$.subscribe((res) => {
       this.rol = res;
     });
+    // if(this.rol === '') {
+    //   this.obtenerRolLocalStorage();
+    // }
     this.srvTickets.setRol(this.rol);
+
     this.mostrar = true;
     this.request = true;
 
     if (this.rol === 'Administrador') {
+      console.log('rol admin');
       this.infoAdmin();
     } else {
       this.infoUser(this.rol);
     }
+
+  }
+
+  obtenerMedatada(){
     this.srvTickets.selectMetadata$
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
@@ -92,6 +101,7 @@ export class TicketsComponent implements OnInit {
         this.verificarData();
       });
   }
+
   infoUser(rol: any) {
     this.srvTickets.obtenerTicketsUsuario({
       page: 1,
@@ -99,6 +109,7 @@ export class TicketsComponent implements OnInit {
       rol,
     });
     this.srvTickets.setIsTicketUsuario(true);
+    this.obtenerMedatada();
   }
 
   infoAdmin() {
@@ -106,6 +117,7 @@ export class TicketsComponent implements OnInit {
       page: 1,
       limit: 10,
     });
+    this.obtenerMedatada();
   }
 
   verificarData() {
@@ -124,6 +136,9 @@ export class TicketsComponent implements OnInit {
   guardar() {
 
     this.mostrar = true;
+  }
+  obtenerRolLocalStorage(){
+    this.rol = localStorage.getItem('selectedRole');
   }
 
   regresar() {
