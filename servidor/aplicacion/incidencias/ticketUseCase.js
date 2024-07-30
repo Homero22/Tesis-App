@@ -198,7 +198,6 @@ const obtenerSolucionesTicketByIdUseCase = async (id) => {
       };
       ticketFormateado.push(ticketUsuarioFormateado);
     }
-    console.log("Ticket formateado", ticketFormateado);
     return {
       status: true,
       message: "Soluciones encontradas",
