@@ -13,6 +13,8 @@ import { Data } from '@angular/router';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import Swal from 'sweetalert2';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -48,6 +50,8 @@ export class ReporteComponent implements OnInit, AfterViewInit {
   isTitle = false;
   selectedValue!: string;
   estado!: string;
+  EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  EXCEL_EXTENSION = '.xlsx';
 
   dataAll: DataReporteTickets[] = [];
 
@@ -136,10 +140,10 @@ export class ReporteComponent implements OnInit, AfterViewInit {
         {
           table: {
             headerRows: 1,
-            widths: [ '*', 'auto', 100, '*' ],
+            widths: ['auto', '*', 'auto', 100, '*' ],
             body: [
-              ['Fecha Creación', 'Estado', 'Responsable','Vulnerabilidad'],
-              ...this.dataAll.map((p) => [p.dt_fecha_creacion, p.str_estado_nombre, p.ticket_usuario, p.str_vulnerabilidades_nombre])
+              ['ID','Fecha Creación', 'Estado', 'Responsable','Vulnerabilidad'],
+              ...this.dataAll.map((p) => [p.int_ticket_id, p.dt_fecha_creacion, p.str_estado_nombre, p.ticket_usuario, p.str_vulnerabilidades_nombre])
             ]
           }
         }
@@ -160,6 +164,21 @@ export class ReporteComponent implements OnInit, AfterViewInit {
     });
 
   }
+
+  generarExcel() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataAll);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, 'reporte_tickets');
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: this.EXCEL_TYPE });
+    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + this.EXCEL_EXTENSION);
+  }
+
+
+
 
   abrirPdf : boolean = false;
 

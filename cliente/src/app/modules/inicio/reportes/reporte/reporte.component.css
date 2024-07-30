@@ -184,6 +184,7 @@ button.filter-button:not(:disabled){
   display: flex;
   align-items: right;
   justify-content: right;
+  gap: 1rem;
 }
 .pdf-button{
   background-color: #007bff;
