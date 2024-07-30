@@ -98,7 +98,7 @@
             <hr>
             <div class="container-in">
 
-              <p>{{ (item.txt_ticket_usuario_solucion?.length > 100 ? (item.txt_ticket_usuario_solucion | slice:0:25) + ' ...' : item.txt_ticket_usuario_solucion) || 'Sin solución proporcionada' }}</p>
+              <p>{{ (item.txt_ticket_usuario_solucion?.length >= 50 ? (item.txt_ticket_usuario_solucion | slice:0:24) + ' ...' : item.txt_ticket_usuario_solucion) || 'Sin solución proporcionada' }}</p>
               <button class="btn" (click)="verSolucion(item.txt_ticket_usuario_solucion)">Ver Solución</button>
             </div>
 

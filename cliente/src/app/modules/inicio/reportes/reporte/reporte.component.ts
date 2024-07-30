@@ -146,6 +146,7 @@ export class ReporteComponent implements OnInit, AfterViewInit {
       ],
     };
     const pdfDocGenerator = pdfMake.createPdf(pdfDefinition);
+
     pdfDocGenerator.getBase64((data: any) => {
       this.pdfSrc = data;
       let viewpdf = document.getElementById('ver-pdf-reporte');
