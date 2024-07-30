@@ -6,6 +6,11 @@
     (click)="generarPDF()"
     [disabled]="!verificarDatosPdf()">Generar PDF
   </button>
+  <button
+  class="pdf-button"
+  (click)="generarExcel()"
+  [disabled]="!verificarDatosPdf()"
+  >Descargar Excel</button>
 </div>
 <div class="op1">
   <div class="container-reportes">
