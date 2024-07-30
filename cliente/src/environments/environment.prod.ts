@@ -6,6 +6,6 @@ export const environment = {
   urlLogOut: 'https://tesis.ojedahomero.lol/logout' + baseUrl,
   urlOneDriveService:
     'https://pruebas.espoch.edu.ec:8181/WebCorreoInstitucional/ServiciosCorreos/TokenOneDrive',
-  urlApi: 'https://api-tesis.ojedahomero.lol/',
+  urlApi: 'https://api.ojedahomero.lol/',
   CodigoSistemaOneDrive: 'ARCHPOLI',
 };
