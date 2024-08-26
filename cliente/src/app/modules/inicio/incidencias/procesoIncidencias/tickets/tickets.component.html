@@ -76,7 +76,7 @@
           <td (click)="seguimiento(ticket)">
             <div>
               {{
-                ticket.str_vulnerabilidades_nombre
+                ticket.str_vulnerabilidades_nombre.length > 50 ? (ticket.str_vulnerabilidades_nombre | slice:0:50) + '...' : ticket.str_vulnerabilidades_nombre
               }}
             </div>
           </td>
