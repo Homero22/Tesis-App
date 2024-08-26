@@ -17,6 +17,9 @@ import graficosRoutes from "./incidencias/graficos.routes.js";
 
 const router = Router();
 
+
+//ruta de informacion del sistema
+
 router.get("/info", (req, res) => {
     res.json({
       Nombre: "Sistema de registro y seguimiento de incidencias",
@@ -36,6 +39,24 @@ router.get("/info", (req, res) => {
 
 
 router.use("/auth", authRoutes);
+
+
+//middleware para comprobar si el usuario esta autenticado y tiene token
+
+router.use((req, res, next) => {
+  if (req.cookies.token) {
+    console.log("Usuario autenticado");
+    next();
+  } else {
+    res.status(401).json({
+      status: false,
+      message: "Usuario no autorizado",
+      body: [],
+    });
+  }
+});
+
+
 router.use("/usuarios", usuariosRoutes);
 router.use("/roles", rolesRoutes);
 router.use("/menus", menusRoutes);

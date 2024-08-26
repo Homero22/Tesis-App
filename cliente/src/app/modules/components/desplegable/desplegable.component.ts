@@ -90,6 +90,11 @@ export class DesplegableComponent implements OnInit {
     this.nameRol = rol.str_rol_nombre;
 
     this.srvTicket.setRol(this.nameRol);
+    if(rol.str_rol_nombre ==='Administrador'){
+      this.srvTicket.setIsTicketUsuario(false);
+    }else{
+      this.srvTicket.setIsTicketUsuario(true);
+    }
     localStorage.setItem('selectedRole',this.nameRol);
     this.srvMenus.obtenerMenusAndSubmenusByRol(this.nameRol);
     //window.location.assign('/welcome');
