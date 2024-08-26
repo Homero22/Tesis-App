@@ -14,6 +14,8 @@ import ticketUsuarioRoutes from "./incidencias/ticketUsuario.routes.js"
 import seguimientoRoutes from "./incidencias/seguimiento.routes.js";
 import notificacionesUsuarioRoutes from "./incidencias/notificaciones.routes.js";
 import graficosRoutes from "./incidencias/graficos.routes.js";
+import {jwtVariables} from "../configuracion/variablesGlobales.js";
+import jwt from "jsonwebtoken";
 
 const router = Router();
 
@@ -45,8 +47,21 @@ router.use("/auth", authRoutes);
 
 router.use((req, res, next) => {
   if (req.cookies.token) {
-    console.log("Usuario autenticado");
-    next();
+    //valido el token
+
+    jwt.verify(req.cookies.token, jwtVariables.jwtSecret, (err, decoded) => {
+      if (err) {
+        res.status(401).json({
+          status: false,
+          message: "Usuario no autorizado",
+          body: [],
+        });
+      } else {
+        console.log("Usuario autenticado");
+        next();
+      }
+    }
+    );
   } else {
     res.status(401).json({
       status: false,

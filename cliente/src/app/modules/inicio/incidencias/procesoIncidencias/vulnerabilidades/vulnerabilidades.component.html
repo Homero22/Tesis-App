@@ -77,7 +77,7 @@
             <div class="content-td">
               <i class="material-icons"> person </i>
               {{
-                incidencia.str_vulnerabilidades_name
+                incidencia.str_vulnerabilidades_name.length > 50 ? incidencia.str_vulnerabilidades_name.substring(0, 50) + '...' : incidencia.str_vulnerabilidades_name
               }}
             </div>
           </td>

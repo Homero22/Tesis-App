@@ -31,12 +31,20 @@ export class NotificacionesService{
 
   //eliminar notificacion de usuario
   deleteNotificacionUsuario(id: any){
-    return this.http.delete<any>(`${this.urlApi_notificaciones_usuario}/${id}`);
+    return this.http.delete<any>(`${this.urlApi_notificaciones_usuario}/${id}`,
+    {
+      withCredentials: true
+    }
+  )
   }
 
   //eliminar todas las notificaciones de usuario
   deleteAllNotificacionesUsuario(id: number){
-    return this.http.delete<any>(`${this.urlApi_notificaciones_usuario}/all/${id}`);
+    return this.http.delete<any>(`${this.urlApi_notificaciones_usuario}/all/${id}`,
+    {
+      withCredentials: true
+    }
+  )
   }
 
 
