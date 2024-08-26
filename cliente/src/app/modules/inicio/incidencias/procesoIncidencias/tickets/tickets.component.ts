@@ -379,6 +379,10 @@ export class TicketsComponent implements OnInit {
   }
 
   verData(ticket: any, title: string, form: string, numeroTicket: number) {
+    console.log('ticket Error ver data', ticket);
+    console.log('numeroTicket Error ver data', numeroTicket);
+    console.log('title Error ver data', title);
+    console.log('form Error ver data', form);
     ticket.numeroTicket = numeroTicket;
     this.srvTickets.setVerTicket(ticket);
     this.elementForm = {
