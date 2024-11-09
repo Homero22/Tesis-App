@@ -2,7 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 10px;
+  border-color:#e4e4e6;
+  border-style: solid;
+  /* width: 400px; */
 
+/*
   margin-top: 10px;
   margin-left: 5%;
   margin-right: 5%;
@@ -10,60 +15,46 @@
   border-radius: 10px;
   box-shadow: 0 0 10px 0 #000;
   max-width: 90%;
-  max-height: 90%;
+  max-height: 90%; */
 }
-/* Estilos para los encabezados de la tabla */
-th {
-  background-color: #f2f2f2; /* Color de fondo */
-  border: 1px solid #ddd; /* Borde */
-  padding: 8px; /* Espaciado interno */
-  text-align: left; /* Alineación del texto */
+/*
+*********************************************************************************
+ */
+
+ .table-Filll {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Evita que las columnas se hagan demasiado pequeñas */
 }
 
-/* Estilos para los encabezados de la tabla cuando se pasa el mouse sobre ellos */
-th:hover {
-  background-color: #ddd; /* Cambio de color de fondo */
-}
-.table-Fill tbody tr:nth-child(even) {
-  background-color: #9e9696; /* Color de fondo para filas pares */
-}
-/* Estilo para las celdas de la tabla */
-.table-Fill td {
-  font-size: 12px; /* Tamaño de letra deseado */
-  text-align: center; /* Alineación del texto */
+.table-Filll th,
+.table-Filll td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
 }
 
-/* Estilo para los encabezados de columna */
-.table-Fill th {
-  font-size: 12px; /* Tamaño de letra deseado */
-  text-align: center; /* Alineación del texto */
+.table-Filll th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  /* Fijar el ancho de las columnas */
+  width: 12.5%; /* Ajusta este valor según el número de columnas */
 }
 
-
-.table-Fill tbody tr:nth-child(odd) {
-  background-color: #ffffff; /* Color de fondo para filas impares */
-}
-/* Estilo para la tabla */
-.table-Fill {
-  border-collapse: collapse; /* Combina los bordes de las celdas */
+#miTabla {
+  margin-top: 20px;
 }
 
-/* Estilo para las celdas de la tabla */
-.table-Fill td, .table-Fill th {
-  border: 1px solid #000; /* Establece un borde sólido de 1px y color negro */
-  padding: 8px; /* Añade espacio interno alrededor del contenido de la celda */
-  max-width: 400px;
-  max-height: 10px;
+.table-Filll tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
 
 
-/* Estilos para los encabezados de la tabla en dispositivos móviles */
-@media only screen and (max-width: 600px) {
-  th {
-    font-size: 14px; /* Tamaño de fuente reducido */
-  }
-}
+ /*
+*********************************************************************************
+ */
+
 
 .btn-usuario{
   display: flex;
@@ -73,21 +64,64 @@ th:hover {
   background-color: black;
   margin: 5px;
 }
+
+
+
 .clase-valido {
-  background-color: green;
+  background-color: #19191a;
   color: white;
-  border-radius: 3px;
-}
-.clase-invalido{
-  display: flex;
-  align-items: center;
-  margin-top: 25px;
-  color: #eee6e6;
-  background-color: gray;
   margin: 5px;
   border-radius: 3px;
+  width: 290px;
+  height: 40px;
+
+}
+.clase-valido:hover{
+  cursor: pointer;
+  background-color: #2e2f30;
 }
 
+.clase-invalido{
+
+  color: #eee6e6;
+  background-color: #8a8a8d;
+  margin: 5px;
+  border-radius: 3px;
+  width: 290px;
+  height: 30px;
+}
+.btn-upload {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 2px;
+  margin: 10px;
+}
+
+.contenedor-upload{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  height: 130px;
+  margin: 5px;
+  border-style: dashed;
+  border-color: #e4e4e6;
+  border-radius:2px ;
+}
+
+.contenedor-upload:hover{
+  border-style: dashed;
+  border-color: #979698;
+  border-radius: px;
+}
+
+.btn-upload:hover{
+  cursor: pointer;
+  background-color: #f4f4f5;
+}
 
 .btn-agg{
   display: flex;
@@ -106,32 +140,35 @@ th:hover {
   max-width: 90%;
 }
 
-/* Cambia el color del scrollbar */
-.previsualizar::-webkit-scrollbar {
-  width: 10px; /* Ancho del scrollbar */
+.previsualizar label{
+  border-radius: 2px;
 }
 
-/* Cambia el color del scrollbar en el área deslizante */
-.previsualizar::-webkit-scrollbar-thumb {
-   background: #838181;
-    border-radius: 4px;
+ .cantidad-valido{
+  border-radius: 2px;
+  height: 50px;
+  width: 300px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-style: solid;
+  border-color: #e4e4e6;
+  margin:10px;
 }
 
-/* Cambia el color del scrollbar cuando se está desplazando */
-.previsualizar::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Color del thumb al pasar el cursor sobre él */
+
+.cantidad-invalido{
+  border-radius: 2px;
+  height: 50px;
+  width: 300px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-style: solid;
+  border-color: #e4e4e6;
+  margin:10px;
 }
 
-/* Cambia el color del scrollbar track (pista) */
-.previsualizar::-webkit-scrollbar-track {
-  background-color: transparent;
-  background: #e1e1e1;
-    border-radius: 4px;
-}
-.container::-webkit-scrollbar-track:hover,
-.container::-webkit-scrollbar-track:active {
-  background: #d4d4d4;
-}
 
 
 
