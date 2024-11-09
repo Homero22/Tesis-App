@@ -255,6 +255,7 @@ export class TicketService{
   //finalizarTicket
   finalizarTicket(ticket_id:number){
     return this.http.put<any>(this.urlApi_tickets + '/finalizar/' + ticket_id,
+      {},
       {
         withCredentials: true
       }
@@ -264,6 +265,7 @@ export class TicketService{
   //enviarRevisionTicket
   enviarRevisionTicket(ticket_id:number){
     return this.http.put<any>(this.urlApi_tickets + '/revision/' + ticket_id,
+      {},
       {
         withCredentials: true
       }
@@ -276,6 +278,8 @@ export class TicketService{
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (data: any) => {
+
+        console.log("Resultado de enviar a revision",data);
         if(data.status){
           Swal.fire({
             title: 'Ticket enviado a revisión',
@@ -500,7 +504,11 @@ export class TicketService{
 
     //cambiar estado del TicketUsuario
     cambiarEstadoTicketUsuario(id: number){
-      return this.http.put<any>(this.urlApi_tickets_usuario + '/estado/' + id,
+      console.log("cambiando estado probandodd",id);
+      return this.http.put<any>(`${this.urlApi_tickets_usuario}/estado/${id}`,
+        {
+
+        },
         {
           withCredentials: true
         }
