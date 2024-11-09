@@ -33,7 +33,10 @@ export class NotificacionesComponent implements OnInit, OnDestroy {
     private srvMiCuenta: UsuariosService
   ) {
     this.eventSource = new EventSource(
-      config.URL_API_BASE + 'notificaciones/suscribir'
+      config.URL_API_BASE + 'notificaciones/suscribir',
+      {
+        withCredentials: true,
+      }
     );
 
     this.eventSource.onmessage = (event) => {
