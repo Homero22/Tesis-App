@@ -46,6 +46,8 @@ router.use("/auth", authRoutes);
 //middleware para comprobar si el usuario esta autenticado y tiene token
 
 router.use((req, res, next) => {
+  console.log("Middleware de autenticacion");
+  console.log(req.cookies.token);
   if (req.cookies.token) {
     //valido el token
 

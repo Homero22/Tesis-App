@@ -450,6 +450,8 @@ export class TicketsComponent implements OnInit {
           .subscribe({
             next: (res) => {
 
+              console.log('respuesta al finalizar ticker', res);
+
               if (res.status) {
 
                 Swal.fire({
