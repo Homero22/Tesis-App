@@ -1,51 +1,63 @@
 <div class="subirArchivoContainer">
-
-
-  <h2>Carga e Importación de Datos</h2>
-    <form [formGroup]="myForm" #FileUpload enctype="multipart/form-data" *ngIf="tablaInfo===false">
-
-
-        <button class="btn-usuario" (click)="fileInput.click()">
-          Seleccionar Archivo
-        </button>
-
-        <input  type="file" formControlName="archivo" required (change)="selectFile($event)" accept=".csv" #fileInput
-          style="display:none">
-    </form>
-
-    <button [ngClass]="{'clase-invalido': !myForm.valid, 'clase-valido': myForm.valid}" (click)="importData()" [disabled]="myForm.invalid">Importar</button>
-
-
-
-    <div class="previsualizar">
-      <label *ngIf="dataLength > 0">Cantidad de Registros: {{dataLength}}</label>
-      <table class="table-Fill" id="miTabla" *ngIf="mostrarTable">
-        <thead>
-          <tr>
-            <th *ngIf="fileLoaded">#</th> <!-- Agregar encabezado para el número de fila -->
-            <th *ngFor="let column of columns" mostrar>
-              {{column.toUpperCase()}}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngIf="data && data.length > 1">
-            <tr *ngFor="let row of data.slice(0, 5); let i = index">
-              <ng-container *ngIf="fileLoaded"> <!-- Condición para mostrar el número de fila -->
-                <td>{{i + 1}}</td>
-              </ng-container>
-              <td *ngFor="let column of columns">
-                {{row[column]}}
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
+  <h2><strong>Carga e Importación de Datos</strong></h2>
+  <form [formGroup]="myForm" #FileUpload enctype="multipart/form-data" *ngIf="tablaInfo === false">
+    <div class="contenedor-upload">
+      <i class="material-icons">upload</i>
+      <button class="btn-upload" (click)="fileInput.click()">
+          <i id="burgerMenu" class="material-icons">upload_file</i>
+        Seleccionar Archivo
+      </button>
+      <p *ngIf="myForm.invalid">Formato CSV</p>
+      <!-- poner el nombre del archivo -->
+      <p *ngIf="fileLoaded"> {{ filName }}</p>
     </div>
+
+    <input type="file" formControlName="archivo" required (change)="selectFile($event)" accept=".csv" #fileInput
+      style="display: none" />
+  </form>
+
+  <button [ngClass]="{
+      'clase-invalido': !myForm.valid,
+      'clase-valido': myForm.valid
+    }" (click)="importData()" [disabled]="myForm.invalid">
+    Importar
+  </button>
+
+  <div [ngClass]="{
+        'cantidad-valido': myForm.valid
+    }">
+
+     <!-- <label *ngIf="myForm.invalid">Seleccione un archivo</label> -->
+      <!-- <i class="material-icons" *ngIf="myForm.invalid">info</i> -->
+       <label *ngIf="myForm.valid && dataLength > 0">Cantidad de Registros: {{ dataLength }}</label>
+  </div>
+
+  <div class="previsualizar">
+
+
+    <table class="table-Filll" id="miTabla" *ngIf="mostrarTable">
+      <thead>
+        <tr>
+          <th *ngIf="fileLoaded">#</th>
+          <!-- Agregar encabezado para el número de fila -->
+          <th *ngFor="let column of columns.slice(0,8)" mostrar>
+            {{ column.toUpperCase() }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="data && data.length > 1">
+          <tr *ngFor="let row of data.slice(0, 2); let i = index">
+            <ng-container *ngIf="fileLoaded">
+              <!-- Condición para mostrar el número de fila -->
+              <td>{{ i + 1 }}</td>
+            </ng-container>
+            <td *ngFor="let column of columns.slice(0,8)">
+              {{ row[column] }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-
-
-
-
-

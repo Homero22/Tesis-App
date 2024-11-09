@@ -22,6 +22,8 @@ export class ArchivoPlanoComponent implements OnInit {
   filName: string | null = null;
   fileLoaded: boolean = false;
 
+  /**<p *ngIf="fileLoaded">Archivo Seleccionado: {{ fileName }}</p> */
+
   private destroy$ = new Subject<any>();
 
   constructor(
@@ -177,6 +179,15 @@ export class ArchivoPlanoComponent implements OnInit {
               title: 'Error',
               text: res.message,
             });
+            //resetear tabla y archivo
+            this.tablaInfo = false;
+            this.fileLoaded = false;
+            this.data = [];
+            this.dataLength = 0;
+            this.columns = [];
+            this.filName = null;
+            this.myForm.reset();
+
           }
         },
         error: (err) => {
