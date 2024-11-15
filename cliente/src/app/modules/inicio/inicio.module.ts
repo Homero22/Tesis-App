@@ -22,18 +22,18 @@ const routes: Routes =[
       {
         path:'incidencias',
         loadChildren: () => import('./incidencias/incidencias.module').then(m => m.IncidenciasModule),
-        canActivate: [isValidGuard],
-        
+        // canActivate: [isValidGuard],
+
       },
       {
         path:'reportes',
         loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       },
       {
         path:'notificaciones',
         loadChildren: () => import('./notificacionesUsuario/notificacionesUsuario.module').then(m => m.NotificacionesUsuarioModule),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       },
     ],
 
