@@ -5,17 +5,11 @@
   border-radius: 10px;
   border-color:#e4e4e6;
   border-style: solid;
-  /* width: 400px; */
 
-/*
-  margin-top: 10px;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px 0 #000;
-  max-width: 90%;
-  max-height: 90%; */
+}
+
+.subirArchivoContainer h2{
+  margin: 10px
 }
 /*
 *********************************************************************************

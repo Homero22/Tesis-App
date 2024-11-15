@@ -9,6 +9,7 @@ table {
   width: 90%; /* Ajusta este valor según tus necesidades */
   margin: 0 auto; /* Centrar la tabla horizontalmente */
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 /* Estilos para celdas */
@@ -16,6 +17,9 @@ th, td {
   padding: 8px;
   text-align: left;
   border: 1px solid #ddd;
+  /*ajustar contenido a la tabla*/
+  overflow: hidden;
+  text-transform: ellipsis;
 }
 
 /* Estilos para encabezados */
@@ -29,6 +33,7 @@ th {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  width: fit-content;
 }
 h2{
   text-align: center;

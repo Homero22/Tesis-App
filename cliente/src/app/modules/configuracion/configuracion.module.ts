@@ -18,7 +18,7 @@ const routes: Routes = [
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
         ),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       },
       {
         path:'cuenta',
@@ -26,7 +26,7 @@ const routes: Routes = [
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
         ),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       },
       {
         path:'usuarios',
@@ -34,7 +34,7 @@ const routes: Routes = [
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
         ),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       },
       {
         path:'roles',
@@ -42,7 +42,7 @@ const routes: Routes = [
         import('./configuracion-routing.module').then(
           (m)=>m.ConfiguracionRoutingModule
         ),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       }
 
     ]

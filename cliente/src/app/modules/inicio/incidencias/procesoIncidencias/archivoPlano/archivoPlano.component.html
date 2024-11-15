@@ -1,8 +1,9 @@
 <div class="subirArchivoContainer">
   <h2><strong>Carga e Importación de Datos</strong></h2>
   <form [formGroup]="myForm" #FileUpload enctype="multipart/form-data" *ngIf="tablaInfo === false">
+
     <div class="contenedor-upload">
-      <i class="material-icons">upload</i>
+            <i class="material-icons">upload</i>
       <button class="btn-upload" (click)="fileInput.click()">
           <i id="burgerMenu" class="material-icons">upload_file</i>
         Seleccionar Archivo

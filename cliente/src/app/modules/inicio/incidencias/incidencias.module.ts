@@ -23,7 +23,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       },
       {
         path:'vulnerabilidades',
@@ -31,7 +31,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       },
       {
         path:'tickets',
@@ -39,7 +39,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       },
       {
         path:'seguimiento',
@@ -47,7 +47,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       },
       {
         path:'caracteristicas',
@@ -55,7 +55,7 @@ const routes: Routes = [
         import('./incidencias-routing.module').then(
           (m)=>m.IncidenciasRoutingModule
         ),
-        canActivate: [isValidGuard]
+        // canActivate: [isValidGuard]
       }
     ]
   },
